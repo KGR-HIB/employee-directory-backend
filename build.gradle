@@ -1,19 +1,52 @@
-plugins {
-    id 'java'
+ext {
+    baseVersion = '1.0.0-SNAPSHOT'
 }
 
-group 'com.hiberus.employee.directory'
-version '1.0.0-SNAPSHOT'
+buildscript {
+    ext.repos = {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
 
-repositories {
-    mavenCentral()
+    repositories repos
+
+    apply from: "./plugins.gradle"
+
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath "io.spring.gradle:dependency-management-plugin:${dependenciesManagementPluginVersion}"
+        classpath "net.ltgt.gradle:gradle-apt-plugin:${gradleAptPluginVersion}"
+    }
 }
 
-dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+subprojects {
+    apply plugin: "java"
+    apply plugin: "java-library"
+    apply plugin: "io.spring.dependency-management"
+
+    repositories repos
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    compileJava {
+        options.encoding = 'UTF-8'
+        options.compilerArgs << '-parameters'
+    }
+
+    compileTestJava {
+        options.encoding = 'UTF-8'
+    }
+
+    test {
+        useJUnit()
+    }
 }
 
-test {
-    useJUnitPlatform()
+allprojects {
+    group = "com.hiberus.employee.directory"
+    version = "${baseVersion}"
 }
