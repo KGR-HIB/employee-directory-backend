@@ -1,8 +1,10 @@
 dependencies {
     api project(":employee-directory-client")
 
-    implementation('org.hibernate:hibernate-entitymanager')
-    implementation('org.springframework.data:spring-data-jpa')
+    // Data
+    implementation 'org.hibernate:hibernate-entitymanager'
+    implementation 'org.springframework.data:spring-data-jpa'
 
+    // Configuration
     implementation 'org.springframework.boot:spring-boot-autoconfigure'
 }

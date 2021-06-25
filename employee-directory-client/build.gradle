@@ -2,18 +2,18 @@ apply plugin: 'net.ltgt.apt'
 apply plugin: 'net.ltgt.apt-idea'
 
 dependencies {
-    compile("com.querydsl:querydsl-core")
-    compile("com.querydsl:querydsl-jpa")
-    compile("javax.persistence:javax.persistence-api")
-    compile("javax.annotation:javax.annotation-api")
-    compileOnly "org.projectlombok:lombok"
+    compile 'com.querydsl:querydsl-core'
+    compile 'com.querydsl:querydsl-jpa'
+    compile 'javax.persistence:javax.persistence-api'
+    compile 'javax.annotation:javax.annotation-api'
+    compileOnly 'org.projectlombok:lombok'
 
     annotationProcessor(
             "com.querydsl:querydsl-apt:${querydslVersion}:general",
             "com.querydsl:querydsl-apt:${querydslVersion}:jpa",
-            "javax.persistence:javax.persistence-api",
-            "javax.annotation:javax.annotation-api:",
-            "org.projectlombok:lombok"
+            'javax.persistence:javax.persistence-api',
+            'javax.annotation:javax.annotation-api',
+            'org.projectlombok:lombok'
     )
 
     compile 'org.springframework.data:spring-data-commons'

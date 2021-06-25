@@ -8,7 +8,8 @@ dependencyManagement {
             entry 'spring-data-jpa'
         }
 
-        dependency("org.hibernate:hibernate-entitymanager:${hibernateVersion}")
+        dependency("org.hibernate:hibernate-entitymanager:${hibernateEntitymanagerVersion}")
+        dependency("org.hibernate.validator:hibernate-validator:${hibernateValidatorVersion}")
 
         dependencySet(group:'com.querydsl', version: "${querydslVersion}") {
             entry 'querydsl-jpa'
@@ -18,8 +19,13 @@ dependencyManagement {
 
         dependency("org.projectlombok:lombok:${lombokVersion}")
 
-        dependencySet(group:'org.springframework.boot', version: "springVersion") {
+        dependencySet(group:'org.springframework.boot', version: "${springVersion}") {
             entry 'spring-boot-autoconfigure'
+            entry 'spring-boot-starter-logging'
+            entry 'spring-boot-starter-web'
+            entry 'spring-boot-starter-security'
         }
+
+        dependency("org.springdoc:springdoc-openapi-ui:${springdocOpenapiUiVersion}")
     }
 }

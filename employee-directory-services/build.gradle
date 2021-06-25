@@ -1,0 +1,18 @@
+dependencies {
+    api project(":employee-directory-core")
+
+    // Validator
+    implementation 'org.hibernate.validator:hibernate-validator'
+
+    // Loggin
+    implementation 'org.springframework.boot:spring-boot-starter-logging'
+
+    // Web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // Documentation API
+    implementation 'org.springdoc:springdoc-openapi-ui'
+}
