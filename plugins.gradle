@@ -1,5 +1,5 @@
 ext {
-    springBootVersion = '2.5.1'
+    springBootPluginVersion = '2.5.1'
     dependenciesManagementPluginVersion = '1.0.11.RELEASE'
     gradleAptPluginVersion = '0.21'
 }

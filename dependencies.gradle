@@ -1,0 +1,19 @@
+dependencyManagement {
+    dependencies {
+        dependencySet(group:'com.querydsl', version: "${querydslVersion}") {
+            entry 'querydsl-jpa'
+            entry 'querydsl-core'
+            entry 'querydsl-apt'
+        }
+
+        dependency("javax.persistence:javax.persistence-api:${javaxPersistenceApiVersion}")
+        dependency("javax.annotation:javax.annotation-api:${javaxAnnotationApiVersion}")
+
+        dependencySet(group:'org.springframework.data', version: '2.5.2') {
+            entry 'spring-data-commons'
+        }
+
+        dependency("org.projectlombok:lombok:${lombokVersion}")
+
+    }
+}

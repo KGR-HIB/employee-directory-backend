@@ -1,3 +1,5 @@
+apply from: "./versions.gradle"
+
 ext {
     baseVersion = '1.0.0-SNAPSHOT'
 }
@@ -14,7 +16,7 @@ buildscript {
     apply from: "./plugins.gradle"
 
     dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootPluginVersion}"
         classpath "io.spring.gradle:dependency-management-plugin:${dependenciesManagementPluginVersion}"
         classpath "net.ltgt.gradle:gradle-apt-plugin:${gradleAptPluginVersion}"
     }
@@ -24,8 +26,6 @@ subprojects {
     apply plugin: "java"
     apply plugin: "java-library"
     apply plugin: "io.spring.dependency-management"
-
-    repositories repos
 
     java {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -43,6 +43,12 @@ subprojects {
 
     test {
         useJUnit()
+    }
+
+    repositories repos
+
+    dependencyManagement {
+        apply from: project.rootDir.toString() + '/dependencies.gradle'
     }
 }
 
