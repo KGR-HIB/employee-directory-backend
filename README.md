@@ -5,7 +5,7 @@
 * User
 * Role
 * Functionality
-* Employe
+* Employee
 * Position
 * Department
 * Project
@@ -30,7 +30,7 @@
 ```json
 {
   "functionalityId": 1,
-  "code": "employe-create",
+  "code": "employee-create",
   "description": "Crear un nuevo empleado"
 }
 ```
@@ -113,11 +113,11 @@
 
 
 
-### Employe
+### Employee
 
 ```json
 {
-  "employeId": 1,
+  "employeeId": 1,
   "name": "Luis Miguel",
   "lastName": "Rodríguez Paredes",
   "phone": "593996123456",
@@ -174,7 +174,7 @@
 
 
 
-### EmployeFilter
+### EmployeeFilter
 
 ```json
 {
@@ -187,11 +187,11 @@
 }
 ```
 
-### SimpleEmploye
+### SimpleEmployee
 
 ```json
 {
-  "employeId": 1,
+  "employeeId": 1,
   "name": "Luis Miguel",
   "lastName": "Rodríguez Paredes",
   "mail": "lrodriguez@hiberus.com",
@@ -204,7 +204,7 @@
 
 
 
-### PageEmployes
+### PageEmployees
 
 ```json
 {
@@ -213,7 +213,7 @@
 }
 ```
 
-### EmployeManage
+### EmployeeManage
 
 ```json
 {
@@ -266,13 +266,13 @@ Login: GET - /ws/api/v1/logout - Response: Response<null>
 ### Directorio de empleados
 
 ```
-Búscar empleados: POST - /ws/api/v1/employes?query={query}&page={page} - Request: EmployeFilter, Response: Response<PageEmployes>
+Búscar empleados: POST - /ws/api/v1/employees?query={query}&page={page} - Request: EmployeFilter, Response: Response<PageEmployes>
 
-Mostrar ficha: GET - /ws/api/v1/employes/{employeId} - Response: Employe
+Mostrar ficha: GET - /ws/api/v1/employees/{employeeId} - Response: Employee
 
 Lista de cargos: GET - /ws/api/v1/positions - Response: [Position]
 
-Lista de responsable: GET - /ws/api/v1/employes?query={query} - Response [SimpleEmploye] - Backend
+Lista de responsable: GET - /ws/api/v1/employees?query={query} - Response [SimpleEmployee] - Backend
 
 Lista de áreas: GET - /ws/api/v1/departments - Response: [Department]
 
@@ -282,22 +282,22 @@ Lista de certificaciones: GET - /ws/api/v1/certifications - Response: [Certifica
 
 Lista de tecnologías: GET - /ws/api/v1/skills - Response: [Skill]
 
-Dar de alta un empleado: POST - /ws/api/v1/employes/create - Request EmployeManage, Response Response<null>
+Dar de alta un empleado: POST - /ws/api/v1/employees/create - Request EmployeeManage, Response Response<null>
 
-Actualizar información principal: PUT - /ws/api/v1/employes - Request [EmployeManage], Response Response<null>
+Actualizar información principal: PUT - /ws/api/v1/employes - Request [EmployeeManage], Response Response<null>
 ```
 
 ### Catálogos
 
 ```tex
-Agregar proyecto - POST - /ws/api/v1/employes/projects - Request [Project], Response: Response<Project>
-Eliminar proyecto - DELETE - /ws/api/v1/employes/projects/{projectId} - Response: Response<null>
+Agregar proyecto - POST - /ws/api/v1/employees/projects - Request [Project], Response: Response<Project>
+Eliminar proyecto - DELETE - /ws/api/v1/employees/projects/{projectId} - Response: Response<null>
 
-Agregar certificaciones - POST - /ws/api/v1/employes/certifications - Request [Certification], Response: Response<Certification>
-Eliminar certificafción - DELETE - /ws/api/v1/employes/certifications/{certificationId} - Response: Response<null>
+Agregar certificaciones - POST - /ws/api/v1/employees/certifications - Request [Certification], Response: Response<Certification>
+Eliminar certificafción - DELETE - /ws/api/v1/employees/certifications/{certificationId} - Response: Response<null>
 
-Agregar tecnologías - POST - /ws/api/v1/employes/skills - Request [Skill], Response: Response<Skill>
-Eliminar tecnología - DELETE - /ws/api/v1/employes/skills/{skillId} - Response: Response<null>
+Agregar tecnologías - POST - /ws/api/v1/employees/skills - Request [Skill], Response: Response<Skill>
+Eliminar tecnología - DELETE - /ws/api/v1/employees/skills/{skillId} - Response: Response<null>
 
 ```
 
