@@ -6,6 +6,7 @@ dependencies {
     compile 'com.querydsl:querydsl-jpa'
     compile 'javax.persistence:javax.persistence-api'
     compile 'javax.annotation:javax.annotation-api'
+    compile 'javax.validation:validation-api'
     compileOnly 'org.projectlombok:lombok'
 
     annotationProcessor(
