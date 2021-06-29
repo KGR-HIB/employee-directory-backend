@@ -11,15 +11,16 @@ server:
     context-path: /directoryServices
 spring:
   datasource:
-    url: jdbc:mariadb://192.168.1.110:3306/BDDINVENTORY
+    url: jdbc:mariadb://192.168.1.110:3306/HHTEDDB
     username: DHBRED
-    password: desarrollo
+    password: develop
     driver-class-name: org.mariadb.jdbc.Driver
   jpa:
-    show:
-      sql: true
+    show-sql: true
     hibernate:
       ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MariaDB103Dialect
