@@ -1,15 +1,15 @@
-package com.hiberus.employee.directory.service.common;
+package com.hiberus.employee.directory.repository.common;
 
 import java.io.Serializable;
 
 /**
- * Base service interface
+ * Repository interface with querydsl
  *
  * @author bcueva
  * @version 1.0
- * @param <T>
+ * @param <T> Entity
  */
-public interface IBaseService<T> {
+public interface IQueryDslBaseRepository<T> {
 
     /**
      * Save entity
@@ -21,12 +21,13 @@ public interface IBaseService<T> {
     /**
      * Update entity
      *
-     * @param obj Entity to update
+     * @param obj
      */
     void update(T obj);
 
     /**
-     * Find entity by id
+     * Find entity by Id
+     *
      * @param id Id of entity
      * @return Entity instance
      */

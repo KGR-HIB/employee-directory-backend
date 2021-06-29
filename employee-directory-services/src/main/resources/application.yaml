@@ -9,6 +9,7 @@ server:
   port: 8080
   servlet:
     context-path: /directoryServices
+
 spring:
   datasource:
     url: jdbc:mariadb://192.168.1.110:3306/HHTEDDB
@@ -24,3 +25,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MariaDB103Dialect
+
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true

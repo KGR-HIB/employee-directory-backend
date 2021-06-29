@@ -4,14 +4,14 @@ dependencyManagement {
         dependency("javax.persistence:javax.persistence-api:${javaxPersistenceApiVersion}")
         dependency("javax.annotation:javax.annotation-api:${javaxAnnotationApiVersion}")
 
-        dependencySet(group:'org.springframework.data', version: "${springVersion}") {
+        dependencySet(group: 'org.springframework.data', version: "${springBootVersion}") {
             entry 'spring-data-commons'
             entry 'spring-data-jpa'
         }
 
         dependency("org.hibernate:hibernate-entitymanager:${hibernateEntitymanagerVersion}")
 
-        dependencySet(group:'com.querydsl', version: "${querydslVersion}") {
+        dependencySet(group: 'com.querydsl', version: "${querydslVersion}") {
             entry 'querydsl-jpa'
             entry 'querydsl-core'
             entry 'querydsl-apt'
@@ -26,26 +26,40 @@ dependencyManagement {
         // Pojo
         dependency("org.projectlombok:lombok:${lombokVersion}")
 
+        // Mapper
+        dependencySet(group: 'org.mapstruct', version: "${mapStructVersion}") {
+            entry 'mapstruct'
+            entry 'mapstruct-processor'
+        }
+
         // Framework
-        dependencySet(group:'org.springframework.boot', version: "${springVersion}") {
+        dependencySet(group: 'org.springframework.boot', version: "${springBootVersion}") {
             entry 'spring-boot-autoconfigure'
             entry 'spring-boot-starter-data-jpa'
             entry 'spring-boot-starter-logging'
             entry 'spring-boot-starter-security'
             entry 'spring-boot-starter-test'
             entry 'spring-boot-starter-web'
+            entry 'spring-boot-autoconfigure'
         }
 
         // Security
-        dependencySet(group:'org.springframework.security', version: "${springSecurityVersion}") {
+        dependencySet(group: 'org.springframework.security', version: "${springSecurityVersion}") {
             entry 'spring-security-core'
         }
 
         // Documentation
         dependency("org.springdoc:springdoc-openapi-ui:${springdocOpenapiUiVersion}")
 
+        dependencySet(group: "io.springfox", version: "${springfoxVersion}") {
+            entry 'springfox-swagger2'
+            entry 'springfox-swagger-ui'
+            entry 'springfox-bean-validators'
+            entry 'springfox-boot-starter'
+        }
+
         // Test
-        dependencySet(group:'org.junit.jupiter', version: "${junitJupiterVersion}") {
+        dependencySet(group: 'org.junit.jupiter', version: "${junitJupiterVersion}") {
             entry 'junit-jupiter-api'
             entry 'junit-jupiter-engine'
         }

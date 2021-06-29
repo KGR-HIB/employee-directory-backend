@@ -10,6 +10,12 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * Employee directory application configuration
+ *
+ * @author bcueva
+ * @version 1.0
+ */
 @Configuration
 @EnableJpaRepositories(basePackages = {"com.hiberus.employee.directory.repository"})
 @EntityScan(basePackages = {"com.hiberus.employee.directory.entity"})

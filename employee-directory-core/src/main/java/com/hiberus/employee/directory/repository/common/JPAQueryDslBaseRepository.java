@@ -1,7 +1,6 @@
 package com.hiberus.employee.directory.repository.common;
 
 import java.io.Serializable;
-import java.util.Collection;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 /**
@@ -11,8 +10,12 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
  * @version 1.0
  * @param <T> Entity
  */
-public abstract class JPAQueryDslRepository<T> extends QuerydslRepositorySupport implements IQueryDslRepository<T> {
+public abstract class JPAQueryDslBaseRepository<T> extends QuerydslRepositorySupport implements
+    IQueryDslBaseRepository<T> {
 
+    /**
+     * Entity class
+     */
     private final Class<T> domainClass;
 
     /**
@@ -20,7 +23,7 @@ public abstract class JPAQueryDslRepository<T> extends QuerydslRepositorySupport
      *
      * @param domainClass must not be {@literal null}.
      */
-    public JPAQueryDslRepository(Class<T> domainClass) {
+    public JPAQueryDslBaseRepository(Class<T> domainClass) {
         super(domainClass);
         this.domainClass = domainClass;
     }
@@ -28,11 +31,6 @@ public abstract class JPAQueryDslRepository<T> extends QuerydslRepositorySupport
     @Override
     public void save(T obj) {
         getEntityManager().persist(obj);
-    }
-
-    @Override
-    public void saveAll(Collection<T> objs) {
-        objs.forEach(obj -> getEntityManager().persist(obj));
     }
 
     @Override

@@ -3,7 +3,6 @@ package com.hiberus.employee.directory.controller;
 import com.hiberus.employee.directory.entity.UserEntity;
 import com.hiberus.employee.directory.service.IUserService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/users")
 @Lazy
-@Tag(name = "User", description = "User")
 public class UserController {
 
     @Lazy
