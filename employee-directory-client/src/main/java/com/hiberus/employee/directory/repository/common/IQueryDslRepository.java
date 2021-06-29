@@ -1,5 +1,6 @@
 package com.hiberus.employee.directory.repository.common;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 public interface IQueryDslRepository<T> {
@@ -9,4 +10,6 @@ public interface IQueryDslRepository<T> {
     void saveAll(Collection<T> objs);
 
     void update(T obj);
+
+    T findById(Serializable id);
 }

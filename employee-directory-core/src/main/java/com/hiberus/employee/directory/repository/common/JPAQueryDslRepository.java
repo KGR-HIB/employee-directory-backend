@@ -1,5 +1,6 @@
 package com.hiberus.employee.directory.repository.common;
 
+import java.io.Serializable;
 import java.util.Collection;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
@@ -12,13 +13,16 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
  */
 public abstract class JPAQueryDslRepository<T> extends QuerydslRepositorySupport implements IQueryDslRepository<T> {
 
+    private final Class<T> domainClass;
+
     /**
      * Creates a new {@link QuerydslRepositorySupport} instance for the given domain type.
      *
      * @param domainClass must not be {@literal null}.
      */
-    public JPAQueryDslRepository(Class<?> domainClass) {
+    public JPAQueryDslRepository(Class<T> domainClass) {
         super(domainClass);
+        this.domainClass = domainClass;
     }
 
     @Override
@@ -34,5 +38,10 @@ public abstract class JPAQueryDslRepository<T> extends QuerydslRepositorySupport
     @Override
     public void update(T obj) {
         getEntityManager().merge(obj);
+    }
+
+    @Override
+    public T findById(Serializable id) {
+        return this.getEntityManager().find(this.domainClass, id);
     }
 }
