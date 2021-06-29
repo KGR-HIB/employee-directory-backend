@@ -42,7 +42,7 @@ subprojects {
     }
 
     test {
-        useJUnit()
+        useJUnitPlatform()
     }
 
     repositories repos
