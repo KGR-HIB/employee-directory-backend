@@ -2,6 +2,9 @@ dependencies {
     api project(":employee-directory-core")
     api project(":employee-directory-vo")
 
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
     // Validator
     implementation 'org.hibernate.validator:hibernate-validator'
 
@@ -15,7 +18,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
     // Security
-    implementation 'org.springframework.boot:spring-boot-starter-security'
+    //implementation 'org.springframework.boot:spring-boot-starter-security'
 
     // Documentation API
     implementation 'org.springdoc:springdoc-openapi-ui'
