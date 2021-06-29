@@ -1,12 +1,14 @@
 package com.hiberus.employee.directory.entity;
 
-import javax.persistence.EmbeddedId;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import com.hiberus.employee.directory.entity.common.AbstractAuditable;
-import com.hiberus.employee.directory.entity.id.RoleFunctionalityId;
+import com.hiberus.employee.directory.entity.common.AbstractBaseAuditable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,13 +27,15 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "HHTEDTROLFUN")
-public class RoleFunctionalityEntity extends AbstractAuditable {
+public class RoleFunctionalityEntity extends AbstractBaseAuditable {
 
     /**
      * Id for Role - Functionality
      */
-    @EmbeddedId
-    private RoleFunctionalityId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ROLFUN_ID")
+    private Long id;
 
     /**
      * Functionality

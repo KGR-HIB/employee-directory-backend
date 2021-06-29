@@ -1,12 +1,14 @@
 package com.hiberus.employee.directory.entity;
 
-import javax.persistence.EmbeddedId;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import com.hiberus.employee.directory.entity.common.AbstractAuditable;
-import com.hiberus.employee.directory.entity.id.EmployeeSkillId;
+import com.hiberus.employee.directory.entity.common.AbstractBaseAuditable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,10 +27,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "HHTEDTEMPSKI")
-public class EmployeeSkillEntity extends AbstractAuditable {
+public class EmployeeSkillEntity extends AbstractBaseAuditable {
 
-    @EmbeddedId
-    private EmployeeSkillId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "EMPSKI_ID")
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SKILL_ID", referencedColumnName = "SKILL_ID", insertable = false, updatable = false)

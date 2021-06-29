@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import com.hiberus.employee.directory.entity.common.AbstractAuditable;
+import com.hiberus.employee.directory.entity.common.AbstractBaseAuditable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,7 +28,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "HHTEDTROLE")
-public class RoleEntity extends AbstractAuditable {
+public class RoleEntity extends AbstractBaseAuditable {
 
     /**
      * Role id
@@ -36,7 +36,7 @@ public class RoleEntity extends AbstractAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ROLE_ID", nullable = false, updatable = false)
-    private Integer roleId;
+    private Long id;
 
     /**
      * Code of role

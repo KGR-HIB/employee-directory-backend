@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import com.hiberus.employee.directory.entity.common.AbstractAuditable;
+import com.hiberus.employee.directory.entity.common.AbstractBaseAuditable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,7 +24,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "HHTEDTCITY")
-public class CityEntity extends AbstractAuditable  {
+public class CityEntity extends AbstractBaseAuditable {
 
     /**
      * City id
@@ -32,7 +32,7 @@ public class CityEntity extends AbstractAuditable  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CITY_ID", nullable = false, updatable = false)
-    private Integer cityId;
+    private Long id;
 
     /**
      * Name of the city

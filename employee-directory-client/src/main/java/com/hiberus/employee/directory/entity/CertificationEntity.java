@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import com.hiberus.employee.directory.entity.common.AbstractAuditable;
+import com.hiberus.employee.directory.entity.common.AbstractBaseAuditable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,7 +24,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "HHTEDTCERTIFICATION")
-public class CertificationEntity extends AbstractAuditable {
+public class CertificationEntity extends AbstractBaseAuditable {
 
     /**
      * Certification id
@@ -32,7 +32,7 @@ public class CertificationEntity extends AbstractAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CERTIFICATION_ID")
-    private Integer certificationId;
+    private Long id;
 
     /**
      * Certification’s name

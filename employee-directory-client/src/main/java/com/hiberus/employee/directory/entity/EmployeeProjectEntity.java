@@ -1,11 +1,13 @@
 package com.hiberus.employee.directory.entity;
 
-import javax.persistence.EmbeddedId;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import com.hiberus.employee.directory.entity.id.EmployeeProjectId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,8 +28,10 @@ import lombok.Setter;
 @Entity(name = "HHTEDTEMPPRO")
 public class EmployeeProjectEntity {
 
-    @EmbeddedId
-    private EmployeeProjectId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "EMPPRO_ID")
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PROJECT_ID", referencedColumnName = "PROJECT_ID", insertable = false, updatable = false)

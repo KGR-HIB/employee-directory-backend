@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import com.hiberus.employee.directory.entity.common.AbstractAuditable;
+import com.hiberus.employee.directory.entity.common.AbstractBaseAuditable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,7 +24,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "HHTEDTSKILL")
-public class SkillEntity extends AbstractAuditable {
+public class SkillEntity extends AbstractBaseAuditable {
 
     /**
      * Skill id
@@ -32,7 +32,7 @@ public class SkillEntity extends AbstractAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SKILL_ID", nullable = false, updatable = false)
-    private Integer skillId;
+    private Long id;
 
     /**
      * Skill’s name

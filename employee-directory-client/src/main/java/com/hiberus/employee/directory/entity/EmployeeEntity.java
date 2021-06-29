@@ -11,7 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import com.hiberus.employee.directory.entity.common.AbstractAuditable;
+import com.hiberus.employee.directory.entity.common.AbstractBaseAuditable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,7 +30,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "HHTEDTEMPLOYEE")
-public class EmployeeEntity extends AbstractAuditable  {
+public class EmployeeEntity extends AbstractBaseAuditable {
 
     /**
      * Employee id
@@ -38,7 +38,7 @@ public class EmployeeEntity extends AbstractAuditable  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "EMPLOYEE_ID", nullable = false, updatable = false)
-    private Integer employeeId;
+    private Long id;
 
     /**
      * Employee names
@@ -91,6 +91,13 @@ public class EmployeeEntity extends AbstractAuditable  {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "IMMEDIATE_CHIEF_ID", referencedColumnName = "EMPLOYEE_ID", insertable = false, updatable = false)
     private EmployeeEntity immediateChief;
+
+    /**
+     * User
+     */
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID", insertable = false, updatable = false)
+    private UserEntity user;
 
     /**
      * Skills the employee has

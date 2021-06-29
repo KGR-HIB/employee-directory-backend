@@ -7,4 +7,7 @@ dependencies {
 
     // Configuration
     implementation 'org.springframework.boot:spring-boot-autoconfigure'
+
+    // DB
+    implementation 'org.mariadb.jdbc:mariadb-java-client'
 }
