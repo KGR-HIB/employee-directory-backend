@@ -1,5 +1,16 @@
 apply plugin: 'net.ltgt.apt'
 apply plugin: 'net.ltgt.apt-idea'
+apply plugin: 'net.ltgt.apt-eclipse'
+
+//eclipse
+sourceSets {
+    generated {
+        java {
+            srcDir "$buildDir/generated/sources/annotationProcessor/java/main"
+            srcDir "$buildDir/generated/sources/annotationProcessor/java/test"
+        }
+    }
+}
 
 dependencies {
     implementation 'org.springframework.data:spring-data-jpa'
