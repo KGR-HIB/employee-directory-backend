@@ -18,9 +18,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class DepartmentRepository extends JPAQueryDslBaseRepository<DepartmentEntity> implements IDepartmentRepository {
 
-    /**
-     * Creates a new {@link QuerydslRepositorySupport} instance for the given domain type.
-     */
     public DepartmentRepository() {
         super(DepartmentEntity.class);
     }

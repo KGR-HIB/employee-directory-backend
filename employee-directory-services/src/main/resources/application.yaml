@@ -27,5 +27,11 @@ spring:
         dialect: org.hibernate.dialect.MariaDB103Dialect
 
 springdoc:
+  springdoc:
+    packagesToScan: com.hiberus.employee.directory.controller
+  api-docs:
+    path: /openapi
   swagger-ui:
+    path: /swagger-ui
+    enabled: true
     disable-swagger-default-url: true

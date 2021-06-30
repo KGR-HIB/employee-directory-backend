@@ -18,9 +18,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class PositionRepository extends JPAQueryDslBaseRepository<PositionEntity> implements IPositionRepository {
 
-    /**
-     * Creates a new {@link QuerydslRepositorySupport} instance for the given domain type.
-     */
     public PositionRepository() {
         super(PositionEntity.class);
     }

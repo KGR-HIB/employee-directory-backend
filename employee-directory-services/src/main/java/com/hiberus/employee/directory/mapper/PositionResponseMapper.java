@@ -27,7 +27,7 @@ public interface PositionResponseMapper {
      */
     @Mappings({
         @Mapping(source = "id", target = "id"),
-        @Mapping(source = "id", target = "name")
+        @Mapping(source = "name", target = "name")
     })
     PositionResponse toVO(PositionEntity positionEntity);
 

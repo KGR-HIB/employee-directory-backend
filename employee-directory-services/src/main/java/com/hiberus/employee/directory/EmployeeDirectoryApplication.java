@@ -1,7 +1,8 @@
 package com.hiberus.employee.directory;
 
 import com.hiberus.employee.directory.config.EmployeeDirectoryConfiguration;
-import com.hiberus.employee.directory.config.Swagger2Config;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -15,7 +16,8 @@ import org.springframework.context.annotation.Import;
  */
 @SpringBootApplication(scanBasePackages = {"com.hiberus.employee.directory"})
 @EntityScan(basePackages = "com.hiberus.employee.directory")
-@Import({EmployeeDirectoryConfiguration.class, Swagger2Config.class})
+@Import({EmployeeDirectoryConfiguration.class})
+@OpenAPIDefinition(info = @Info(title = "Employee Directory", version = "1.0", description = "Employee Directory"))
 public class EmployeeDirectoryApplication {
 
     public static void main(String[] args) {
