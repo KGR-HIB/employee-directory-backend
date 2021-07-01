@@ -31,41 +31,58 @@ heroku apps:create hbredapp
 
 ### Deploy
 ```
-~~heroku deploy:jar employee-directory-services/build/libs/employee-directory-services-1.0.0-SNAPSHOT.jar --app hbredapp~~
+heroku deploy:jar employee-directory-services/build/libs/employee-directory-services-1.0.0-SNAPSHOT.jar --app hbredapp
 ```
 
-# Model
 
-## Entities
 
-* User
-* Role
-* Functionality
-* Employee
-* Position
-* Department
-* Project
-* Certification
-* Skill
-* City
+## API
 
-### User
+**Context:** /directoryServices
+
+| Controller    | Description                                | Method | Endpoint                                         | Request body          | Response body                   | Srtatus |
+| ------------- | ------------------------------------------ | ------ | ------------------------------------------------ | --------------------- | ------------------------------- | ------- |
+| Position      | Positions list                             | GET    | /api/v1/positions                                |                       | Response<[Position]>            | ✅       |
+| Department    | Departments list                           | GET    | /api/v1/departments                              |                       | Response<[Department]>          | ✅       |
+| Project       | Projects list                              | GET    | /api/v1/projects                                 |                       | Response<[Project]>             | ✅       |
+| Certification | Certifications list                        | GET    | /api/v1/certifications                           |                       | Response<[Certification]>       | ✅       |
+| Skill         | Skills list                                | GET    | /api/v1/skills                                   |                       | Response<[Skill]>               | ✅       |
+| City          | Cities list                                | GET    | /api/v1/cities                                   |                       | Response<[City]>                | ✅       |
+| Employee      | Employee list                              | GET    | /api/v1/employees?query={query}                  |                       | Response<[SimpleEmployee]>      |         |
+| Employee      | Page employee list                         | POST   | /api/v1/employees/page?query={query}&page={page} | EmployeFilter         | Response<PageEmployees>         |         |
+| Employee      | Get info employee                          | GET    | /api/v1/employees/{id}                           |                       | Response<[Employee]>            |         |
+| Employee      | Create employee                            | POST   | /api/v1/employees/create                         | EmployeeManage        | Response<null>                  |         |
+| Employee      | Update primary information for an employee | PUT    | /api/v1/employees                                | EmployeeManage        | Response<null>                  |         |
+| Employee      | Add a project to an employee               | POST   | /api/v1/employees/projects                       | EmployeeProject       | Response<EmployeeProject>       |         |
+| Employee      | Remove a project to an employee            | DELETE | /api/v1/employees/projects/{id}                  |                       | Response<null>                  |         |
+| Employee      | Add a certification to an employee         | POST   | /api/v1/employees/certifications                 | EmployeeCertification | Response<EmployeeCertification> |         |
+| Employee      | Remove a certification to an employee      | DELETE | /api/v1/employees/certifications/{id}            |                       | Response<null>                  |         |
+| Employee      | Add a skill to an employee                 | POST   | /api/v1/employees/skills                         | EmployeeSkill         | Response<EmployeeSkill>         |         |
+| Employee      | Remove a skill to an employee              | DELETE | /api/v1/employees/skills/{id}                    |                       | Response<null>                  |         |
+| Authorization | Login                                      | POST   | /api/auth/login                                  | {mail, password}      | Response<User>                  |         |
+| Authorization | Logout                                     | GET    | /api/auth/logout                                 |                       |                                 |         |
+
+
+
+### Schemas
+
+#### User
 
 ```json
 {
-  "userId": 1,
-  "mail": "lrodriguez@hiberus.com",
+  "id": 1,
+  "email": "lrodriguez@hiberus.com",
   "password": "123",
-  "hasInitSession": true,
-  "role": {}
+  "loginFirstTime": true,
+  "role": Role
 }
 ```
 
-### Funcitonality
+#### Functionality
 
 ```json
 {
-  "functionalityId": 1,
+  "id": 1,
   "code": "employee-create",
   "description": "Crear un nuevo empleado"
 }
@@ -75,17 +92,17 @@ heroku apps:create hbredapp
 
 ```json
 {
-  "roleId": 1,
+  "id": 1,
   "code": "admin",
   "name": "Admin",
-  "funtionalities": [
+  "functionalities": [
     {
-      "functionalityId": 1,
+      "id": 1,
       "code": "employe-create"
       "description": "Crear un nuevo empleado"
     },
     {
-      "functionalityId": 2,
+      "id": 2,
       "code": "list-directory"
       "description": "Listar directorio"
     },
@@ -97,7 +114,7 @@ heroku apps:create hbredapp
 
 ```json
 {
-	"positionId": 1,
+	"id": 1,
 	"name": "Frontend Developer"
 }
 ```
@@ -106,7 +123,7 @@ heroku apps:create hbredapp
 
 ```json
 {
-  "departmentId": 1,
+  "id": 1,
   "name": "Operaciones"
 }
 ```
@@ -115,7 +132,7 @@ heroku apps:create hbredapp
 
 ```json
 {
-  "projectId": 1,
+  "id": 1,
   "name": "Directorio de empleados"
 }
 ```
@@ -124,7 +141,7 @@ heroku apps:create hbredapp
 
 ```json
 {
-  "certificationId": 1,
+  "id": 1,
   "name": "Spring Boot"
 }
 ```
@@ -133,7 +150,7 @@ heroku apps:create hbredapp
 
 ```json
 {
-	"skillId": 1,
+	"id": 1,
 	"name": "Angular"
 }
 ```
@@ -142,7 +159,7 @@ heroku apps:create hbredapp
 
 ```json
 {
-	"cityId": 1,
+	"id": 1,
 	"name": "Quito"
 }
 ```
@@ -153,55 +170,55 @@ heroku apps:create hbredapp
 
 ```json
 {
-  "employeeId": 1,
+  "id": 1,
   "name": "Luis Miguel",
   "lastName": "Rodríguez Paredes",
   "phone": "593996123456",
   "photo": "base64",
   "user": {
-    "userId": 1,
-    "mail": "lrodriguez@hiberus.com",
+    "id": 1,
+    "email": "lrodriguez@hiberus.com",
     "roleCode": "admin"
   },
   "city": {
-    "cityId": 1,
+    "id": 1,
     "name": "Quito"
   },
   "position": {
-    "positionId": 1,
+    "id": 1,
     "name": "Frontend Developer"
   },
   "department": {
-    "departmentId": 1,
+    "id": 1,
     "name": "Operaciones"
   },
   "projects": [
     {
-      "projectId": 1,
+      "id": 1,
       "name": "Directorio de empleados"
     },
     {
-      "projectId": 2,
+      "id": 2,
       "name": "Ecomerce"
     }
   ],
   "certifications": [
     {
-      "certificationId": 1,
+      "id": 1,
       "name": "Spring Boot"
     },
     {
-      "certificationId": 2,
+      "id": 2,
       "name": "Angular"
     }
   ],
   "skills": [
     {
-      "skillId": 1,
+      "id": 1,
 			"name": "Angular"
 		},
     {
-      "skillId": 2,
+      "id": 2,
 			"name": "Java"
 		}
   ]
@@ -227,7 +244,7 @@ heroku apps:create hbredapp
 
 ```json
 {
-  "employeeId": 1,
+  "id": 1,
   "name": "Luis Miguel",
   "lastName": "Rodríguez Paredes",
   "mail": "lrodriguez@hiberus.com",
@@ -258,15 +275,15 @@ heroku apps:create hbredapp
   "mail": "lrodriguez@hiberus.com",
   "phone": "593996123456",
   "deparment": {
-    "departmentId": null,
+    "id": null,
     "name": "Nombre"
   },
   "position": {
-    "positionId": null,
+    "id": null,
     "name": "Nombre"
   },
   "city": {
-    "cityId": null,
+    "id": null,
     "name": "Nombre"
   },
   "immediateChiefId": 1,
@@ -285,55 +302,3 @@ heroku apps:create hbredapp
   "message": "Algun mensaje"
 }
 ```
-
-
-
-
-
-## Endpoins
-
-### Administración de acceso
-
-```text
-Login: POST - /ws/api/v1/login - Request: {mail, password}, Response: Response<User>
-Login: GET - /ws/api/v1/logout - Response: Response<null>
-```
-
-### Directorio de empleados
-
-```
-Búscar empleados: POST - /ws/api/v1/employees?query={query}&page={page} - Request: EmployeFilter, Response: Response<PageEmployes>
-
-Mostrar ficha: GET - /ws/api/v1/employees/{employeeId} - Response: Employee
-
-Lista de cargos: GET - /ws/api/v1/positions - Response: [Position]
-
-Lista de responsable: GET - /ws/api/v1/employees?query={query} - Response [SimpleEmployee] - Backend
-
-Lista de áreas: GET - /ws/api/v1/departments - Response: [Department]
-
-Lista de proyectos: GET - /ws/api/v1/projects - Response: [Project]
-
-Lista de certificaciones: GET - /ws/api/v1/certifications - Response: [Certification]
-
-Lista de tecnologías: GET - /ws/api/v1/skills - Response: [Skill]
-
-Dar de alta un empleado: POST - /ws/api/v1/employees/create - Request EmployeeManage, Response Response<null>
-
-Actualizar información principal: PUT - /ws/api/v1/employes - Request [EmployeeManage], Response Response<null>
-```
-
-### Catálogos
-
-```tex
-Agregar proyecto - POST - /ws/api/v1/employees/projects - Request [Project], Response: Response<Project>
-Eliminar proyecto - DELETE - /ws/api/v1/employees/projects/{projectId} - Response: Response<null>
-
-Agregar certificaciones - POST - /ws/api/v1/employees/certifications - Request [Certification], Response: Response<Certification>
-Eliminar certificafción - DELETE - /ws/api/v1/employees/certifications/{certificationId} - Response: Response<null>
-
-Agregar tecnologías - POST - /ws/api/v1/employees/skills - Request [Skill], Response: Response<Skill>
-Eliminar tecnología - DELETE - /ws/api/v1/employees/skills/{skillId} - Response: Response<null>
-
-```
-
