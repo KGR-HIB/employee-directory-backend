@@ -13,6 +13,7 @@ sourceSets {
 }
 
 dependencies {
+	api project(":employee-directory-vo")
     implementation 'org.springframework.data:spring-data-jpa'
     compile 'com.querydsl:querydsl-core'
     compile 'com.querydsl:querydsl-jpa'

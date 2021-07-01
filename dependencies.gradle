@@ -56,5 +56,6 @@ dependencyManagement {
             entry 'junit-jupiter-api'
             entry 'junit-jupiter-engine'
         }
+        dependency("io.jsonwebtoken:jjwt:0.9.1")
     }
 }
