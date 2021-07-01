@@ -18,7 +18,7 @@ public class CityResponse {
     /**
      * Id of city
      */
-    private Long id;
+    private Integer id;
 
     /**
      * Name of city

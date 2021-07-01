@@ -18,7 +18,7 @@ public class CertificationResponse {
     /**
      * Id of certification
      */
-    private Long id;
+    private Integer id;
 
     /**
      * Name of certification

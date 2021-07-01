@@ -35,7 +35,7 @@ public class RoleFunctionalityEntity extends AbstractBaseAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ROLFUN_ID")
-    private Long id;
+    private Integer id;
 
     /**
      * Functionality

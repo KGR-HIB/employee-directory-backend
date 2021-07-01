@@ -36,7 +36,7 @@ public class RoleEntity extends AbstractBaseAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ROLE_ID", nullable = false, updatable = false)
-    private Long id;
+    private Integer id;
 
     /**
      * Code of role

@@ -18,7 +18,7 @@ public class ProjectResponse {
     /**
      * Project id
      */
-    private Long id;
+    private Integer id;
 
     /**
      * Project's name

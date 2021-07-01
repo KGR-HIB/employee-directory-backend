@@ -17,7 +17,8 @@ dependencyManagement {
             entry 'querydsl-apt'
         }
 
-        dependency("org.mariadb.jdbc:mariadb-java-client:${mariadbJavaClientVersion}")
+        // dependency("org.mariadb.jdbc:mariadb-java-client:${mariadbJavaClientVersion}")
+        dependency("mysql:mysql-connector-java:${mysqlConnectorVersion}")
 
         // Validators
         dependency("javax.validation:validation-api:${validationApiVersion}")

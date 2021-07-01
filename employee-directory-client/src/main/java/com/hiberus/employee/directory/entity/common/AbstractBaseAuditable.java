@@ -31,7 +31,7 @@ public class AbstractBaseAuditable implements Serializable {
     /**
      * True if the record is active otherwise false
      */
-    @Column(name = "STATUS", columnDefinition = "boolean default true")
+    @Column(name = "STATUS", columnDefinition = "tinyint default 1")
     protected Boolean status;
 
     /**

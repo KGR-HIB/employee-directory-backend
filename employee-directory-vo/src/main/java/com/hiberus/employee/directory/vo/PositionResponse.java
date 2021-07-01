@@ -18,7 +18,7 @@ public class PositionResponse {
     /**
      * Position id
      */
-    private Long id;
+    private Integer id;
 
     /**
      * Position's name

@@ -18,7 +18,7 @@ public class DepartmentResponse {
     /**
      * Id of department
      */
-    private Long id;
+    private Integer id;
 
     /**
      * Name of department

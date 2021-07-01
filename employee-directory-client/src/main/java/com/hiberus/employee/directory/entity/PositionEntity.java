@@ -32,7 +32,7 @@ public class PositionEntity extends AbstractBaseAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "POSITION_ID", nullable = false, updatable = false)
-    private Long id;
+    private Integer id;
 
     /**
      * Position’s name
