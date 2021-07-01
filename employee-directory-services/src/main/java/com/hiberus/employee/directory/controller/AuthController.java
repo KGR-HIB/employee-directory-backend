@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,4 +62,15 @@ public class AuthController {
         return new ResponseEntity<>(Response.<User>builder().data(user).build(), HttpStatus.OK);
     }
 
+    /**
+     * Logout.
+     * 
+     * @author acachiguango on 01/07/2021
+     */
+    @PostMapping("/logout")
+    public ResponseEntity<Response<String>> logout() {
+        SecurityContextHolder.clearContext();
+        return new ResponseEntity<>(Response.<String>builder().data("200").message("Logout Success").build(),
+            HttpStatus.OK);
+    }
 }

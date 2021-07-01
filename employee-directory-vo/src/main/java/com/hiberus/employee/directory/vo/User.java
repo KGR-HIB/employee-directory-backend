@@ -25,4 +25,5 @@ public class User {
     private Boolean loginFirstTime;
     private String tokenType;
     private String accessToken;
+    private Integer roleId;
 }
