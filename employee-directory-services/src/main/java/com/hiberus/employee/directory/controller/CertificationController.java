@@ -2,8 +2,10 @@ package com.hiberus.employee.directory.controller;
 
 import java.util.List;
 import com.hiberus.employee.directory.mapper.CertificationResponseMapper;
+import com.hiberus.employee.directory.security.AuthSecurityUtil;
 import com.hiberus.employee.directory.service.ICertificationService;
 import com.hiberus.employee.directory.vo.CertificationResponse;
+import com.hiberus.employee.directory.vo.User;
 import com.hiberus.employee.directory.vo.common.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -13,6 +15,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
@@ -28,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author bcueva
  * @version 1.0
  */
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/certifications")
 @Lazy
@@ -47,6 +51,9 @@ public class CertificationController {
         )
     })
     public ResponseEntity<Response<List<CertificationResponse>>> findAll() {
+        User userLogin = AuthSecurityUtil.getUserLogin();
+        log.info(userLogin.getEmail());
+        
         List<CertificationResponse> certificationResponses = CertificationResponseMapper.MAPPER.toVOList(certificationService.findAll());
         Response<List<CertificationResponse>> response = Response.<List<CertificationResponse>>builder()
             .data(certificationResponses)

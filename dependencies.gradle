@@ -42,6 +42,8 @@ dependencyManagement {
             entry 'spring-boot-starter-test'
             entry 'spring-boot-starter-web'
             entry 'spring-boot-autoconfigure'
+            entry 'spring-boot-starter-validation'
+            
         }
 
         // Security
@@ -58,5 +60,8 @@ dependencyManagement {
             entry 'junit-jupiter-engine'
         }
         dependency("io.jsonwebtoken:jjwt:0.9.1")
+        dependency("com.fasterxml.jackson.core:jackson-core:2.12.3")
+        
+        
     }
 }

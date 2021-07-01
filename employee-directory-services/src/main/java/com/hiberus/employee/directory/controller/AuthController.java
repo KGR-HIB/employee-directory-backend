@@ -1,5 +1,6 @@
 package com.hiberus.employee.directory.controller;
 
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.hiberus.employee.directory.security.AuthConstants;
-import com.hiberus.employee.directory.security.AuthSecurityUtil;
 import com.hiberus.employee.directory.security.AuthToken;
 import com.hiberus.employee.directory.service.IUserService;
 import com.hiberus.employee.directory.vo.User;
@@ -50,7 +50,7 @@ public class AuthController {
      * @return Response User
      */
     @PostMapping("/login")
-    public ResponseEntity<Response<User>> login(@RequestBody User request) {
+    public ResponseEntity<Response<User>> login(@Valid @RequestBody User request) {
         User user = this.userService.login(request);
         if (null == user) {
             return new ResponseEntity<>(Response.<User>builder().message(AuthConstants.UNAUTHORIZED).build(),
@@ -58,9 +58,6 @@ public class AuthController {
         }
         user.setAccessToken(this.authToken.getAccessToken(user));
         user.setTokenType(AuthConstants.BEARER.trim());
-
-//        User userLogin = AuthSecurityUtil.getUserLogin();
-//        log.info(userLogin.getId().toString());
         return new ResponseEntity<>(Response.<User>builder().data(user).build(), HttpStatus.OK);
     }
 

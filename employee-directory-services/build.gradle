@@ -27,10 +27,14 @@ dependencies {
 
     // Security
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'io.jsonwebtoken:jjwt'
+    
 
     // Documentation API
     implementation 'org.springdoc:springdoc-openapi-ui'
+    
+    implementation 'com.fasterxml.jackson.core:jackson-core'
 }
 
 bootRun {
