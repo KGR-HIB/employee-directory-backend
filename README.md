@@ -17,6 +17,23 @@
 ./run.ps1
 ```
 
+## Develop to Heroku
+
+### Install plugin
+```
+heroku plugins:install java
+```
+
+### Create app
+```
+heroku apps:create hbredapp
+```
+
+### Deploy
+```
+~~heroku deploy:jar employee-directory-services/build/libs/employee-directory-services-1.0.0-SNAPSHOT.jar --app hbredapp~~
+```
+
 # Model
 
 ## Entities
