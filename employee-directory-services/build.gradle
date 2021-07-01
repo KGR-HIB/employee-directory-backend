@@ -1,3 +1,5 @@
+apply plugin: "org.springframework.boot"
+
 dependencies {
     api project(":employee-directory-core")
     api project(":employee-directory-vo")
@@ -28,4 +30,8 @@ dependencies {
 
     // Documentation API
     implementation 'org.springdoc:springdoc-openapi-ui'
+}
+
+bootRun {
+    main = 'com.hiberus.employee.directory.EmployeeDirectoryApplication'
 }

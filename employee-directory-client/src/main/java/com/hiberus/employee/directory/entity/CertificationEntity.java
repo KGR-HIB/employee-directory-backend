@@ -32,7 +32,7 @@ public class CertificationEntity extends AbstractBaseAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CERTIFICATION_ID")
-    private Long id;
+    private Integer id;
 
     /**
      * Certification’s name

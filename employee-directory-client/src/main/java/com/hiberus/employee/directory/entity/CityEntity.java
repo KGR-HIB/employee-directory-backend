@@ -32,7 +32,7 @@ public class CityEntity extends AbstractBaseAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CITY_ID", nullable = false, updatable = false)
-    private Long id;
+    private Integer id;
 
     /**
      * Name of the city

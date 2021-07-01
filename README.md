@@ -1,3 +1,11 @@
+# Employee Directory Backend
+
+## Run
+
+```
+./gradlew  employee-directory-services:bootRun
+```
+
 # Model
 
 ## Entities

@@ -32,7 +32,7 @@ public class EmployeeCertificationEntity extends AbstractBaseAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "EMPCER_ID")
-    private Long id;
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CERTIFICATION_ID", referencedColumnName = "CERTIFICATION_ID", insertable = false, updatable = false)

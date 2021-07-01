@@ -9,7 +9,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-autoconfigure'
 
     // DB
-    implementation 'org.mariadb.jdbc:mariadb-java-client'
+    //implementation 'org.mariadb.jdbc:mariadb-java-client'
+    implementation 'mysql:mysql-connector-java'
 
     // Test
     testImplementation 'org.junit.jupiter:junit-jupiter-api'

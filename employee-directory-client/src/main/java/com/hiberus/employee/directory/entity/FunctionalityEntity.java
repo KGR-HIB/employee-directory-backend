@@ -32,7 +32,7 @@ public class FunctionalityEntity extends AbstractBaseAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "FUNCTIONALITY_ID", nullable = false, updatable = false)
-    private Long id;
+    private Integer id;
 
     /**
      * Code of the functionality

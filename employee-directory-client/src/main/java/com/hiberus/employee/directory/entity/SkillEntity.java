@@ -32,7 +32,7 @@ public class SkillEntity extends AbstractBaseAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SKILL_ID", nullable = false, updatable = false)
-    private Long id;
+    private Integer id;
 
     /**
      * Skill’s name

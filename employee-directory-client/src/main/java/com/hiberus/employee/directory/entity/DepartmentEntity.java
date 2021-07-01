@@ -32,7 +32,7 @@ public class DepartmentEntity extends AbstractBaseAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "DEPARTMENT_ID", nullable = false, updatable = false)
-    private Long id;
+    private Integer id;
 
     /**
      * Department’s name

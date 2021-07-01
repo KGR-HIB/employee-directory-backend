@@ -37,7 +37,7 @@ public class UserEntity extends AbstractBaseAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USER_ID", nullable = false, updatable = false)
-    private Long id;
+    private Integer id;
 
     /**
      * User’s email address
@@ -54,7 +54,7 @@ public class UserEntity extends AbstractBaseAuditable {
     /**
      * True if the user has already login the system for the first time, false otherwise
      */
-    @Column(name = "LOGIN_FIRST_TIME", columnDefinition = "boolean default false")
+    @Column(name = "LOGIN_FIRST_TIME", columnDefinition = "tinyint default 0")
     private Boolean loginFirstTime;
 
     /**

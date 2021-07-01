@@ -12,19 +12,24 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mariadb://192.168.1.110:3306/HHTEDDB
-    username: DHBRED
-    password: develop
-    driver-class-name: org.mariadb.jdbc.Driver
+#    url: jdbc:mariadb://192.168.1.110:3306/HHTEDDB
+#    username: DHBRED
+#    password: develop
+#    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mysql://bqn9dn3czp7myog4ubqw-mysql.services.clever-cloud.com:3306/bqn9dn3czp7myog4ubqw
+    username: uja7jqqw8xsg8ey5
+    password: PNQkgYN4uKfOyJTwx27i
+#    driver-class-name: com.mysql.jdbc.Driver
   jpa:
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: none
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MariaDB103Dialect
+        dialect: org.hibernate.dialect.MySQL8Dialect
+#        dialect: org.hibernate.dialect.MariaDB103Dialect
 
 springdoc:
   springdoc:

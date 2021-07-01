@@ -38,7 +38,7 @@ public class EmployeeEntity extends AbstractBaseAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "EMPLOYEE_ID", nullable = false, updatable = false)
-    private Long id;
+    private Integer id;
 
     /**
      * Employee names

@@ -32,7 +32,7 @@ public class ProjectEntity extends AbstractBaseAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PROJECT_ID", nullable = false, updatable = false)
-    private Long id;
+    private Integer id;
 
     /**
      * Project’s name

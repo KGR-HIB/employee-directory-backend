@@ -18,7 +18,7 @@ public class SkillResponse {
     /**
      * Skill id
      */
-    private Long id;
+    private Integer id;
 
     /**
      * Skill's name
