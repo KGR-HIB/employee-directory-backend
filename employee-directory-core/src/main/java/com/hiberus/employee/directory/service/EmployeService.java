@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import com.hiberus.employee.directory.entity.EmployeeEntity;
 import com.hiberus.employee.directory.repository.IEmployeRepository;
 import com.hiberus.employee.directory.service.common.BaseService;
-import com.hiberus.employee.directory.util.DateUtil;
 
 /**
  * EmployeService.
@@ -32,7 +31,6 @@ public class EmployeService extends BaseService<EmployeeEntity, IEmployeReposito
      */
     @Override
     public void create(EmployeeEntity employeeEntity) {
-        employeeEntity.setCreateDate(DateUtil.currentDate());
         this.repository.create(employeeEntity);
     }
 
@@ -41,7 +39,7 @@ public class EmployeService extends BaseService<EmployeeEntity, IEmployeReposito
      */
     @Override
     public void update(EmployeeEntity employeeEntity) {
-        // TODO Auto-generated method stub
+        this.repository.updateValues(employeeEntity);
 
     }
 

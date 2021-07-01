@@ -25,5 +25,5 @@ public interface IEmployeRepository extends IQueryDslBaseRepository<EmployeeEnti
      * @author acachiguango on 01/07/2021
      * @param employeeEntity EmployeeEntity
      */
-    void update(EmployeeEntity employeeEntity);
+    void updateValues(EmployeeEntity employeeEntity);
 }
