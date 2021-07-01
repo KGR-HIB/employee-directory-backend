@@ -1,9 +1,20 @@
 # Employee Directory Backend
 
+## Build
+```
+./gradlew clean build
+```
+
 ## Run
 
+### Linux
 ```
-./gradlew  employee-directory-services:bootRun
+./run.sh
+```
+
+### Windows - PowerShell
+```
+./run.ps1
 ```
 
 # Model

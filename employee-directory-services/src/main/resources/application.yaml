@@ -13,12 +13,10 @@ server:
 spring:
   datasource:
 #    url: jdbc:mariadb://192.168.1.110:3306/HHTEDDB
-#    username: DHBRED
-#    password: develop
 #    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mysql://bqn9dn3czp7myog4ubqw-mysql.services.clever-cloud.com:3306/bqn9dn3czp7myog4ubqw
-    username: uja7jqqw8xsg8ey5
-    password: PNQkgYN4uKfOyJTwx27i
+    url: ${DATASOURCE_URL}
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
 #    driver-class-name: com.mysql.jdbc.Driver
   jpa:
     show-sql: false
