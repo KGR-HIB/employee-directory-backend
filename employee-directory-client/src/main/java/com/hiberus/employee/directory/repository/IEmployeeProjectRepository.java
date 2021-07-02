@@ -18,20 +18,20 @@ public interface IEmployeeProjectRepository extends IQueryDslBaseRepository<Empl
      * 
      * @author acachiguango on 02/07/2021
      * @param projectIds project Ids
-     * @param employeId employe Id
+     * @param employeId employee Id
      * @param createdByUser user Id
      */
-    void create(List<Integer> projectIds, Integer employeId, Integer createdByUser);
+    void create(List<Integer> projectIds, Integer employeeId, Integer createdByUser);
 
     /**
      * Disable project employee.
      * 
      * @author acachiguango on 02/07/2021
      * @param projectIds project Ids
-     * @param employeId employe Id
+     * @param employeeId employe Id
      * @param createdByUser user Id
      */
-    void disableEmployeeProject(List<Integer> projectIds, Integer employeId, Integer createdByUser);
+    void disableEmployeeProject(List<Integer> projectIds, Integer employeeId, Integer createdByUser);
 
     /**
      * Get all projects of an employee

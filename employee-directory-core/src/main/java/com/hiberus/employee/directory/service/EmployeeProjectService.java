@@ -33,10 +33,10 @@ public class EmployeeProjectService extends BaseService<EmployeeProjectEntity, I
      * {@inheritDoc}
      */
     @Override
-    public void createByName(List<ProjectEntity> projects, Integer employeId, Integer createdByUser) {
+    public void createByName(List<ProjectEntity> projects, Integer employeeId, Integer createdByUser) {
         List<Integer> projectIds = this.projectRepository.createByName(projects, createdByUser);
-        this.repository.create(projectIds, employeId, createdByUser);
-        this.repository.disableEmployeeProject(projectIds, employeId, createdByUser);
+        this.repository.create(projectIds, employeeId, createdByUser);
+        this.repository.disableEmployeeProject(projectIds, employeeId, createdByUser);
 
     }
 
