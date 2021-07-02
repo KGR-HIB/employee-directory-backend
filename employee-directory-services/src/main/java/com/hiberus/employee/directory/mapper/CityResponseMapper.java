@@ -2,7 +2,7 @@ package com.hiberus.employee.directory.mapper;
 
 import java.util.List;
 import com.hiberus.employee.directory.entity.CityEntity;
-import com.hiberus.employee.directory.vo.CityResponse;
+import com.hiberus.employee.directory.vo.City;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -29,7 +29,7 @@ public interface CityResponseMapper {
         @Mapping(source = "id", target = "id"),
         @Mapping(source = "name", target = "name")
     })
-    CityResponse toVO(CityEntity cityEntity);
+    City toVO(CityEntity cityEntity);
 
     /**
      * Mapping CityEntity list to CityResponse list
@@ -37,5 +37,5 @@ public interface CityResponseMapper {
      * @param cityEntityList City entity list
      * @return City response list
      */
-    List<CityResponse> toVOList(List<CityEntity> cityEntityList);
+    List<City> toVOList(List<CityEntity> cityEntityList);
 }

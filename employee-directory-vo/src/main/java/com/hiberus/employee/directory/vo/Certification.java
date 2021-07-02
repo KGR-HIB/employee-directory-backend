@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Vo response for city
+ * VO response Certification
  *
  * @author bcueva
  * @version 1.0
@@ -13,15 +13,16 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class CityResponse {
+public class Certification {
 
     /**
-     * Id of city
+     * Id of certification
      */
     private Integer id;
 
     /**
-     * Name of city
+     * Name of certification
      */
     private String name;
+
 }

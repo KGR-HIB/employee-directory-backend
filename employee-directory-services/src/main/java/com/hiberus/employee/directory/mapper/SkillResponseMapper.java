@@ -2,7 +2,7 @@ package com.hiberus.employee.directory.mapper;
 
 import java.util.List;
 import com.hiberus.employee.directory.entity.SkillEntity;
-import com.hiberus.employee.directory.vo.SkillResponse;
+import com.hiberus.employee.directory.vo.Skill;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -29,7 +29,7 @@ public interface SkillResponseMapper {
         @Mapping(source = "id", target = "id"),
         @Mapping(source = "name", target = "name")
     })
-    SkillResponse toVO(SkillEntity skillEntity);
+    Skill toVO(SkillEntity skillEntity);
 
     /**
      * Mapping SkillEntity list to SkillResponse list
@@ -37,5 +37,5 @@ public interface SkillResponseMapper {
      * @param skillEntityList SkillEntity list
      * @return SkillResponse list
      */
-    List<SkillResponse> toVOList(List<SkillEntity> skillEntityList);
+    List<Skill> toVOList(List<SkillEntity> skillEntityList);
 }

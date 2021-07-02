@@ -3,7 +3,7 @@ package com.hiberus.employee.directory.controller;
 import java.util.List;
 import com.hiberus.employee.directory.mapper.ProjectResponseMapper;
 import com.hiberus.employee.directory.service.IProjectService;
-import com.hiberus.employee.directory.vo.ProjectResponse;
+import com.hiberus.employee.directory.vo.Project;
 import com.hiberus.employee.directory.vo.common.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -43,13 +43,13 @@ public class ProjectController {
     @Operation(summary = "Get all projects")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "List all projects",
-            content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = ProjectResponse.class))) }
+            content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Project.class))) }
         )
     })
-    public ResponseEntity<Response<List<ProjectResponse>>> findAll() {
-        List<ProjectResponse> projectResponses = ProjectResponseMapper.MAPPER.toVOList(projectService.findAll());
-        Response<List<ProjectResponse>> response = Response.<List<ProjectResponse>>builder()
-            .data(projectResponses)
+    public ResponseEntity<Response<List<Project>>> findAll() {
+        List<Project> projectRespons = ProjectResponseMapper.MAPPER.toVOList(projectService.findAll());
+        Response<List<Project>> response = Response.<List<Project>>builder()
+            .data(projectRespons)
             .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

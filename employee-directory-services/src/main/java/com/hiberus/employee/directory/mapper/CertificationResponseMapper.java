@@ -2,7 +2,7 @@ package com.hiberus.employee.directory.mapper;
 
 import java.util.List;
 import com.hiberus.employee.directory.entity.CertificationEntity;
-import com.hiberus.employee.directory.vo.CertificationResponse;
+import com.hiberus.employee.directory.vo.Certification;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -29,7 +29,7 @@ public interface CertificationResponseMapper {
         @Mapping(source = "id", target = "id"),
         @Mapping(source = "name", target = "name")
     })
-    CertificationResponse toVO(CertificationEntity certificationEntity);
+    Certification toVO(CertificationEntity certificationEntity);
 
     /**
      * Mapping CertificationEntity list to CertificationResponse list
@@ -37,5 +37,5 @@ public interface CertificationResponseMapper {
      * @param certificationEntityList CertificationEntity list
      * @return CertificationResponse list
      */
-    List<CertificationResponse> toVOList(List<CertificationEntity> certificationEntityList);
+    List<Certification> toVOList(List<CertificationEntity> certificationEntityList);
 }

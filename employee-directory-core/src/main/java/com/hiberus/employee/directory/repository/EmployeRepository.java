@@ -1,6 +1,9 @@
 package com.hiberus.employee.directory.repository;
 
+import static com.hiberus.employee.directory.entity.QCityEntity.cityEntity;
+import static com.hiberus.employee.directory.entity.QDepartmentEntity.departmentEntity;
 import static com.hiberus.employee.directory.entity.QEmployeeEntity.employeeEntity;
+import static com.hiberus.employee.directory.entity.QPositionEntity.positionEntity;
 import static com.hiberus.employee.directory.entity.QUserEntity.userEntity;
 import static com.querydsl.core.types.Projections.bean;
 
@@ -73,8 +76,8 @@ public class EmployeRepository extends JPAQueryDslBaseRepository<EmployeeEntity>
      */
     @Override
     public List<Employe> findByNamesAndEmail(String query) {
-        JPQLQuery<Employe> jpaQuery =
-            from(employeeEntity).select(bean(Employe.class,employeeEntity.id, employeeEntity.name, employeeEntity.lastName, userEntity.email))
+        JPQLQuery<Employe> jpaQuery = from(employeeEntity)
+            .select(bean(Employe.class,employeeEntity.id, employeeEntity.name, employeeEntity.lastName, userEntity.email))
             .join(employeeEntity.user, userEntity);
 
         jpaQuery.where(
@@ -89,6 +92,25 @@ public class EmployeRepository extends JPAQueryDslBaseRepository<EmployeeEntity>
         jpaQuery.orderBy(employeeEntity.name.asc(), employeeEntity.lastName.asc());
 
         return jpaQuery.fetch();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Employe findEmployeeMainInformationById(Integer id) {
+        JPQLQuery<Employe> jpqlQuery = from(employeeEntity)
+            .select(bean(Employe.class))
+            .join(employeeEntity.city, cityEntity)
+            .join(employeeEntity.department, departmentEntity)
+            .join(employeeEntity.position, positionEntity);
+
+            jpqlQuery.where(
+                employeeEntity.id.eq(id)
+                .and(employeeEntity.status.eq(Boolean.TRUE))
+            );
+
+        return jpqlQuery.fetchFirst();
     }
 
 }

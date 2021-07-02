@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * VO response for Project
+ * Vo response for city
  *
  * @author bcueva
  * @version 1.0
@@ -13,15 +13,15 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class ProjectResponse {
+public class City {
 
     /**
-     * Project id
+     * Id of city
      */
     private Integer id;
 
     /**
-     * Project's name
+     * Name of city
      */
     private String name;
 }

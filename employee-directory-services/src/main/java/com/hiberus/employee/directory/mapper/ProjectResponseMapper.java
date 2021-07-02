@@ -2,7 +2,7 @@ package com.hiberus.employee.directory.mapper;
 
 import java.util.List;
 import com.hiberus.employee.directory.entity.ProjectEntity;
-import com.hiberus.employee.directory.vo.ProjectResponse;
+import com.hiberus.employee.directory.vo.Project;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -29,12 +29,12 @@ public interface ProjectResponseMapper {
         @Mapping(source = "id", target = "id"),
         @Mapping(source = "name", target = "name")
     })
-    ProjectResponse toVO(ProjectEntity projectEntity);
+    Project toVO(ProjectEntity projectEntity);
 
     /**
      * Mapping ProjectEntity list to ProjectResponse list
      * @param projectEntityList
      * @return
      */
-    List<ProjectResponse> toVOList(List<ProjectEntity> projectEntityList);
+    List<Project> toVOList(List<ProjectEntity> projectEntityList);
 }

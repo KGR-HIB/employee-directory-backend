@@ -37,4 +37,13 @@ public interface IEmployeRepository extends IQueryDslBaseRepository<EmployeeEnti
      * @return List of employees
      */
     List<Employe> findByNamesAndEmail(String query);
+
+    /**
+     * Find employee main information by id
+     *
+     * @author bcueva
+     * @param id Id of employee
+     * @return Employee instance
+     */
+    Employe findEmployeeMainInformationById(Integer id);
 }
