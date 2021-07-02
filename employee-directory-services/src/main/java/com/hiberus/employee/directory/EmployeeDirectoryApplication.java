@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,7 +25,7 @@ import io.swagger.v3.oas.annotations.info.Info;
 @EntityScan(basePackages = "com.hiberus.employee.directory")
 @Import({ EmployeeDirectoryConfiguration.class, WebSecurityConfig.class })
 @OpenAPIDefinition(info = @Info(title = "Employee Directory", version = "1.0", description = "Employee Directory"))
-public class EmployeeDirectoryApplication {
+public class EmployeeDirectoryApplication implements WebMvcConfigurer {
 
     public static void main(String[] args) {
         SpringApplication.run(EmployeeDirectoryApplication.class);
@@ -39,5 +41,13 @@ public class EmployeeDirectoryApplication {
     public ObjectMapper objectMapper() {
         return new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL)
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET", "POST", "PUT", "DELETE");
     }
 }

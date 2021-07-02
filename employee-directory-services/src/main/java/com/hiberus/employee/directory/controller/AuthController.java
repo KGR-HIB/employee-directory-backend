@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,7 +56,7 @@ public class AuthController {
     public ResponseEntity<Response<User>> login(@Valid @RequestBody User request) {
         User user = this.userService.login(request);
         if (null == user) {
-            return ResponseEntity.ok()
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(Response.<User>builder().code(401).message(AuthConstants.UNAUTHORIZED).build());
         }
         user.setAccessToken(this.authToken.getAccessToken(user));

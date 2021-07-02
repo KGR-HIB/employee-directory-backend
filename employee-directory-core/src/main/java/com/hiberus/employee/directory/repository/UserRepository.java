@@ -26,6 +26,9 @@ import com.querydsl.jpa.JPQLQuery;
 @Repository
 public class UserRepository extends JPAQueryDslBaseRepository<UserEntity> implements IUserRepository {
 
+    /**
+     * Constructor.
+     */
     public UserRepository() {
         super(UserEntity.class);
     }
@@ -37,16 +40,16 @@ public class UserRepository extends JPAQueryDslBaseRepository<UserEntity> implem
     public User login(User request) {
         QEmployeeEntity qEmployeeEntity = QEmployeeEntity.employeeEntity;
         QRoleEntity qRoleEntity = QRoleEntity.roleEntity;
-        BooleanBuilder where = new BooleanBuilder();
-        where.and(userEntity.email.eq(request.getEmail()));
-        where.and(userEntity.password.eq(request.getPassword()));
-        where.and(userEntity.status.eq(Boolean.TRUE));
         JPQLQuery<User> query = from(userEntity)
             .select(bean(User.class, userEntity.id, userEntity.email, userEntity.loginFirstTime, userEntity.roleId,
                 Projections.bean(Employe.class, qEmployeeEntity.name, qEmployeeEntity.lastName).as("employe"),
                 Projections.bean(Role.class, qRoleEntity.id, qRoleEntity.name, qRoleEntity.code).as("role")));
         query.innerJoin(userEntity.employee, qEmployeeEntity);
         query.innerJoin(userEntity.role, qRoleEntity);
+        BooleanBuilder where = new BooleanBuilder();
+        where.and(userEntity.email.eq(request.getEmail()));
+        where.and(userEntity.password.eq(request.getPassword()));
+        where.and(userEntity.status.eq(Boolean.TRUE));
         query.where(where);
         return query.fetchFirst();
     }

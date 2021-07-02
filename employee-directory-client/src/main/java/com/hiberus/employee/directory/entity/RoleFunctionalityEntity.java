@@ -42,6 +42,9 @@ public class RoleFunctionalityEntity extends AbstractBaseAuditable {
     @Column(name = "ROLFUN_ID")
     private Integer id;
 
+    @Column(name = "ROLE_ID")
+    private Integer roleId;
+
     /**
      * Functionality
      */
