@@ -30,6 +30,11 @@ import lombok.Setter;
 public class RoleFunctionalityEntity extends AbstractBaseAuditable {
 
     /**
+     * serialVersionUID.
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
      * Id for Role - Functionality
      */
     @Id
@@ -41,6 +46,7 @@ public class RoleFunctionalityEntity extends AbstractBaseAuditable {
      * Functionality
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "FUNCTIONALITY_ID", referencedColumnName = "FUNCTIONALITY_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "FUNCTIONALITY_ID", referencedColumnName = "FUNCTIONALITY_ID", insertable = false,
+        updatable = false)
     private FunctionalityEntity functionality;
 }

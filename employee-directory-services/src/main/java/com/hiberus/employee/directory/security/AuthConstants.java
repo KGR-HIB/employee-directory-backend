@@ -13,7 +13,8 @@ public final class AuthConstants {
     public static final String BEARER = "Bearer ";
     public static final String AUTHORITIES = "authorities";
     public static final String ID = "hiberusJWT";
-    public static final String UNAUTHORIZED = "401";
+    public static final String UNAUTHORIZED = "unauthorized";
+    public static final String SUCCESS = "success";
 
     /**
      * Constructor.

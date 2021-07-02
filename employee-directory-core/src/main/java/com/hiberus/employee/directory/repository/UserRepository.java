@@ -4,11 +4,16 @@ import static com.hiberus.employee.directory.entity.QUserEntity.userEntity;
 import static com.querydsl.core.types.Projections.bean;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
+import com.hiberus.employee.directory.entity.QEmployeeEntity;
+import com.hiberus.employee.directory.entity.QRoleEntity;
 import com.hiberus.employee.directory.entity.UserEntity;
 import com.hiberus.employee.directory.repository.common.JPAQueryDslBaseRepository;
 import com.hiberus.employee.directory.util.DateUtil;
+import com.hiberus.employee.directory.vo.Employe;
+import com.hiberus.employee.directory.vo.Role;
 import com.hiberus.employee.directory.vo.User;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQuery;
 
 /**
@@ -30,12 +35,18 @@ public class UserRepository extends JPAQueryDslBaseRepository<UserEntity> implem
      */
     @Override
     public User login(User request) {
+        QEmployeeEntity qEmployeeEntity = QEmployeeEntity.employeeEntity;
+        QRoleEntity qRoleEntity = QRoleEntity.roleEntity;
         BooleanBuilder where = new BooleanBuilder();
         where.and(userEntity.email.eq(request.getEmail()));
         where.and(userEntity.password.eq(request.getPassword()));
         where.and(userEntity.status.eq(Boolean.TRUE));
-        JPQLQuery<User> query =
-            from(userEntity).select(bean(User.class, userEntity.id, userEntity.email, userEntity.loginFirstTime));
+        JPQLQuery<User> query = from(userEntity)
+            .select(bean(User.class, userEntity.id, userEntity.email, userEntity.loginFirstTime, userEntity.roleId,
+                Projections.bean(Employe.class, qEmployeeEntity.name, qEmployeeEntity.lastName).as("employe"),
+                Projections.bean(Role.class, qRoleEntity.id, qRoleEntity.name, qRoleEntity.code).as("role")));
+        query.innerJoin(userEntity.employee, qEmployeeEntity);
+        query.innerJoin(userEntity.role, qRoleEntity);
         query.where(where);
         return query.fetchFirst();
     }
