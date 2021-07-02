@@ -1,9 +1,10 @@
 package com.hiberus.employee.directory.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,12 +55,13 @@ public class AuthController {
     public ResponseEntity<Response<User>> login(@Valid @RequestBody User request) {
         User user = this.userService.login(request);
         if (null == user) {
-            return new ResponseEntity<>(Response.<User>builder().message(AuthConstants.UNAUTHORIZED).build(),
-                HttpStatus.UNAUTHORIZED);
+            return ResponseEntity.ok()
+                .body(Response.<User>builder().code(401).message(AuthConstants.UNAUTHORIZED).build());
         }
         user.setAccessToken(this.authToken.getAccessToken(user));
         user.setTokenType(AuthConstants.BEARER.trim());
-        return new ResponseEntity<>(Response.<User>builder().data(user).build(), HttpStatus.OK);
+        return ResponseEntity.ok()
+            .body(Response.<User>builder().data(user).code(200).message(AuthConstants.SUCCESS).build());
     }
 
     /**
@@ -68,9 +70,13 @@ public class AuthController {
      * @author acachiguango on 01/07/2021
      */
     @PostMapping("/logout")
-    public ResponseEntity<Response<String>> logout() {
+    public ResponseEntity<Response<String>> logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        SecurityContextHolder.getContext().setAuthentication(null);
         SecurityContextHolder.clearContext();
-        return new ResponseEntity<>(Response.<String>builder().data("200").message("Logout Success").build(),
-            HttpStatus.OK);
+        return ResponseEntity.ok().body(Response.<String>builder().code(200).message(AuthConstants.SUCCESS).build());
     }
 }

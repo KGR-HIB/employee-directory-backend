@@ -31,6 +31,11 @@ import lombok.Setter;
 public class RoleEntity extends AbstractBaseAuditable {
 
     /**
+     * serialVersionUID.
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
      * Role id
      */
     @Id

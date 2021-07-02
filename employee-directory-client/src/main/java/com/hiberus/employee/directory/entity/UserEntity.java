@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import com.hiberus.employee.directory.entity.common.AbstractBaseAuditable;
 import lombok.AllArgsConstructor;
@@ -70,9 +71,17 @@ public class UserEntity extends AbstractBaseAuditable {
     private Integer roleId;
 
     /**
-     * Role
+     * Role.
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ROLE_ID", referencedColumnName = "ROLE_ID", insertable = false, updatable = false)
     private RoleEntity role;
+
+    /**
+     * Employee.
+     */
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID", insertable = false, updatable = false)
+    private EmployeeEntity employee;
+
 }

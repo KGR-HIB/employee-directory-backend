@@ -26,4 +26,6 @@ public class User {
     private String tokenType;
     private String accessToken;
     private Integer roleId;
+    private Employe employe;
+    private Role role;
 }
