@@ -1,6 +1,7 @@
 package com.hiberus.employee.directory.service;
 
 import java.util.List;
+import javax.transaction.Transactional;
 import com.hiberus.employee.directory.entity.EmployeeEntity;
 import com.hiberus.employee.directory.repository.ICityRepository;
 import com.hiberus.employee.directory.repository.IDepartmentRepository;
@@ -9,6 +10,7 @@ import com.hiberus.employee.directory.repository.IPositionRepository;
 import com.hiberus.employee.directory.repository.IUserRepository;
 import com.hiberus.employee.directory.service.common.BaseService;
 import com.hiberus.employee.directory.vo.Employe;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 

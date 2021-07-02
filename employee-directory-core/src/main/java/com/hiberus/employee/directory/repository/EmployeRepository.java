@@ -10,6 +10,7 @@ import com.hiberus.employee.directory.entity.QEmployeeEntity;
 import com.hiberus.employee.directory.repository.common.JPAQueryDslBaseRepository;
 import com.hiberus.employee.directory.util.DateUtil;
 import com.hiberus.employee.directory.vo.Employe;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;

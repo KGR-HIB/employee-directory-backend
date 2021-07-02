@@ -46,7 +46,7 @@ public class UserRepository extends JPAQueryDslBaseRepository<UserEntity> implem
     @Override
     public Integer createOrUpdate(UserEntity userEntity, Integer createdByUser) {
         if (null == userEntity.getId()) {
-            // Encriptar la contraseña
+            // Encriptar la contraseÃ±a
             userEntity.setEmail(userEntity.getEmail().trim());
             userEntity.setCreateDate(DateUtil.currentDate());
             userEntity.setLoginFirstTime(Boolean.FALSE);
