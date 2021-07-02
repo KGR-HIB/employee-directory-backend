@@ -270,24 +270,24 @@ heroku deploy:jar employee-directory-services/build/libs/employee-directory-serv
 
 ```json
 {
-	"name": "Luis Miguel",
-  "lastName": "Rodríguez Paredes",
-  "mail": "lrodriguez@hiberus.com",
-  "phone": "593996123456",
-  "deparment": {
-    "id": null,
-    "name": "Nombre"
-  },
-  "position": {
-    "id": null,
-    "name": "Nombre"
-  },
-  "city": {
-    "id": null,
-    "name": "Nombre"
-  },
-  "immediateChiefId": 1,
-  "password": "12341"
+    "name": "LEO",
+    "lastName": "Messi",
+    "phone": "593996123456",
+    "department": {
+        "name": "FIFA"
+    },
+    "position": {
+        "name": "Delantero"
+    },
+    "city": {
+        "name": "Rosario"
+    },
+    "user": {
+        "email": "messi@hiberus.com",
+        "password": "Password01",
+        "roleId": 1
+    },
+    "immediateChiefId": 1
 }
 ```
 
