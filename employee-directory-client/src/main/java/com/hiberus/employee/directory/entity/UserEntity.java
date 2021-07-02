@@ -32,6 +32,11 @@ import lombok.Setter;
 public class UserEntity extends AbstractBaseAuditable {
 
     /**
+     * serialVersionUID.
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
      * User id
      */
     @Id
@@ -52,10 +57,17 @@ public class UserEntity extends AbstractBaseAuditable {
     private String password;
 
     /**
-     * True if the user has already login the system for the first time, false otherwise
+     * True if the user has already login the system for the first time, false
+     * otherwise
      */
     @Column(name = "LOGIN_FIRST_TIME", columnDefinition = "tinyint default 0")
     private Boolean loginFirstTime;
+
+    /**
+     * RoleId.
+     */
+    @Column(name = "ROLE_ID", nullable = false, updatable = false)
+    private Integer roleId;
 
     /**
      * Role

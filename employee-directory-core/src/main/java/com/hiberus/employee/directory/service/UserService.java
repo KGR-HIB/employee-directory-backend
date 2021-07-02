@@ -23,4 +23,12 @@ public class UserService extends BaseService<UserEntity, IUserRepository> implem
     public User login(User request) {
         return this.repository.login(request);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Boolean existsByMail(String email) {
+        return this.repository.existsByMail(email);
+    }
 }

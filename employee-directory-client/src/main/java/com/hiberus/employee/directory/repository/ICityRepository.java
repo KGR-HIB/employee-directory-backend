@@ -18,4 +18,22 @@ public interface ICityRepository extends IQueryDslBaseRepository<CityEntity> {
      * @return List cities
      */
     List<CityEntity> findAll();
+
+    /**
+     * Crea ciudad si no existe.
+     * 
+     * @author acachiguango on 01/07/2021
+     * @param cityEntity CityEntity
+     * @param createdByUser id
+     * @return id ciudad
+     */
+    Integer createByName(CityEntity cityEntity, Integer createdByUser);
+
+    /**
+     * Crea ciudad.
+     * 
+     * @author acachiguango on 01/07/2021
+     * @param cityEntity CityEntity
+     */
+    void create(CityEntity cityEntity);
 }

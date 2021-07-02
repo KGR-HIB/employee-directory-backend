@@ -13,20 +13,12 @@ import com.hiberus.employee.directory.vo.Employe;
 public interface IEmployeService {
 
     /**
-     * Crea empleado.
+     * Crea o actualiza empleado.
      * 
      * @author acachiguango on 01/07/2021
      * @param employeeEntity EmployeeEntity
      */
-    void create(EmployeeEntity employeeEntity);
-
-    /**
-     * Actualiza empleado.
-     * 
-     * @author acachiguango on 01/07/2021
-     * @param employeeEntity EmployeeEntity
-     */
-    void update(EmployeeEntity employeeEntity);
+    void createOrUpdate(EmployeeEntity employeeEntity);
 
     /**
      * Find employees by name, lastName and email

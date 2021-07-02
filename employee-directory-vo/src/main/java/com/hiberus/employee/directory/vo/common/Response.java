@@ -23,4 +23,9 @@ public class Response<T> {
      * Message to response
      */
     private String message;
+
+    /**
+     * Code to response
+     */
+    private Integer code;
 }

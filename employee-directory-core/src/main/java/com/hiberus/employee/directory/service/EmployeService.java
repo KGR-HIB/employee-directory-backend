@@ -2,7 +2,11 @@ package com.hiberus.employee.directory.service;
 
 import java.util.List;
 import com.hiberus.employee.directory.entity.EmployeeEntity;
+import com.hiberus.employee.directory.repository.ICityRepository;
+import com.hiberus.employee.directory.repository.IDepartmentRepository;
 import com.hiberus.employee.directory.repository.IEmployeRepository;
+import com.hiberus.employee.directory.repository.IPositionRepository;
+import com.hiberus.employee.directory.repository.IUserRepository;
 import com.hiberus.employee.directory.service.common.BaseService;
 import com.hiberus.employee.directory.vo.Employe;
 import org.springframework.context.annotation.Lazy;
@@ -17,7 +21,24 @@ import org.springframework.stereotype.Service;
  */
 @Lazy
 @Service
+@Transactional
 public class EmployeService extends BaseService<EmployeeEntity, IEmployeRepository> implements IEmployeService {
+
+    @Lazy
+    @Autowired
+    private ICityRepository cityRepository;
+
+    @Lazy
+    @Autowired
+    private IPositionRepository positionRepository;
+
+    @Lazy
+    @Autowired
+    private IDepartmentRepository deptRepository;
+
+    @Lazy
+    @Autowired
+    private IUserRepository userRepository;
 
     /**
      * Constructor.
@@ -32,17 +53,18 @@ public class EmployeService extends BaseService<EmployeeEntity, IEmployeReposito
      * {@inheritDoc}
      */
     @Override
-    public void create(EmployeeEntity employeeEntity) {
-        this.repository.create(employeeEntity);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void update(EmployeeEntity employeeEntity) {
-        this.repository.updateValues(employeeEntity);
-
+    public void createOrUpdate(EmployeeEntity employeeEntity) {
+        Integer createdByUser = employeeEntity.getCreatedByUser();
+        employeeEntity.setCityId(this.cityRepository.createByName(employeeEntity.getCity(), createdByUser));
+        employeeEntity.setPositionId(this.positionRepository.createByName(employeeEntity.getPosition(), createdByUser));
+        employeeEntity.setDepartmentId(this.deptRepository.createByName(employeeEntity.getDepartment(), createdByUser));
+        employeeEntity.setUserId(this.userRepository.createOrUpdate(employeeEntity.getUser(), createdByUser));
+        if (null == employeeEntity.getId()) {
+            this.repository.create(employeeEntity);
+        } else {
+            employeeEntity.setLastModifiedByUser(createdByUser);
+            this.repository.updateValues(employeeEntity);
+        }
     }
 
     /**

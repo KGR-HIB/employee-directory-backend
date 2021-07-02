@@ -51,7 +51,7 @@ heroku deploy:jar employee-directory-services/build/libs/employee-directory-serv
 | Employee      | Employee list                              | GET    | /api/v1/employees?query={query}                  |                       | Response<[SimpleEmployee]>      | ✅       |
 | Employee      | Page employee list                         | POST   | /api/v1/employees/page?query={query}&page={page} | EmployeFilter         | Response<PageEmployees>         |         |
 | Employee      | Get info employee                          | GET    | /api/v1/employees/{id}                           |                       | Response<[Employee]>            |         |
-| Employee      | Create employee                            | POST   | /api/v1/employees/create                         | EmployeeManage        | Response<null>                  |         |
+| Employee      | Create employee                            | POST   | /api/v1/employees/createOrUpdate                 | EmployeeManage        | Response<null>                  | ✅        |
 | Employee      | Update primary information for an employee | PUT    | /api/v1/employees                                | EmployeeManage        | Response<null>                  |         |
 | Employee      | Add a project to an employee               | POST   | /api/v1/employees/projects                       | EmployeeProject       | Response<EmployeeProject>       |         |
 | Employee      | Remove a project to an employee            | DELETE | /api/v1/employees/projects/{id}                  |                       | Response<null>                  |         |
@@ -270,24 +270,24 @@ heroku deploy:jar employee-directory-services/build/libs/employee-directory-serv
 
 ```json
 {
-	"name": "Luis Miguel",
-  "lastName": "Rodríguez Paredes",
-  "mail": "lrodriguez@hiberus.com",
-  "phone": "593996123456",
-  "deparment": {
-    "id": null,
-    "name": "Nombre"
-  },
-  "position": {
-    "id": null,
-    "name": "Nombre"
-  },
-  "city": {
-    "id": null,
-    "name": "Nombre"
-  },
-  "immediateChiefId": 1,
-  "password": "12341"
+    "name": "LEO",
+    "lastName": "Messi",
+    "phone": "593996123456",
+    "department": {
+        "name": "FIFA"
+    },
+    "position": {
+        "name": "Delantero"
+    },
+    "city": {
+        "name": "Rosario"
+    },
+    "user": {
+        "email": "messi@hiberus.com",
+        "password": "Password01",
+        "roleId": 1
+    },
+    "immediateChiefId": 1
 }
 ```
 

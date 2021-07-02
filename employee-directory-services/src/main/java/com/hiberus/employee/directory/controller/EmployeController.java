@@ -18,7 +18,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,19 +44,28 @@ public class EmployeController {
     @Getter
     private IEmployeService employeService;
 
+    @Lazy
+    @Autowired
+    @Getter
+    private IUserService userService;
+
     /**
-     * Crea empleado;
+     * Crea empleado.
      * 
      * @author acachiguango on 01/07/2021
      * @param request EmployeeEntity
      * @return Response<Employe>
      */
-    @PostMapping("/create")
-    public ResponseEntity<Response<Employe>> create(@Valid @RequestBody EmployeeEntity request) {
+    @PostMapping("/createOrUpdate")
+    public ResponseEntity<Response<Employe>> createOrUpdate(@RequestBody EmployeeEntity request) {
+        if (null == request.getUser().getId() && this.userService.existsByMail(request.getUser().getEmail())) {
+            return ResponseEntity.ok()
+                .body(Response.<Employe>builder().code(1).message("User already exists.").build());
+        }
         request.setCreatedByUser(AuthSecurityUtil.getUserLogin().getId());
-        this.employeService.create(request);
-        return new ResponseEntity<>(
-            Response.<Employe>builder().data(Employe.builder().id(request.getId()).build()).build(), HttpStatus.OK);
+        this.employeService.createOrUpdate(request);
+        return ResponseEntity.ok().body(Response.<Employe>builder().data(Employe.builder().id(request.getId()).build())
+            .code(200).message("success").build());
     }
 
     /**
