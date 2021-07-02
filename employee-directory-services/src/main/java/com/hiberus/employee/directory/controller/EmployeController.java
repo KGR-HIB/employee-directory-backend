@@ -82,7 +82,7 @@ public class EmployeController {
      * @param query Query to find
      * @return List of employees
      */
-    @GetMapping("/{query}")
+    @GetMapping
     @Operation(summary = "Find the employees that contain as names, surnames or email, the query parameter")
     @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "List of employees",
         content = { @Content(mediaType = "application/json",
@@ -99,9 +99,16 @@ public class EmployeController {
         content = { @Content(mediaType = "application/json",
             array = @ArraySchema(schema = @Schema(implementation = Employe.class))) }) })
     public ResponseEntity<Response<Employe>> addProject(@RequestBody EmployeProjectRequest request) {
-        
-        
+
         return null;
     }
 
+    @GetMapping("/{id}")
+    @Operation(summary = "Get information of Employee's sheet")
+    @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Employee's sheet",
+        content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Employe.class)) }) })
+    public ResponseEntity<Response<Employe>> getSheetEmployee(@NotBlank @PathVariable Integer id) {
+        return new ResponseEntity<>(Response.<Employe>builder().data(this.employeService.getSheetEmployee(id)).build(),
+            HttpStatus.OK);
+    }
 }

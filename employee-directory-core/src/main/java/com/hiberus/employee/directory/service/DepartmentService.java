@@ -4,6 +4,7 @@ import java.util.List;
 import com.hiberus.employee.directory.entity.DepartmentEntity;
 import com.hiberus.employee.directory.repository.IDepartmentRepository;
 import com.hiberus.employee.directory.service.common.BaseService;
+import com.hiberus.employee.directory.vo.Department;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -24,7 +25,7 @@ public class DepartmentService extends BaseService<DepartmentEntity, IDepartment
     }
 
     @Override
-    public List<DepartmentEntity> findAll() {
+    public List<Department> findAll() {
         return repository.findAll();
     }
 }

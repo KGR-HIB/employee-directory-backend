@@ -3,6 +3,7 @@ package com.hiberus.employee.directory.service;
 import java.util.List;
 import com.hiberus.employee.directory.entity.PositionEntity;
 import com.hiberus.employee.directory.service.common.IBaseService;
+import com.hiberus.employee.directory.vo.Position;
 
 /**
  * Position service interface
@@ -17,5 +18,5 @@ public interface IPositionService extends IBaseService<PositionEntity> {
      *
      * @return List of departments
      */
-    List<PositionEntity> findAll();
+    List<Position> findAll();
 }

@@ -1,9 +1,8 @@
 package com.hiberus.employee.directory.controller;
 
 import java.util.List;
-import com.hiberus.employee.directory.mapper.CityResponseMapper;
 import com.hiberus.employee.directory.service.ICityService;
-import com.hiberus.employee.directory.vo.CityResponse;
+import com.hiberus.employee.directory.vo.City;
 import com.hiberus.employee.directory.vo.common.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -48,14 +47,12 @@ public class CityController {
     @Operation(summary = "Get all cities")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "List all cities",
-            content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = CityResponse.class)))}
+            content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = City.class)))}
         )
     })
-    public ResponseEntity<Response<List<CityResponse>>> findAll() {
-        List<CityResponse> cityResponses = CityResponseMapper.MAPPER.toVOList(cityService.findAll());
-        Response<List<CityResponse>> response = Response.<List<CityResponse>>builder()
-            .data(cityResponses)
-            .build();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Response<List<City>>> findAll() {
+        return new ResponseEntity<>(Response.<List<City>>builder()
+            .data(cityService.findAll())
+            .build(), HttpStatus.OK);
     }
 }

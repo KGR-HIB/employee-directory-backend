@@ -1,9 +1,8 @@
 package com.hiberus.employee.directory.controller;
 
 import java.util.List;
-import com.hiberus.employee.directory.mapper.DepartmentResponseMapper;
 import com.hiberus.employee.directory.service.IDepartmentService;
-import com.hiberus.employee.directory.vo.DepartmentResponse;
+import com.hiberus.employee.directory.vo.Department;
 import com.hiberus.employee.directory.vo.common.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -48,14 +47,12 @@ public class DepartmentController {
     @Operation(summary = "Get all departments")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "List all departments",
-            content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = DepartmentResponse.class)))}
+            content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Department.class)))}
         )
     })
-    public ResponseEntity<Response<List<DepartmentResponse>>> findAll() {
-        List<DepartmentResponse> departmentResponses = DepartmentResponseMapper.MAPPER.toVOList(departmentService.findAll());
-        Response<List<DepartmentResponse>> response = Response.<List<DepartmentResponse>>builder()
-            .data(departmentResponses)
-            .build();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Response<List<Department>>> findAll() {
+        return new ResponseEntity<>(Response.<List<Department>>builder()
+            .data(departmentService.findAll())
+            .build(), HttpStatus.OK);
     }
 }

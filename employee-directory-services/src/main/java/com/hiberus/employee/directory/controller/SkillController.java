@@ -1,9 +1,8 @@
 package com.hiberus.employee.directory.controller;
 
 import java.util.List;
-import com.hiberus.employee.directory.mapper.SkillResponseMapper;
 import com.hiberus.employee.directory.service.ISkillService;
-import com.hiberus.employee.directory.vo.SkillResponse;
+import com.hiberus.employee.directory.vo.Skill;
 import com.hiberus.employee.directory.vo.common.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -43,14 +42,12 @@ public class SkillController {
     @Operation(summary = "Get all skills")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "List all skills",
-            content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = SkillResponse.class))) }
+            content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Skill.class))) }
         )
     })
-    public ResponseEntity<Response<List<SkillResponse>>> findAll() {
-        List<SkillResponse> skillResponses = SkillResponseMapper.MAPPER.toVOList(skillService.findAll());
-        Response<List<SkillResponse>> response = Response.<List<SkillResponse>>builder()
-            .data(skillResponses)
-            .build();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Response<List<Skill>>> findAll() {
+        return new ResponseEntity<>(Response.<List<Skill>>builder()
+            .data(skillService.findAll())
+            .build(), HttpStatus.OK);
     }
 }

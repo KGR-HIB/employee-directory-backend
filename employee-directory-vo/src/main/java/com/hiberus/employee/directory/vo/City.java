@@ -1,27 +1,29 @@
 package com.hiberus.employee.directory.vo;
 
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
- * Vo response for Position
+ * Vo response for city
  *
  * @author bcueva
  * @version 1.0
  */
+@Data
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
-@Setter
-@Getter
-public class PositionResponse {
+public class City {
 
     /**
-     * Position id
+     * Id of city
      */
     private Integer id;
 
     /**
-     * Position's name
+     * Name of city
      */
     private String name;
 }

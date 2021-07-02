@@ -4,6 +4,7 @@ import java.util.List;
 import com.hiberus.employee.directory.entity.SkillEntity;
 import com.hiberus.employee.directory.repository.ISkillRepository;
 import com.hiberus.employee.directory.service.common.BaseService;
+import com.hiberus.employee.directory.vo.Skill;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -24,7 +25,7 @@ public class SkillService extends BaseService<SkillEntity, ISkillRepository> imp
     }
 
     @Override
-    public List<SkillEntity> findAll() {
+    public List<Skill> findAll() {
         return repository.findAll();
     }
 }

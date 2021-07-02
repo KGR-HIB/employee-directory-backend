@@ -35,5 +35,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests().antMatchers("/api/v1/auth/login").permitAll().anyRequest().authenticated();
         http.exceptionHandling().accessDeniedHandler(this.authAccessDeniedHandler)
             .authenticationEntryPoint(this.authEntryPoint);
+        http.cors();
     }
 }

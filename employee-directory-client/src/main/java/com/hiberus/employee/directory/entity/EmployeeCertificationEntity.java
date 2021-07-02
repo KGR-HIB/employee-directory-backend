@@ -34,7 +34,14 @@ public class EmployeeCertificationEntity extends AbstractBaseAuditable {
     @Column(name = "EMPCER_ID")
     private Integer id;
 
+    /**
+     * Id of employee
+     */
+    @Column(name = "EMPLOYEE_ID")
+    private Integer employeeId;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CERTIFICATION_ID", referencedColumnName = "CERTIFICATION_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "CERTIFICATION_ID", referencedColumnName = "CERTIFICATION_ID", insertable = false,
+        updatable = false)
     private CertificationEntity certification;
 }

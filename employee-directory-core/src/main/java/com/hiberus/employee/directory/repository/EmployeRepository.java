@@ -1,15 +1,22 @@
 package com.hiberus.employee.directory.repository;
 
 import static com.hiberus.employee.directory.entity.QEmployeeEntity.employeeEntity;
-import static com.hiberus.employee.directory.entity.QUserEntity.userEntity;
 import static com.querydsl.core.types.Projections.bean;
 
 import java.util.List;
 import com.hiberus.employee.directory.entity.EmployeeEntity;
+import com.hiberus.employee.directory.entity.QCityEntity;
+import com.hiberus.employee.directory.entity.QDepartmentEntity;
 import com.hiberus.employee.directory.entity.QEmployeeEntity;
+import com.hiberus.employee.directory.entity.QPositionEntity;
+import com.hiberus.employee.directory.entity.QUserEntity;
 import com.hiberus.employee.directory.repository.common.JPAQueryDslBaseRepository;
 import com.hiberus.employee.directory.util.DateUtil;
+import com.hiberus.employee.directory.vo.City;
+import com.hiberus.employee.directory.vo.Department;
 import com.hiberus.employee.directory.vo.Employe;
+import com.hiberus.employee.directory.vo.Position;
+import com.hiberus.employee.directory.vo.User;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
 import org.springframework.context.annotation.Lazy;
@@ -73,22 +80,57 @@ public class EmployeRepository extends JPAQueryDslBaseRepository<EmployeeEntity>
      */
     @Override
     public List<Employe> findByNamesAndEmail(String query) {
-        JPQLQuery<Employe> jpaQuery =
-            from(employeeEntity).select(bean(Employe.class,employeeEntity.id, employeeEntity.name, employeeEntity.lastName, userEntity.email))
-            .join(employeeEntity.user, userEntity);
+        QUserEntity qUserEntity = QUserEntity.userEntity;
+        JPQLQuery<Employe> jpaQuery = from(employeeEntity)
+            .select(bean(Employe.class,employeeEntity.id, employeeEntity.name, employeeEntity.lastName))
+            .join(employeeEntity.user, qUserEntity);
 
         jpaQuery.where(
             employeeEntity.status.eq(Boolean.TRUE)
                 .and(
                     employeeEntity.name.containsIgnoreCase(query)
                         .or(employeeEntity.lastName.containsIgnoreCase(query))
-                        .or(userEntity.email.containsIgnoreCase(query))
+                        .or(qUserEntity.email.containsIgnoreCase(query))
                 )
             );
 
         jpaQuery.orderBy(employeeEntity.name.asc(), employeeEntity.lastName.asc());
 
         return jpaQuery.fetch();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Employe findEmployeeMainInformationById(Integer id) {
+        QCityEntity qCityEntity = QCityEntity.cityEntity;
+        QDepartmentEntity qDepartmentEntity = QDepartmentEntity.departmentEntity;
+        QPositionEntity qPositionEntity = QPositionEntity.positionEntity;
+        QUserEntity qUserEntity = QUserEntity.userEntity;
+        QEmployeeEntity qEmployeeChief = new QEmployeeEntity("chief");
+
+        JPQLQuery<Employe> jpqlQuery = from(employeeEntity)
+            .select(bean(Employe.class, employeeEntity.id, employeeEntity.name, employeeEntity.lastName, employeeEntity.phone,
+                bean(City.class, qCityEntity.id, qCityEntity.name).as("city"),
+                bean(Department.class, qDepartmentEntity.id, qDepartmentEntity.name).as("department"),
+                bean(Position.class, qPositionEntity.id, qPositionEntity.name).as("position"),
+                bean(User.class, qUserEntity.id, qUserEntity.email).as("user"),
+                bean(Employe.class, qEmployeeChief.id, qEmployeeChief.name, qEmployeeChief.lastName).as("immediateChief")
+            ));
+
+        jpqlQuery.leftJoin(employeeEntity.city, qCityEntity)
+            .leftJoin(employeeEntity.department, qDepartmentEntity)
+            .leftJoin(employeeEntity.position, qPositionEntity)
+            .leftJoin(employeeEntity.user, qUserEntity)
+            .leftJoin(qEmployeeChief).on(employeeEntity.immediateChiefId.eq(qEmployeeChief.id));
+
+        jpqlQuery.where(
+            employeeEntity.id.eq(id)
+                .and(employeeEntity.status.eq(Boolean.TRUE))
+        );
+
+        return jpqlQuery.fetchFirst();
     }
 
 }

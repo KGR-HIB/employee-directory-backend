@@ -27,6 +27,7 @@ public interface IBaseService<T> {
 
     /**
      * Find entity by id
+     * 
      * @param id Id of entity
      * @return Entity instance
      */

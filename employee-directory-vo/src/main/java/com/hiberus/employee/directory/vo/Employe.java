@@ -1,5 +1,6 @@
 package com.hiberus.employee.directory.vo;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,5 +23,12 @@ public class Employe {
     private String lastName;
     private String phone;
     private String photoPath;
-    private String email;
+    private City city;
+    private Department department;
+    private Position position;
+    private Employe immediateChief;
+    private User user;
+    private List<Project> projects;
+    private List<Certification> certifications;
+    private List<Skill> skills;
 }

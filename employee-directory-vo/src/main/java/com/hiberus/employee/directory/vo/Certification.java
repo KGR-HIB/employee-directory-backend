@@ -1,27 +1,32 @@
 package com.hiberus.employee.directory.vo;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Vo response for Department
+ * VO response Certification
  *
  * @author bcueva
  * @version 1.0
  */
+@Data
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
-@Setter
-@Getter
-public class DepartmentResponse {
+public class Certification {
 
     /**
-     * Id of department
+     * Id of certification
      */
     private Integer id;
 
     /**
-     * Name of department
+     * Name of certification
      */
     private String name;
+
 }

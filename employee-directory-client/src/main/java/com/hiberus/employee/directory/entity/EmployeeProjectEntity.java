@@ -42,8 +42,11 @@ public class EmployeeProjectEntity extends AbstractBaseAuditable {
     @Column(name = "PROJECT_ID")
     private Integer projectId;
 
-    @Column(name = "EMPLOYEE_ID", nullable = false, updatable = false)
-    private Integer employeId;
+    /**
+     * Id of employee
+     */
+    @Column(name = "EMPLOYEE_ID")
+    private Integer employeeId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PROJECT_ID", referencedColumnName = "PROJECT_ID", insertable = false, updatable = false)

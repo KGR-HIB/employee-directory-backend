@@ -28,4 +28,12 @@ public interface IEmployeService {
      * @return List of employees
      */
     List<Employe> findByNamesAndEmail(String query);
+
+    /**
+     * Get Sheet of employee
+     *
+     * @param id Id of employee
+     * @return Employee
+     */
+    Employe getSheetEmployee(Integer id);
 }

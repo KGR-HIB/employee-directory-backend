@@ -7,6 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import com.hiberus.employee.directory.entity.ProjectEntity;
 import com.hiberus.employee.directory.repository.IProjectRepository;
 import com.hiberus.employee.directory.service.common.BaseService;
+import com.hiberus.employee.directory.vo.Project;
 
 /**
  * Project service implements
@@ -27,7 +28,7 @@ public class ProjectService extends BaseService<ProjectEntity, IProjectRepositor
      * {@inheritDoc}
      */
     @Override
-    public List<ProjectEntity> findAll() {
+    public List<Project> findAll() {
         return repository.findAll();
     }
 

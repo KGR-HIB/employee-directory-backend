@@ -2,15 +2,17 @@ package com.hiberus.employee.directory.repository;
 
 import static com.hiberus.employee.directory.entity.QDepartmentEntity.departmentEntity;
 import static com.querydsl.core.types.Projections.bean;
+
 import java.util.List;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Repository;
 import com.hiberus.employee.directory.entity.DepartmentEntity;
 import com.hiberus.employee.directory.repository.common.JPAQueryDslBaseRepository;
 import com.hiberus.employee.directory.util.DateUtil;
 import com.hiberus.employee.directory.util.NameUtil;
+import com.hiberus.employee.directory.vo.Department;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Repository;
 
 /**
  * Department repository implements
@@ -30,8 +32,11 @@ public class DepartmentRepository extends JPAQueryDslBaseRepository<DepartmentEn
      * {@inheritDoc}
      */
     @Override
-    public List<DepartmentEntity> findAll() {
-        return from(departmentEntity).where(departmentEntity.status.eq(Boolean.TRUE)).fetch();
+    public List<Department> findAll() {
+        return from(departmentEntity)
+            .select(bean(Department.class, departmentEntity.id, departmentEntity.name))
+            .where(departmentEntity.status.eq(Boolean.TRUE))
+            .fetch();
     }
 
     /**

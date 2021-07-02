@@ -10,6 +10,7 @@ import com.hiberus.employee.directory.entity.ProjectEntity;
 import com.hiberus.employee.directory.repository.common.JPAQueryDslBaseRepository;
 import com.hiberus.employee.directory.util.DateUtil;
 import com.hiberus.employee.directory.util.NameUtil;
+import com.hiberus.employee.directory.vo.Project;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
 
@@ -31,8 +32,9 @@ public class ProjectRepository extends JPAQueryDslBaseRepository<ProjectEntity> 
      * {@inheritDoc}
      */
     @Override
-    public List<ProjectEntity> findAll() {
-        return from(projectEntity).where(projectEntity.status.eq(Boolean.TRUE)).fetch();
+    public List<Project> findAll() {
+        return from(projectEntity).select(bean(Project.class, projectEntity.id, projectEntity.name))
+            .where(projectEntity.status.eq(Boolean.TRUE)).fetch();
     }
 
     /**

@@ -1,11 +1,8 @@
 package com.hiberus.employee.directory.controller;
 
 import java.util.List;
-import com.hiberus.employee.directory.mapper.CertificationResponseMapper;
-import com.hiberus.employee.directory.security.AuthSecurityUtil;
 import com.hiberus.employee.directory.service.ICertificationService;
-import com.hiberus.employee.directory.vo.CertificationResponse;
-import com.hiberus.employee.directory.vo.User;
+import com.hiberus.employee.directory.vo.Certification;
 import com.hiberus.employee.directory.vo.common.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -47,17 +44,12 @@ public class CertificationController {
     @Operation(summary = "Get all certifications")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "List all certifications",
-            content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = CertificationResponse.class))) }
+            content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Certification.class))) }
         )
     })
-    public ResponseEntity<Response<List<CertificationResponse>>> findAll() {
-        User userLogin = AuthSecurityUtil.getUserLogin();
-        log.info(userLogin.getEmail());
-        
-        List<CertificationResponse> certificationResponses = CertificationResponseMapper.MAPPER.toVOList(certificationService.findAll());
-        Response<List<CertificationResponse>> response = Response.<List<CertificationResponse>>builder()
-            .data(certificationResponses)
-            .build();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Response<List<Certification>>> findAll() {
+        return new ResponseEntity<>(Response.<List<Certification>>builder()
+            .data(certificationService.findAll())
+            .build(), HttpStatus.OK);
     }
 }

@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.hiberus.employee.directory.mapper.ProjectResponseMapper;
 import com.hiberus.employee.directory.service.IProjectService;
 import com.hiberus.employee.directory.vo.Project;
 import com.hiberus.employee.directory.vo.common.Response;
@@ -43,11 +42,10 @@ public class ProjectController {
     @Operation(summary = "Get all projects")
     @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "List all projects",
         content = { @Content(mediaType = "application/json",
-            array = @ArraySchema(schema = @Schema(implementation = Response.class))) }) })
+            array = @ArraySchema(schema = @Schema(implementation = Project.class))) }) })
     public ResponseEntity<Response<List<Project>>> findAll() {
-        List<Project> projectResponses = ProjectResponseMapper.MAPPER.toVOList(projectService.findAll());
-        Response<List<Project>> response = Response.<List<Project>>builder().data(projectResponses).build();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(Response.<List<Project>>builder().data(projectService.findAll()).build(),
+            HttpStatus.OK);
     }
 
 }

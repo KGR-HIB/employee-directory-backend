@@ -3,6 +3,7 @@ package com.hiberus.employee.directory.repository;
 import java.util.List;
 import com.hiberus.employee.directory.entity.DepartmentEntity;
 import com.hiberus.employee.directory.repository.common.IQueryDslBaseRepository;
+import com.hiberus.employee.directory.vo.Department;
 
 /**
  * Department repository interface
@@ -17,7 +18,7 @@ public interface IDepartmentRepository extends IQueryDslBaseRepository<Departmen
      *
      * @return List of departments
      */
-    List<DepartmentEntity> findAll();
+    List<Department> findAll();
 
     /**
      * Crea departamento ssi no existe.

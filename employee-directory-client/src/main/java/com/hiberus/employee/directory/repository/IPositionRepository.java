@@ -3,6 +3,7 @@ package com.hiberus.employee.directory.repository;
 import java.util.List;
 import com.hiberus.employee.directory.entity.PositionEntity;
 import com.hiberus.employee.directory.repository.common.IQueryDslBaseRepository;
+import com.hiberus.employee.directory.vo.Position;
 
 /**
  * Position repository interface
@@ -17,7 +18,7 @@ public interface IPositionRepository extends IQueryDslBaseRepository<PositionEnt
      *
      * @return List of departments
      */
-    List<PositionEntity> findAll();
+    List<Position> findAll();
 
     /**
      * Crea cargo ssi no existe.
