@@ -1,12 +1,12 @@
 package com.hiberus.employee.directory.service;
 
 import java.util.List;
-import com.hiberus.employee.directory.entity.ProjectEntity;
-import com.hiberus.employee.directory.repository.IProjectRepository;
-import com.hiberus.employee.directory.service.common.BaseService;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import com.hiberus.employee.directory.entity.ProjectEntity;
+import com.hiberus.employee.directory.repository.IProjectRepository;
+import com.hiberus.employee.directory.service.common.BaseService;
 
 /**
  * Project service implements
@@ -23,8 +23,19 @@ public class ProjectService extends BaseService<ProjectEntity, IProjectRepositor
         super(repository);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<ProjectEntity> findAll() {
         return repository.findAll();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void createByName(List<ProjectEntity> projects, Integer createdByUser) {
+        this.repository.createByName(projects, createdByUser);
     }
 }

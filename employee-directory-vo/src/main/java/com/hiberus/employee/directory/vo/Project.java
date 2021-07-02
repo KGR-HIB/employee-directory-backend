@@ -13,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class ProjectResponse {
+public class Project {
 
     /**
      * Project id

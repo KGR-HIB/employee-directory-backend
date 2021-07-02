@@ -27,6 +27,11 @@ import lombok.Setter;
 public class ProjectEntity extends AbstractBaseAuditable {
 
     /**
+     * serialVersionUID.
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
      * Project id
      */
     @Id
@@ -35,7 +40,7 @@ public class ProjectEntity extends AbstractBaseAuditable {
     private Integer id;
 
     /**
-     * Project’s name
+     * Project name
      */
     @Column(name = "NAME", nullable = false, unique = true)
     private String name;

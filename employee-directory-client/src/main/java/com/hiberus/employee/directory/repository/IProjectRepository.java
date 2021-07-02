@@ -18,4 +18,22 @@ public interface IProjectRepository extends IQueryDslBaseRepository<ProjectEntit
      * @return List of projects
      */
     List<ProjectEntity> findAll();
+
+    /**
+     * Create tag if it does not exist.
+     * 
+     * @author acachiguango on 02/07/2021
+     * @param projects List ProjectEntity
+     * @param createdByUser user Id
+     * @return List projectIds
+     */
+    List<Integer> createByName(List<ProjectEntity> projects, Integer createdByUser);
+
+    /**
+     * Create project.
+     * 
+     * @author acachiguango on 02/07/2021
+     * @param projectEntity ProjectEntity
+     */
+    void create(ProjectEntity projectEntity);
 }

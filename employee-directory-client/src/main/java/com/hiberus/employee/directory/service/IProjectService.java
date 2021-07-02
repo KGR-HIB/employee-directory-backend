@@ -18,4 +18,13 @@ public interface IProjectService extends IBaseService<ProjectEntity> {
      * @return List of projects
      */
     List<ProjectEntity> findAll();
+
+    /**
+     * Create tag if it does not exist.
+     * 
+     * @author acachiguango on 02/07/2021
+     * @param projects List ProjectEntity
+     * @param createdByUser userId
+     */
+    void createByName(List<ProjectEntity> projects, Integer createdByUser);
 }
