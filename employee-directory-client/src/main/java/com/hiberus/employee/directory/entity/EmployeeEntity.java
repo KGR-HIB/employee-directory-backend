@@ -33,6 +33,11 @@ import lombok.Setter;
 public class EmployeeEntity extends AbstractBaseAuditable {
 
     /**
+     * serialVersionUID.
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
      * Employee id
      */
     @Id
@@ -64,6 +69,21 @@ public class EmployeeEntity extends AbstractBaseAuditable {
     @Column(name = "PHOTO_PATH")
     private String photoPath;
 
+    @Column(name = "CITY_ID")
+    private Integer cityId;
+
+    @Column(name = "POSITION_ID")
+    private Integer positionId;
+
+    @Column(name = "DEPARTMENT_ID")
+    private Integer departmentId;
+
+    @Column(name = "IMMEDIATE_CHIEF_ID")
+    private Integer immediateChiefId;
+
+    @Column(name = "USER_ID")
+    private Integer userId;
+
     /**
      * City where the employee lives
      */
@@ -89,7 +109,8 @@ public class EmployeeEntity extends AbstractBaseAuditable {
      * Immediate chief of the employee
      */
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "IMMEDIATE_CHIEF_ID", referencedColumnName = "EMPLOYEE_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "IMMEDIATE_CHIEF_ID", referencedColumnName = "EMPLOYEE_ID", insertable = false,
+        updatable = false)
     private EmployeeEntity immediateChief;
 
     /**

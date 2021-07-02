@@ -20,4 +20,23 @@ public interface IUserRepository extends IQueryDslBaseRepository<UserEntity> {
      * @return User
      */
     User login(User request);
+
+    /**
+     * Crear o actualiza usuario.
+     * 
+     * @author acahciguango on 01/07/2021
+     * @param userEntity UserEntity
+     * @param createdByUser id
+     * @return id usuario
+     */
+    Integer createOrUpdate(UserEntity userEntity, Integer createdByUser);
+
+    /**
+     * Verifica si ya existe un usuario por correo.
+     * 
+     * @author acachiguango on 02/07/2021
+     * @param email correo
+     * @return Boolean
+     */
+    Boolean existsByMail(String email);
 }

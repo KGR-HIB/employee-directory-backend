@@ -51,7 +51,7 @@ heroku deploy:jar employee-directory-services/build/libs/employee-directory-serv
 | Employee      | Employee list                              | GET    | /api/v1/employees?query={query}                  |                       | Response<[SimpleEmployee]>      |         |
 | Employee      | Page employee list                         | POST   | /api/v1/employees/page?query={query}&page={page} | EmployeFilter         | Response<PageEmployees>         |         |
 | Employee      | Get info employee                          | GET    | /api/v1/employees/{id}                           |                       | Response<[Employee]>            |         |
-| Employee      | Create employee                            | POST   | /api/v1/employees/create                         | EmployeeManage        | Response<null>                  |         |
+| Employee      | Create employee                            | POST   | /api/v1/employees/createOrUpdate                 | EmployeeManage        | Response<null>                  | ✅        |
 | Employee      | Update primary information for an employee | PUT    | /api/v1/employees                                | EmployeeManage        | Response<null>                  |         |
 | Employee      | Add a project to an employee               | POST   | /api/v1/employees/projects                       | EmployeeProject       | Response<EmployeeProject>       |         |
 | Employee      | Remove a project to an employee            | DELETE | /api/v1/employees/projects/{id}                  |                       | Response<null>                  |         |

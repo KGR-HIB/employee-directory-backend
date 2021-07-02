@@ -21,4 +21,13 @@ public interface IUserService extends IBaseService<UserEntity> {
      */
     User login(User request);
 
+    /**
+     * Verifica si ya existe un usuario por correo.
+     * 
+     * @author acachiguango on 02/07/2021
+     * @param email correo
+     * @return Boolean
+     */
+    Boolean existsByMail(String email);
+
 }
