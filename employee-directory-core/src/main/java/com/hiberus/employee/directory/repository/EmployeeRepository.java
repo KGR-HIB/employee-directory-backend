@@ -31,12 +31,12 @@ import org.springframework.stereotype.Repository;
  */
 @Lazy
 @Repository
-public class EmployeRepository extends JPAQueryDslBaseRepository<EmployeeEntity> implements IEmployeRepository {
+public class EmployeeRepository extends JPAQueryDslBaseRepository<EmployeeEntity> implements IEmployeeRepository {
 
     /**
      * Constructor.
      */
-    public EmployeRepository() {
+    public EmployeeRepository() {
         super(EmployeeEntity.class);
     }
 

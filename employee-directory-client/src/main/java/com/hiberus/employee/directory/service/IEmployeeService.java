@@ -10,7 +10,7 @@ import com.hiberus.employee.directory.vo.Employe;
  * @author acachiguango on 01/07/2021
  * @version 1.0
  */
-public interface IEmployeService {
+public interface IEmployeeService {
 
     /**
      * Crea o actualiza empleado.

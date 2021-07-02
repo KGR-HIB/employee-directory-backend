@@ -5,7 +5,7 @@ import javax.transaction.Transactional;
 import com.hiberus.employee.directory.entity.EmployeeEntity;
 import com.hiberus.employee.directory.repository.ICityRepository;
 import com.hiberus.employee.directory.repository.IDepartmentRepository;
-import com.hiberus.employee.directory.repository.IEmployeRepository;
+import com.hiberus.employee.directory.repository.IEmployeeRepository;
 import com.hiberus.employee.directory.repository.IEmployeeCertificationRepository;
 import com.hiberus.employee.directory.repository.IEmployeeProjectRepository;
 import com.hiberus.employee.directory.repository.IEmployeeSkillRepository;
@@ -30,7 +30,7 @@ import org.springframework.stereotype.Service;
 @Lazy
 @Service
 @Transactional
-public class EmployeService extends BaseService<EmployeeEntity, IEmployeRepository> implements IEmployeService {
+public class EmployeeService extends BaseService<EmployeeEntity, IEmployeeRepository> implements IEmployeeService {
 
     @Lazy
     @Autowired
@@ -65,7 +65,7 @@ public class EmployeService extends BaseService<EmployeeEntity, IEmployeReposito
      * 
      * @param repository IEmployeRepository
      */
-    public EmployeService(IEmployeRepository repository) {
+    public EmployeeService(IEmployeeRepository repository) {
         super(repository);
     }
 

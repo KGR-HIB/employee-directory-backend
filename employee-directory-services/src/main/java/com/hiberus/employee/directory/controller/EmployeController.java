@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.hiberus.employee.directory.entity.EmployeeEntity;
 import com.hiberus.employee.directory.security.AuthSecurityUtil;
-import com.hiberus.employee.directory.service.IEmployeService;
+import com.hiberus.employee.directory.service.IEmployeeService;
 import com.hiberus.employee.directory.service.IUserService;
 import com.hiberus.employee.directory.vo.Employe;
 import com.hiberus.employee.directory.vo.EmployeProjectRequest;
@@ -44,7 +44,7 @@ public class EmployeController {
     @Lazy
     @Autowired
     @Getter
-    private IEmployeService employeService;
+    private IEmployeeService employeService;
 
     @Lazy
     @Autowired

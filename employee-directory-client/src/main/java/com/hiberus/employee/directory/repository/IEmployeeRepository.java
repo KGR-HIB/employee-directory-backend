@@ -12,7 +12,7 @@ import com.hiberus.employee.directory.vo.Employe;
  * @version 1.0
  * @since 1.0.0
  */
-public interface IEmployeRepository extends IQueryDslBaseRepository<EmployeeEntity> {
+public interface IEmployeeRepository extends IQueryDslBaseRepository<EmployeeEntity> {
     /**
      * Crea empleado.
      * 
