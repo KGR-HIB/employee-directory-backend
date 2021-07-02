@@ -1,9 +1,8 @@
 package com.hiberus.employee.directory.controller;
 
 import java.util.List;
-import com.hiberus.employee.directory.mapper.PositionResponseMapper;
 import com.hiberus.employee.directory.service.IPositionService;
-import com.hiberus.employee.directory.vo.PositionResponse;
+import com.hiberus.employee.directory.vo.Position;
 import com.hiberus.employee.directory.vo.common.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -48,14 +47,12 @@ public class PositionController {
     @Operation(summary = "Get all positions")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "List all positions",
-            content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = PositionResponse.class)))}
+            content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Position.class)))}
         )
     })
-    public ResponseEntity<Response<List<PositionResponse>>> findAll() {
-        List<PositionResponse> positionResponses = PositionResponseMapper.MAPPER.toVOList(positionService.findAll());
-        Response<List<PositionResponse>> response = Response.<List<PositionResponse>>builder()
-            .data(positionResponses)
-            .build();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Response<List<Position>>> findAll() {
+        return new ResponseEntity<>(Response.<List<Position>>builder()
+            .data(positionService.findAll())
+            .build(), HttpStatus.OK);
     }
 }

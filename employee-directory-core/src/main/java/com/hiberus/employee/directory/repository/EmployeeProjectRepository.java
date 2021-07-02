@@ -9,6 +9,8 @@ import com.hiberus.employee.directory.entity.EmployeeProjectEntity;
 import com.hiberus.employee.directory.repository.common.JPAQueryDslBaseRepository;
 import com.hiberus.employee.directory.vo.Project;
 import com.querydsl.jpa.JPQLQuery;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Repository;
 
 /**
  * Repository for Projects of an employee
@@ -16,6 +18,8 @@ import com.querydsl.jpa.JPQLQuery;
  * @author bcueva
  * @version 1.0
  */
+@Lazy
+@Repository
 public class EmployeeProjectRepository extends JPAQueryDslBaseRepository<EmployeeProjectEntity> implements IEmployeeProjectRepository {
 
     public EmployeeProjectRepository() {

@@ -3,6 +3,7 @@ package com.hiberus.employee.directory.repository;
 import java.util.List;
 import com.hiberus.employee.directory.entity.CityEntity;
 import com.hiberus.employee.directory.repository.common.IQueryDslBaseRepository;
+import com.hiberus.employee.directory.vo.City;
 
 /**
  * City repository interface
@@ -17,7 +18,7 @@ public interface ICityRepository extends IQueryDslBaseRepository<CityEntity> {
      *
      * @return List cities
      */
-    List<CityEntity> findAll();
+    List<City> findAll();
 
     /**
      * Crea ciudad si no existe.

@@ -3,6 +3,7 @@ package com.hiberus.employee.directory.service;
 import java.util.List;
 import com.hiberus.employee.directory.entity.DepartmentEntity;
 import com.hiberus.employee.directory.service.common.IBaseService;
+import com.hiberus.employee.directory.vo.Department;
 
 /**
  * Department service interface
@@ -17,5 +18,5 @@ public interface IDepartmentService extends IBaseService<DepartmentEntity> {
      *
      * @return List of departments
      */
-    List<DepartmentEntity> findAll();
+    List<Department> findAll();
 }

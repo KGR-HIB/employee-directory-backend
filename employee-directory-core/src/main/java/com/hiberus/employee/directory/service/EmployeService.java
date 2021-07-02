@@ -6,10 +6,16 @@ import com.hiberus.employee.directory.entity.EmployeeEntity;
 import com.hiberus.employee.directory.repository.ICityRepository;
 import com.hiberus.employee.directory.repository.IDepartmentRepository;
 import com.hiberus.employee.directory.repository.IEmployeRepository;
+import com.hiberus.employee.directory.repository.IEmployeeCertificationRepository;
+import com.hiberus.employee.directory.repository.IEmployeeProjectRepository;
+import com.hiberus.employee.directory.repository.IEmployeeSkillRepository;
 import com.hiberus.employee.directory.repository.IPositionRepository;
 import com.hiberus.employee.directory.repository.IUserRepository;
 import com.hiberus.employee.directory.service.common.BaseService;
+import com.hiberus.employee.directory.vo.Certification;
 import com.hiberus.employee.directory.vo.Employe;
+import com.hiberus.employee.directory.vo.Project;
+import com.hiberus.employee.directory.vo.Skill;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -41,6 +47,18 @@ public class EmployeService extends BaseService<EmployeeEntity, IEmployeReposito
     @Lazy
     @Autowired
     private IUserRepository userRepository;
+
+    @Lazy
+    @Autowired
+    private IEmployeeProjectRepository employeeProjectRepository;
+
+    @Lazy
+    @Autowired
+    private IEmployeeCertificationRepository employeeCertificationRepository;
+
+    @Lazy
+    @Autowired
+    private IEmployeeSkillRepository employeeSkillRepository;
 
     /**
      * Constructor.
@@ -75,6 +93,25 @@ public class EmployeService extends BaseService<EmployeeEntity, IEmployeReposito
     @Override
     public List<Employe> findByNamesAndEmail(String query) {
         return this.repository.findByNamesAndEmail(query);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Employe getSheetEmployee(Integer id) {
+        // Get employee's principal information
+        Employe employee = this.repository.findEmployeeMainInformationById(id);
+        // Get projects assigned to the employee
+        List<Project> projectList = this.employeeProjectRepository.findByEmployeeId(id);
+        employee.setProjects(projectList);
+        // Get certifications assigned to the employee
+        List<Certification> certificationList = this.employeeCertificationRepository.findByEmployeeId(id);
+        employee.setCertifications(certificationList);
+        // Get Skills has employee
+        List<Skill> skillList = this.employeeSkillRepository.findByEmployeeId(id);
+        employee.setSkills(skillList);
+        return employee;
     }
 
 }

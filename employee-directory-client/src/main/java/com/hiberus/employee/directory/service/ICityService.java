@@ -3,6 +3,7 @@ package com.hiberus.employee.directory.service;
 import java.util.List;
 import com.hiberus.employee.directory.entity.CityEntity;
 import com.hiberus.employee.directory.service.common.IBaseService;
+import com.hiberus.employee.directory.vo.City;
 
 /**
  * City service interface
@@ -17,5 +18,5 @@ public interface ICityService extends IBaseService<CityEntity> {
      *
      * @return List of cities
      */
-    List<CityEntity> findAll();
+    List<City> findAll();
 }

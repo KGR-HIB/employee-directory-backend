@@ -2,15 +2,17 @@ package com.hiberus.employee.directory.repository;
 
 import static com.hiberus.employee.directory.entity.QCityEntity.cityEntity;
 import static com.querydsl.core.types.Projections.bean;
+
 import java.util.List;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Repository;
 import com.hiberus.employee.directory.entity.CityEntity;
 import com.hiberus.employee.directory.repository.common.JPAQueryDslBaseRepository;
 import com.hiberus.employee.directory.util.DateUtil;
 import com.hiberus.employee.directory.util.NameUtil;
+import com.hiberus.employee.directory.vo.City;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Repository;
 
 /**
  * City repository implements
@@ -27,8 +29,11 @@ public class CityRepository extends JPAQueryDslBaseRepository<CityEntity> implem
     }
 
     @Override
-    public List<CityEntity> findAll() {
-        return from(cityEntity).where(cityEntity.status.eq(Boolean.TRUE)).fetch();
+    public List<City> findAll() {
+        return from(cityEntity)
+            .select(bean(City.class, cityEntity.id, cityEntity.name))
+            .where(cityEntity.status.eq(Boolean.TRUE))
+            .fetch();
     }
 
     /**

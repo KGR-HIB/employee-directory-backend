@@ -1,7 +1,6 @@
 package com.hiberus.employee.directory.controller;
 
 import java.util.List;
-import com.hiberus.employee.directory.mapper.SkillResponseMapper;
 import com.hiberus.employee.directory.service.ISkillService;
 import com.hiberus.employee.directory.vo.Skill;
 import com.hiberus.employee.directory.vo.common.Response;
@@ -47,10 +46,8 @@ public class SkillController {
         )
     })
     public ResponseEntity<Response<List<Skill>>> findAll() {
-        List<Skill> skillRespons = SkillResponseMapper.MAPPER.toVOList(skillService.findAll());
-        Response<List<Skill>> response = Response.<List<Skill>>builder()
-            .data(skillRespons)
-            .build();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(Response.<List<Skill>>builder()
+            .data(skillService.findAll())
+            .build(), HttpStatus.OK);
     }
 }

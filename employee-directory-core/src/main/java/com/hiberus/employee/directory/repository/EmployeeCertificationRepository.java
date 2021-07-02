@@ -9,6 +9,8 @@ import com.hiberus.employee.directory.entity.EmployeeCertificationEntity;
 import com.hiberus.employee.directory.repository.common.JPAQueryDslBaseRepository;
 import com.hiberus.employee.directory.vo.Certification;
 import com.querydsl.jpa.JPQLQuery;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Repository;
 
 /**
  * Repository implementation for EmployeeCertification
@@ -16,6 +18,8 @@ import com.querydsl.jpa.JPQLQuery;
  * @author bcueva
  * @version 1.0
  */
+@Lazy
+@Repository
 public class EmployeeCertificationRepository extends JPAQueryDslBaseRepository<EmployeeCertificationEntity> implements IEmployeeCertificationRepository {
 
     public EmployeeCertificationRepository() {

@@ -1,7 +1,6 @@
 package com.hiberus.employee.directory.controller;
 
 import java.util.List;
-import com.hiberus.employee.directory.mapper.ProjectResponseMapper;
 import com.hiberus.employee.directory.service.IProjectService;
 import com.hiberus.employee.directory.vo.Project;
 import com.hiberus.employee.directory.vo.common.Response;
@@ -47,10 +46,8 @@ public class ProjectController {
         )
     })
     public ResponseEntity<Response<List<Project>>> findAll() {
-        List<Project> projectRespons = ProjectResponseMapper.MAPPER.toVOList(projectService.findAll());
-        Response<List<Project>> response = Response.<List<Project>>builder()
-            .data(projectRespons)
-            .build();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(Response.<List<Project>>builder()
+            .data(projectService.findAll())
+            .build(), HttpStatus.OK);
     }
 }

@@ -3,6 +3,7 @@ package com.hiberus.employee.directory.repository;
 import java.util.List;
 import com.hiberus.employee.directory.entity.CertificationEntity;
 import com.hiberus.employee.directory.repository.common.IQueryDslBaseRepository;
+import com.hiberus.employee.directory.vo.Certification;
 
 /**
  * Certification repository interface
@@ -17,5 +18,5 @@ public interface ICertificationRepository extends IQueryDslBaseRepository<Certif
      *
      * @return List of CertificationEntity
      */
-    List<CertificationEntity> findAll();
+    List<Certification> findAll();
 }

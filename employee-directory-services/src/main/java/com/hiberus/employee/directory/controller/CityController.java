@@ -1,7 +1,6 @@
 package com.hiberus.employee.directory.controller;
 
 import java.util.List;
-import com.hiberus.employee.directory.mapper.CityResponseMapper;
 import com.hiberus.employee.directory.service.ICityService;
 import com.hiberus.employee.directory.vo.City;
 import com.hiberus.employee.directory.vo.common.Response;
@@ -52,10 +51,8 @@ public class CityController {
         )
     })
     public ResponseEntity<Response<List<City>>> findAll() {
-        List<City> cityRespons = CityResponseMapper.MAPPER.toVOList(cityService.findAll());
-        Response<List<City>> response = Response.<List<City>>builder()
-            .data(cityRespons)
-            .build();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(Response.<List<City>>builder()
+            .data(cityService.findAll())
+            .build(), HttpStatus.OK);
     }
 }

@@ -9,6 +9,8 @@ import com.hiberus.employee.directory.entity.EmployeeSkillEntity;
 import com.hiberus.employee.directory.repository.common.JPAQueryDslBaseRepository;
 import com.hiberus.employee.directory.vo.Skill;
 import com.querydsl.jpa.JPQLQuery;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Repository;
 
 
 /**
@@ -17,6 +19,8 @@ import com.querydsl.jpa.JPQLQuery;
  * @author bcueva
  * @version 1.0
  */
+@Lazy
+@Repository
 public class EmployeeSkillRepository extends JPAQueryDslBaseRepository<EmployeeSkillEntity> implements IEmployeeSkillRepository {
 
     public EmployeeSkillRepository() {

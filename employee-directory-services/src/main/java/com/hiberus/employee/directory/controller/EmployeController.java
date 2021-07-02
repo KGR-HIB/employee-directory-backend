@@ -1,7 +1,6 @@
 package com.hiberus.employee.directory.controller;
 
 import java.util.List;
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import com.hiberus.employee.directory.entity.EmployeeEntity;
 import com.hiberus.employee.directory.security.AuthSecurityUtil;
@@ -26,6 +25,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -77,16 +77,24 @@ public class EmployeController {
      * @param query Query to find
      * @return List of employees
      */
-    @GetMapping("/{query}")
+    @GetMapping
     @Operation(summary = "Find the employees that contain as names, surnames or email, the query parameter")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "List of employees",
             content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Employe.class)))}
         )
     })
-    public ResponseEntity<Response<List<Employe>>> findByNamesAndEmail(@NotBlank @PathVariable String query) {
+    public ResponseEntity<Response<List<Employe>>> findByNamesAndEmail(@NotBlank @RequestParam String query) {
         return new ResponseEntity<>(
             Response.<List<Employe>>builder().data(this.employeService.findByNamesAndEmail(query)).build(),
+            HttpStatus.OK
+        );
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Response<Employe>> findById(@NotBlank @PathVariable Integer id) {
+        return new ResponseEntity<>(
+            Response.<Employe>builder().data(this.employeService.getSheetEmployee(id)).build(),
             HttpStatus.OK
         );
     }
