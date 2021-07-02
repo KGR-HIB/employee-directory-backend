@@ -92,7 +92,13 @@ public class EmployeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Response<Employe>> findById(@NotBlank @PathVariable Integer id) {
+    @Operation(summary = "Get information of Employee's sheet")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Employee's sheet",
+            content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Employe.class))}
+        )
+    })
+    public ResponseEntity<Response<Employe>> getSheetEmployee(@NotBlank @PathVariable Integer id) {
         return new ResponseEntity<>(
             Response.<Employe>builder().data(this.employeService.getSheetEmployee(id)).build(),
             HttpStatus.OK
