@@ -1,7 +1,9 @@
 package com.hiberus.employee.directory.repository;
 
+import java.util.List;
 import com.hiberus.employee.directory.entity.EmployeeEntity;
 import com.hiberus.employee.directory.repository.common.IQueryDslBaseRepository;
+import com.hiberus.employee.directory.vo.Employe;
 
 /**
  * IEmployeRepository.java
@@ -26,4 +28,13 @@ public interface IEmployeRepository extends IQueryDslBaseRepository<EmployeeEnti
      * @param employeeEntity EmployeeEntity
      */
     void updateValues(EmployeeEntity employeeEntity);
+
+    /**
+     * Find employees by name, lastName and email
+     *
+     * @author bcueva
+     * @param query Param to query
+     * @return List of employees
+     */
+    List<Employe> findByNamesAndEmail(String query);
 }

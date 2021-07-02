@@ -1,6 +1,8 @@
 package com.hiberus.employee.directory.service;
 
+import java.util.List;
 import com.hiberus.employee.directory.entity.EmployeeEntity;
+import com.hiberus.employee.directory.vo.Employe;
 
 /**
  * IEmployeService.
@@ -26,4 +28,12 @@ public interface IEmployeService {
      */
     void update(EmployeeEntity employeeEntity);
 
+    /**
+     * Find employees by name, lastName and email
+     *
+     * @author bcueva
+     * @param query Param to query
+     * @return List of employees
+     */
+    List<Employe> findByNamesAndEmail(String query);
 }

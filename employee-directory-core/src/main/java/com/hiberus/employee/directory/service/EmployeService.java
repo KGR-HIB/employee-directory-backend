@@ -1,10 +1,12 @@
 package com.hiberus.employee.directory.service;
 
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Service;
+import java.util.List;
 import com.hiberus.employee.directory.entity.EmployeeEntity;
 import com.hiberus.employee.directory.repository.IEmployeRepository;
 import com.hiberus.employee.directory.service.common.BaseService;
+import com.hiberus.employee.directory.vo.Employe;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
 
 /**
  * EmployeService.
@@ -41,6 +43,14 @@ public class EmployeService extends BaseService<EmployeeEntity, IEmployeReposito
     public void update(EmployeeEntity employeeEntity) {
         this.repository.updateValues(employeeEntity);
 
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Employe> findByNamesAndEmail(String query) {
+        return this.repository.findByNamesAndEmail(query);
     }
 
 }

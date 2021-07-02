@@ -48,7 +48,7 @@ heroku deploy:jar employee-directory-services/build/libs/employee-directory-serv
 | Certification | Certifications list                        | GET    | /api/v1/certifications                           |                       | Response<[Certification]>       | ✅       |
 | Skill         | Skills list                                | GET    | /api/v1/skills                                   |                       | Response<[Skill]>               | ✅       |
 | City          | Cities list                                | GET    | /api/v1/cities                                   |                       | Response<[City]>                | ✅       |
-| Employee      | Employee list                              | GET    | /api/v1/employees?query={query}                  |                       | Response<[SimpleEmployee]>      |         |
+| Employee      | Employee list                              | GET    | /api/v1/employees?query={query}                  |                       | Response<[SimpleEmployee]>      | ✅       |
 | Employee      | Page employee list                         | POST   | /api/v1/employees/page?query={query}&page={page} | EmployeFilter         | Response<PageEmployees>         |         |
 | Employee      | Get info employee                          | GET    | /api/v1/employees/{id}                           |                       | Response<[Employee]>            |         |
 | Employee      | Create employee                            | POST   | /api/v1/employees/create                         | EmployeeManage        | Response<null>                  |         |

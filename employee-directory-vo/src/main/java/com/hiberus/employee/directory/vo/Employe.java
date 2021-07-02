@@ -22,4 +22,5 @@ public class Employe {
     private String lastName;
     private String phone;
     private String photoPath;
+    private String email;
 }
