@@ -3,9 +3,7 @@ package com.hiberus.employee.directory.vo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * VO response Certification
@@ -28,5 +26,10 @@ public class Certification {
      * Name of certification
      */
     private String name;
+
+    /**
+     * State of certification
+     */
+    private Boolean status;
 
 }

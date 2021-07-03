@@ -54,9 +54,9 @@ heroku deploy:jar employee-directory-services/build/libs/employee-directory-serv
 | Employee      | Create employee                            | POST   | /api/v1/employees/createOrUpdate                 | EmployeeManage        | Response<null>                  | ✅      |
 | Employee      | Update primary information for an employee | POST   | /api/v1/employees/createOrUpdate                 | EmployeeManage        | Response<null>                  | ✅      |
 | Employee      | Add a project to an employee               | POST   | /api/v1/employees/projects/add                   | EmployeeProject       | Response<EmployeeProject>       | ✅      |
-| Employee      | Remove a project to an employee            | POST	  | /api/v1/employees/projects/add                   |                       | Response<null>                  | ✅       |
-| Employee      | Add a certification to an employee         | POST   | /api/v1/employees/certifications                 | EmployeeCertification | Response<EmployeeCertification> |         |
-| Employee      | Remove a certification to an employee      | DELETE | /api/v1/employees/certifications/{id}            |                       | Response<null>                  |         |
+| Employee      | Remove a project to an employee            | POST	  | /api/v1/employees/projects/add                   |                       | Response<null>                  | ✅      |
+| Employee      | Add a certification to an employee         | POST   | /api/v1/employees/certifications/add             | EmployeeCertification | Response<EmployeeCertification> | ✅      |
+| Employee      | Remove a certification to an employee      | DELETE | /api/v1/employees/certifications/add             |                       | Response<null>                  | ✅      |
 | Employee      | Add a skill to an employee                 | POST   | /api/v1/employees/skills                         | EmployeeSkill         | Response<EmployeeSkill>         |         |
 | Employee      | Remove a skill to an employee              | DELETE | /api/v1/employees/skills/{id}                    |                       | Response<null>                  |         |
 | Authorization | Login                                      | POST   | /api/auth/login                                  | {mail, password}      | Response<User>                  | ✅      |
@@ -149,8 +149,19 @@ heroku deploy:jar employee-directory-services/build/libs/employee-directory-serv
 
 ```json
 {
-  "id": 1,
-  "name": "Spring Boot"
+    "employeeId": 6,
+    "certifications": [
+        {
+			"id": 1,
+            "name": "JAVA"
+        },
+        {
+            "name": "SCRUM"
+        },
+         {
+            "name": "IOS DEVELOPER"
+        }
+    ]
 }
 ```
 

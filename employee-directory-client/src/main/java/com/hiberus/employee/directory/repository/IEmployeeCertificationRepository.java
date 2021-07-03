@@ -18,7 +18,30 @@ public interface IEmployeeCertificationRepository extends IQueryDslBaseRepositor
      *
      * @author bcueva
      * @param employeeId Id of employee
+     * @param status state
      * @return List of certifications
      */
-    List<Certification> findByEmployeeId(Integer employeeId);
+    List<Certification> findByEmployeeId(Integer employeeId, Boolean status);
+
+    /**
+     * Create employee tag.
+     * 
+     * @author acachiguango on 02/07/2021
+     * @param projectIds project Ids
+     * @param employeId employee Id
+     * @param createdByUser user Id
+     */
+    void create(List<Integer> projectIds, Integer employeeId, Integer createdByUser);
+
+    /**
+     * Updates the status of the employee project.
+     * 
+     * @author acachiguango on 02/07/2021
+     * @param projectIds project Ids
+     * @param employeeId employe Id
+     * @param createdByUser user Id
+     * @param status state
+     */
+    void updateStatusEmployeeProject(List<Integer> projectIds, Integer employeeId, Integer createdByUser,
+        Boolean status);
 }

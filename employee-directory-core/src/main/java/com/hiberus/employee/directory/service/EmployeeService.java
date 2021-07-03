@@ -112,7 +112,7 @@ public class EmployeeService extends BaseService<EmployeeEntity, IEmployeeReposi
         List<Project> projectList = this.employeeProjectRepository.findByEmployeeId(id, Boolean.TRUE);
         employee.setProjects(projectList);
         // Get certifications assigned to the employee
-        List<Certification> certificationList = this.employeeCertificationRepository.findByEmployeeId(id);
+        List<Certification> certificationList = this.employeeCertificationRepository.findByEmployeeId(id, Boolean.TRUE);
         employee.setCertifications(certificationList);
         // Get Skills has employee
         List<Skill> skillList = this.employeeSkillRepository.findByEmployeeId(id);

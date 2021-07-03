@@ -6,10 +6,12 @@ import javax.validation.constraints.NotBlank;
 import com.hiberus.employee.directory.entity.EmployeeEntity;
 import com.hiberus.employee.directory.entity.ProjectEntity;
 import com.hiberus.employee.directory.security.AuthSecurityUtil;
+import com.hiberus.employee.directory.service.IEmployeeCertificationService;
 import com.hiberus.employee.directory.service.IEmployeeProjectService;
 import com.hiberus.employee.directory.service.IEmployeeService;
 import com.hiberus.employee.directory.service.IUserService;
 import com.hiberus.employee.directory.util.ProjectUtil;
+import com.hiberus.employee.directory.vo.Certification;
 import com.hiberus.employee.directory.vo.Employe;
 import com.hiberus.employee.directory.vo.EmployeProjectRequest;
 import com.hiberus.employee.directory.vo.EmployeeFiltersRequest;
@@ -65,6 +67,11 @@ public class EmployeController {
     @Getter
     private IEmployeeProjectService employeeProjectService;
 
+    @Lazy
+    @Autowired
+    @Getter
+    private IEmployeeCertificationService employeeCertificationService;
+
     /**
      * Create employee.
      * 
@@ -118,13 +125,13 @@ public class EmployeController {
     @Operation(summary = "Add project")
     @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Add project to employee",
         content = { @Content(mediaType = "application/json",
-            array = @ArraySchema(schema = @Schema(implementation = Employe.class))) }) })
-    public ResponseEntity<Response<List<Project>>> addProject(@Valid @RequestBody EmployeProjectRequest request) {
+            array = @ArraySchema(schema = @Schema(implementation = Project.class))) }) })
+    public ResponseEntity<Response<List<Project>>> addProjects(@Valid @RequestBody EmployeProjectRequest request) {
         Integer createdByUser = AuthSecurityUtil.getUserLogin().getId();
-        List<ProjectEntity> projects = ProjectUtil.getEntities(request.getProjects());
+        List<ProjectEntity> projects = ProjectUtil.getProjectEntities(request.getProjects());
         return new ResponseEntity<>(Response.<List<Project>>builder()
-            .data(this.employeeProjectService.createByName(projects, request.getEmployeeId(), createdByUser)).build(),
-            HttpStatus.OK);
+            .data(this.employeeProjectService.createByName(projects, request.getEmployeeId(), createdByUser)).code(200)
+            .message("success").build(), HttpStatus.OK);
     }
 
     /**
@@ -139,8 +146,31 @@ public class EmployeController {
     @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Employee's sheet",
         content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Employe.class)) }) })
     public ResponseEntity<Response<Employe>> getSheetEmployee(@NotBlank @PathVariable Integer id) {
-        return new ResponseEntity<>(Response.<Employe>builder().data(this.employeService.getSheetEmployee(id)).build(),
+        return new ResponseEntity<>(
+            Response.<Employe>builder().data(this.employeService.getSheetEmployee(id)).code(200).build(),
             HttpStatus.OK);
+    }
+
+    /**
+     * Add certificate to employee.
+     * 
+     * @author acachiguango on 02/07/2021
+     * @param request EmployeProjectRequest
+     * @return certification List
+     */
+    @PostMapping("/certifications/add")
+    @Operation(summary = "Add certificate to employee")
+    @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "add certificate to employee",
+        content = { @Content(mediaType = "application/json",
+            array = @ArraySchema(schema = @Schema(implementation = Employe.class))) }) })
+    public ResponseEntity<Response<List<Certification>>>
+        addCertifications(@Valid @RequestBody EmployeeCertificationRequest request) {
+        Integer createdByUser = AuthSecurityUtil.getUserLogin().getId();
+        List<CertificationEntity> certifications = ProjectUtil.getCertificationEntities(request.getCertifications());
+        return new ResponseEntity<>(Response.<List<Certification>>builder()
+            .data(
+                this.employeeCertificationService.createByName(certifications, request.getEmployeeId(), createdByUser))
+            .message("success").build(), HttpStatus.OK);
     }
 
     /**
@@ -169,4 +199,5 @@ public class EmployeController {
             .data(pageResponse)
             .build(), HttpStatus.OK);
     }
+
 }
