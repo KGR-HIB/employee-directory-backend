@@ -53,7 +53,7 @@ public class AuthToken {
             .claim(AuthConstants.AUTHORITIES,
                 grantedAuthorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
             .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis() + 600000))
+            .setExpiration(new Date(System.currentTimeMillis() + 9000000))
             .signWith(SignatureAlgorithm.HS256, AuthConstants.SIGNIN_KEY.getBytes()).compact();
     }
 }
