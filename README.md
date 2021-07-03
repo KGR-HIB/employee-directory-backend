@@ -42,25 +42,25 @@ heroku deploy:jar employee-directory-services/build/libs/employee-directory-serv
 
 | Controller    | Description                                | Method | Endpoint                                         | Request body          | Response body                   | Srtatus |
 | ------------- | ------------------------------------------ | ------ | ------------------------------------------------ | --------------------- | ------------------------------- | ------- |
-| Position      | Positions list                             | GET    | /api/v1/positions                                |                       | Response<[Position]>            | ✅       |
-| Department    | Departments list                           | GET    | /api/v1/departments                              |                       | Response<[Department]>          | ✅       |
-| Project       | Projects list                              | GET    | /api/v1/projects                                 |                       | Response<[Project]>             | ✅       |
-| Certification | Certifications list                        | GET    | /api/v1/certifications                           |                       | Response<[Certification]>       | ✅       |
-| Skill         | Skills list                                | GET    | /api/v1/skills                                   |                       | Response<[Skill]>               | ✅       |
-| City          | Cities list                                | GET    | /api/v1/cities                                   |                       | Response<[City]>                | ✅       |
-| Employee      | Employee list                              | GET    | /api/v1/employees?query={query}                  |                       | Response<[SimpleEmployee]>      | ✅       |
+| Position      | Positions list                             | GET    | /api/v1/positions                                |                       | Response<[Position]>            | ✅      |
+| Department    | Departments list                           | GET    | /api/v1/departments                              |                       | Response<[Department]>          | ✅      |
+| Project       | Projects list                              | GET    | /api/v1/projects                                 |                       | Response<[Project]>             | ✅      |
+| Certification | Certifications list                        | GET    | /api/v1/certifications                           |                       | Response<[Certification]>       | ✅      |
+| Skill         | Skills list                                | GET    | /api/v1/skills                                   |                       | Response<[Skill]>               | ✅      |
+| City          | Cities list                                | GET    | /api/v1/cities                                   |                       | Response<[City]>                | ✅      |
+| Employee      | Employee list                              | GET    | /api/v1/employees?query={query}                  |                       | Response<[SimpleEmployee]>      | ✅      |
 | Employee      | Page employee list                         | POST   | /api/v1/employees/page?query={query}&page={page} | EmployeFilter         | Response<PageEmployees>         |         |
-| Employee      | Get info employee's sheet                 | GET    | /api/v1/employees/{id}                           |                       | Response<[Employee]>            | ✅ |
-| Employee      | Create employee                            | POST   | /api/v1/employees/createOrUpdate                 | EmployeeManage        | Response<null>                  | ✅        |
-| Employee      | Update primary information for an employee | PUT    | /api/v1/employees                                | EmployeeManage        | Response<null>                  |         |
-| Employee      | Add a project to an employee               | POST   | /api/v1/employees/projects                       | EmployeeProject       | Response<EmployeeProject>       |         |
-| Employee      | Remove a project to an employee            | DELETE | /api/v1/employees/projects/{id}                  |                       | Response<null>                  |         |
+| Employee      | Get info employee                          | GET    | /api/v1/employees/{id}                           |                       | Response<[Employee]>            |         |
+| Employee      | Create employee                            | POST   | /api/v1/employees/createOrUpdate                 | EmployeeManage        | Response<null>                  | ✅      |
+| Employee      | Update primary information for an employee | POST   | /api/v1/employees/createOrUpdate                 | EmployeeManage        | Response<null>                  | ✅      |
+| Employee      | Add a project to an employee               | POST   | /api/v1/employees/projects/add                   | EmployeeProject       | Response<EmployeeProject>       | ✅      |
+| Employee      | Remove a project to an employee            | POST	  | /api/v1/employees/projects/add                   |                       | Response<null>                  | ✅       |
 | Employee      | Add a certification to an employee         | POST   | /api/v1/employees/certifications                 | EmployeeCertification | Response<EmployeeCertification> |         |
 | Employee      | Remove a certification to an employee      | DELETE | /api/v1/employees/certifications/{id}            |                       | Response<null>                  |         |
 | Employee      | Add a skill to an employee                 | POST   | /api/v1/employees/skills                         | EmployeeSkill         | Response<EmployeeSkill>         |         |
 | Employee      | Remove a skill to an employee              | DELETE | /api/v1/employees/skills/{id}                    |                       | Response<null>                  |         |
-| Authorization | Login                                      | POST   | /api/auth/login                                  | {mail, password}      | Response<User>                  |         |
-| Authorization | Logout                                     | GET    | /api/auth/logout                                 |                       |                                 |         |
+| Authorization | Login                                      | POST   | /api/auth/login                                  | {mail, password}      | Response<User>                  | ✅      |
+| Authorization | Logout                                     | GET    | /api/auth/logout                                 |                       |                                 | ✅      |
 
 
 
@@ -132,8 +132,16 @@ heroku deploy:jar employee-directory-services/build/libs/employee-directory-serv
 
 ```json
 {
-  "id": 1,
-  "name": "Directorio de empleados"
+    "employeeId": 6,
+    "projects": [
+        {	
+			"id": 1,
+            "name": "Directorio de empleados"
+        },
+        {
+            "name": "iOS SMX"
+        }
+    ]
 }
 ```
 
