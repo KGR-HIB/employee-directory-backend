@@ -3,6 +3,8 @@ package com.hiberus.employee.directory.service;
 import java.util.List;
 import com.hiberus.employee.directory.entity.EmployeeEntity;
 import com.hiberus.employee.directory.vo.Employe;
+import com.hiberus.employee.directory.vo.EmployeeFiltersRequest;
+import org.springframework.data.domain.Page;
 
 /**
  * IEmployeService.
@@ -36,4 +38,15 @@ public interface IEmployeeService {
      * @return Employee
      */
     Employe getSheetEmployee(Integer id);
+
+    /**
+     * Page the employees that match the filters
+     *
+     * @param page Page number
+     * @param size Number of elements per page
+     * @param query Query by name, lastName or email
+     * @param employeeFiltersRequest Advanced filters
+     * @return Employee page
+     */
+    Page<Employe> pageByFilters(Integer page, Integer size, String query, EmployeeFiltersRequest employeeFiltersRequest);
 }

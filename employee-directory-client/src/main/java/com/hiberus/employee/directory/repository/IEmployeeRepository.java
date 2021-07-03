@@ -4,6 +4,9 @@ import java.util.List;
 import com.hiberus.employee.directory.entity.EmployeeEntity;
 import com.hiberus.employee.directory.repository.common.IQueryDslBaseRepository;
 import com.hiberus.employee.directory.vo.Employe;
+import com.hiberus.employee.directory.vo.EmployeeFiltersRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * IEmployeRepository.
@@ -45,4 +48,14 @@ public interface IEmployeeRepository extends IQueryDslBaseRepository<EmployeeEnt
      * @return Employee instance
      */
     Employe findEmployeeMainInformationById(Integer id);
+
+    /**
+     * Page the employees that match the filters
+     *
+     * @param pageable Page to find
+     * @param query Query by name, lastName or email
+     * @param employeeFiltersRequest Filter
+     * @return Employee page
+     */
+    Page<Employe> pageByFilters(Pageable pageable, String query, EmployeeFiltersRequest employeeFiltersRequest);
 }

@@ -40,6 +40,9 @@ public class EmployeeSkillEntity extends AbstractBaseAuditable {
     @Column(name = "EMPLOYEE_ID")
     private Integer employeeId;
 
+    @Column(name = "SKILL_ID")
+    private Integer skillId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SKILL_ID", referencedColumnName = "SKILL_ID", insertable = false, updatable = false)
     private SkillEntity skill;

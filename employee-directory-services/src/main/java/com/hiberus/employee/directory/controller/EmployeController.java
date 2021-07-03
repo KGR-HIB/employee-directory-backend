@@ -3,16 +3,6 @@ package com.hiberus.employee.directory.controller;
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import com.hiberus.employee.directory.entity.EmployeeEntity;
 import com.hiberus.employee.directory.entity.ProjectEntity;
 import com.hiberus.employee.directory.security.AuthSecurityUtil;
@@ -22,7 +12,9 @@ import com.hiberus.employee.directory.service.IUserService;
 import com.hiberus.employee.directory.util.ProjectUtil;
 import com.hiberus.employee.directory.vo.Employe;
 import com.hiberus.employee.directory.vo.EmployeProjectRequest;
+import com.hiberus.employee.directory.vo.EmployeeFiltersRequest;
 import com.hiberus.employee.directory.vo.Project;
+import com.hiberus.employee.directory.vo.common.PageResponse;
 import com.hiberus.employee.directory.vo.common.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -32,6 +24,18 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * EmployeController.
@@ -97,7 +101,7 @@ public class EmployeController {
     @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "List of employees",
         content = { @Content(mediaType = "application/json",
             array = @ArraySchema(schema = @Schema(implementation = Employe.class))) }) })
-    public ResponseEntity<Response<List<Employe>>> findByNamesAndEmail(@NotBlank @PathVariable String query) {
+    public ResponseEntity<Response<List<Employe>>> findByNamesAndEmail(@NotBlank @RequestParam String query) {
         return new ResponseEntity<>(
             Response.<List<Employe>>builder().data(this.employeService.findByNamesAndEmail(query)).build(),
             HttpStatus.OK);
@@ -123,6 +127,13 @@ public class EmployeController {
             HttpStatus.OK);
     }
 
+    /**
+     * Get sheet of employee
+     *
+     * @author bcueva
+     * @param id Id of Employee
+     * @return Employee's sheet
+     */
     @GetMapping("/{id}")
     @Operation(summary = "Get information of Employee's sheet")
     @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Employee's sheet",
@@ -130,5 +141,32 @@ public class EmployeController {
     public ResponseEntity<Response<Employe>> getSheetEmployee(@NotBlank @PathVariable Integer id) {
         return new ResponseEntity<>(Response.<Employe>builder().data(this.employeService.getSheetEmployee(id)).build(),
             HttpStatus.OK);
+    }
+
+    /**
+     * Get page of employee
+     *
+     * @param page Page number
+     * @param size Number of elements per page
+     * @param query Query by name, lastName or email
+     * @param employeeFiltersRequest Advanced filters
+     * @return Employee page
+     */
+    @PostMapping("/page")
+    @Operation(summary = "Employees page that match the filters entered")
+    @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Employee page",
+        content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Employe.class)) }) })
+    public ResponseEntity<Response<PageResponse<Employe>>> page(@RequestParam Integer page, @RequestParam Integer size, @RequestParam String query, @RequestBody
+        EmployeeFiltersRequest employeeFiltersRequest) {
+        Page<Employe> pageEmployee = this.employeService.pageByFilters(page, size, query, employeeFiltersRequest);
+        PageResponse<Employe> pageResponse = PageResponse.<Employe>builder()
+            .data(pageEmployee.getContent())
+            .total(pageEmployee.getTotalElements())
+            .totalPages(pageEmployee.getTotalPages())
+            .currentPage(pageEmployee.getNumber())
+            .build();
+        return new ResponseEntity<>(Response.<PageResponse<Employe>>builder()
+            .data(pageResponse)
+            .build(), HttpStatus.OK);
     }
 }

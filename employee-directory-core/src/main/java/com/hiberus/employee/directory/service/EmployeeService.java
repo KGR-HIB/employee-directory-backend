@@ -1,10 +1,6 @@
 package com.hiberus.employee.directory.service;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import com.hiberus.employee.directory.entity.EmployeeEntity;
 import com.hiberus.employee.directory.repository.ICityRepository;
 import com.hiberus.employee.directory.repository.IDepartmentRepository;
@@ -17,8 +13,16 @@ import com.hiberus.employee.directory.repository.IUserRepository;
 import com.hiberus.employee.directory.service.common.BaseService;
 import com.hiberus.employee.directory.vo.Certification;
 import com.hiberus.employee.directory.vo.Employe;
+import com.hiberus.employee.directory.vo.EmployeeFiltersRequest;
 import com.hiberus.employee.directory.vo.Project;
 import com.hiberus.employee.directory.vo.Skill;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * EmployeService.
@@ -114,6 +118,16 @@ public class EmployeeService extends BaseService<EmployeeEntity, IEmployeeReposi
         List<Skill> skillList = this.employeeSkillRepository.findByEmployeeId(id);
         employee.setSkills(skillList);
         return employee;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Page<Employe> pageByFilters(Integer page, Integer size, String query,
+        EmployeeFiltersRequest employeeFiltersRequest) {
+        Pageable pageable = PageRequest.of(page, size);
+        return this.repository.pageByFilters(pageable, query, employeeFiltersRequest);
     }
 
 }

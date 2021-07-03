@@ -1,7 +1,12 @@
 package com.hiberus.employee.directory.repository.common;
 
 import java.io.Serializable;
+import com.querydsl.jpa.JPQLQuery;
+import com.querydsl.jpa.impl.JPAQuery;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
+import org.springframework.data.support.PageableExecutionUtils;
 
 /**
  * Repository base with support querydsl
@@ -28,18 +33,51 @@ public abstract class JPAQueryDslBaseRepository<T> extends QuerydslRepositorySup
         this.domainClass = domainClass;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void save(T obj) {
         getEntityManager().persist(obj);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update(T obj) {
         getEntityManager().merge(obj);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T findById(Serializable id) {
         return this.getEntityManager().find(this.domainClass, id);
+    }
+
+    /**
+     * Find page by query
+     *
+     * @param query JPQL query
+     * @param pageable Page
+     * @param <Q> Entity
+     * @return Page
+     */
+    protected <Q> Page<Q> findPagedData(JPQLQuery<Q> query, Pageable pageable) {
+        JPQLQuery<Q> countQuery = cloneQuery((JPAQuery<Q>) query);
+        return PageableExecutionUtils.getPage(getQuerydsl().applyPagination(pageable, query).fetch(), pageable, countQuery::fetchCount);
+    }
+
+    /**
+     * Clone query
+     *
+     * @param query JPQL query
+     * @param <P> Query by entity
+     * @return Query
+     */
+    protected <P> JPQLQuery<P> cloneQuery(JPAQuery<P> query) {
+        return query.clone(this.getEntityManager());
     }
 }

@@ -7,7 +7,10 @@ import java.util.List;
 import com.hiberus.employee.directory.entity.EmployeeEntity;
 import com.hiberus.employee.directory.entity.QCityEntity;
 import com.hiberus.employee.directory.entity.QDepartmentEntity;
+import com.hiberus.employee.directory.entity.QEmployeeCertificationEntity;
 import com.hiberus.employee.directory.entity.QEmployeeEntity;
+import com.hiberus.employee.directory.entity.QEmployeeProjectEntity;
+import com.hiberus.employee.directory.entity.QEmployeeSkillEntity;
 import com.hiberus.employee.directory.entity.QPositionEntity;
 import com.hiberus.employee.directory.entity.QUserEntity;
 import com.hiberus.employee.directory.repository.common.JPAQueryDslBaseRepository;
@@ -15,12 +18,18 @@ import com.hiberus.employee.directory.util.DateUtil;
 import com.hiberus.employee.directory.vo.City;
 import com.hiberus.employee.directory.vo.Department;
 import com.hiberus.employee.directory.vo.Employe;
+import com.hiberus.employee.directory.vo.EmployeeFiltersRequest;
 import com.hiberus.employee.directory.vo.Position;
 import com.hiberus.employee.directory.vo.User;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPQLQuery;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 /**
  * EmployeRepository.
@@ -130,6 +139,134 @@ public class EmployeeRepository extends JPAQueryDslBaseRepository<EmployeeEntity
         );
 
         return jpqlQuery.fetchFirst();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Page<Employe> pageByFilters(Pageable pageable, String query,
+        EmployeeFiltersRequest employeeFiltersRequest) {
+
+        final BooleanExpression booleanExpression = this.getRestrictionByFilter(query, employeeFiltersRequest);
+
+        QUserEntity qUserEntity = QUserEntity.userEntity;
+        QPositionEntity qPositionEntity = QPositionEntity.positionEntity;
+        QDepartmentEntity qDepartmentEntity = QDepartmentEntity.departmentEntity;
+
+        JPQLQuery<Employe> jpqlQuery = from(employeeEntity)
+            .select(bean(Employe.class, employeeEntity.id, employeeEntity.name, employeeEntity.lastName, employeeEntity.phone,
+                bean(User.class, qUserEntity.email).as("user"),
+                bean(Position.class, qPositionEntity.name).as("position"),
+                bean(Department.class, qDepartmentEntity.name).as("department")
+            ))
+            .leftJoin(employeeEntity.position, qPositionEntity)
+            .leftJoin(employeeEntity.department, qDepartmentEntity);
+
+        this.addJoinsByFilters(jpqlQuery, employeeFiltersRequest);
+
+        jpqlQuery.where(booleanExpression)
+            .groupBy(employeeEntity.id);
+
+        return this.findPagedData(jpqlQuery, pageable);
+    }
+
+    /**
+     * Add joins to jpa query to paging
+     *
+     * @param jpqlQuery Query
+     * @param employeeFiltersRequest Advanced filters
+     */
+    private void addJoinsByFilters(JPQLQuery<Employe> jpqlQuery, EmployeeFiltersRequest employeeFiltersRequest) {
+        QUserEntity qUserEntity = QUserEntity.userEntity;
+        QEmployeeProjectEntity qEmployeeProjectEntity = QEmployeeProjectEntity.employeeProjectEntity;
+        QEmployeeSkillEntity qEmployeeSkillEntity = QEmployeeSkillEntity.employeeSkillEntity;
+        QEmployeeCertificationEntity qEmployeeCertificationEntity = QEmployeeCertificationEntity.employeeCertificationEntity;
+
+        jpqlQuery.leftJoin(employeeEntity.user, qUserEntity);
+
+        if (!CollectionUtils.isEmpty(employeeFiltersRequest.getProjects())) {
+            jpqlQuery.leftJoin(employeeEntity.projects, qEmployeeProjectEntity);
+        }
+
+        if (!CollectionUtils.isEmpty(employeeFiltersRequest.getSkills())) {
+            jpqlQuery.leftJoin(employeeEntity.skills, qEmployeeSkillEntity);
+        }
+
+        if (!CollectionUtils.isEmpty(employeeFiltersRequest.getCertifications())) {
+            jpqlQuery.leftJoin(employeeEntity.certifications, qEmployeeCertificationEntity);
+        }
+    }
+
+    /**
+     * Create restrictions by filter
+     *
+     * @param query Query by name, lastName and email
+     * @param employeeFiltersRequest Advanced filter
+     * @return Employee page
+     */
+    private BooleanExpression getRestrictionByFilter(String query, EmployeeFiltersRequest employeeFiltersRequest) {
+        BooleanExpression where = employeeEntity.status.eq(Boolean.TRUE);
+        QUserEntity qUserEntity = QUserEntity.userEntity;
+        QEmployeeProjectEntity qEmployeeProjectEntity = QEmployeeProjectEntity.employeeProjectEntity;
+        QEmployeeSkillEntity qEmployeeSkillEntity = QEmployeeSkillEntity.employeeSkillEntity;
+        QEmployeeCertificationEntity qEmployeeCertificationEntity = QEmployeeCertificationEntity.employeeCertificationEntity;
+
+        // Filter by name, lastName and email
+        if (!ObjectUtils.isEmpty(query)) {
+            where = where.and(
+                employeeEntity.name.containsIgnoreCase(query)
+                    .or(employeeEntity.lastName.containsIgnoreCase(query))
+                    .or(qUserEntity.email.containsIgnoreCase(query))
+            );
+        }
+
+        // Filter by position
+        if (!CollectionUtils.isEmpty(employeeFiltersRequest.getPositions())) {
+            where = where.and(
+                employeeEntity.positionId.in(employeeFiltersRequest.getPositions())
+            );
+        }
+
+        // Filter by department
+        if (!CollectionUtils.isEmpty(employeeFiltersRequest.getDepartments())) {
+            where = where.and(
+                employeeEntity.departmentId.in(employeeFiltersRequest.getDepartments())
+            );
+        }
+
+        // Filter by city
+        if (!CollectionUtils.isEmpty(employeeFiltersRequest.getCities())) {
+            where = where.and(
+                employeeEntity.cityId.in(employeeFiltersRequest.getCities())
+            );
+        }
+
+        // Filter by project
+        if (!CollectionUtils.isEmpty(employeeFiltersRequest.getProjects())) {
+            where = where.and(
+                qEmployeeProjectEntity.status.eq(Boolean.TRUE)
+                .and(qEmployeeProjectEntity.projectId.in(employeeFiltersRequest.getProjects()))
+            );
+        }
+
+        // Filter by skill
+        if (!CollectionUtils.isEmpty(employeeFiltersRequest.getSkills())) {
+            where = where.and(
+                qEmployeeSkillEntity.status.eq(Boolean.TRUE)
+                .and(qEmployeeSkillEntity.skillId.in(employeeFiltersRequest.getSkills()))
+            );
+        }
+
+        // Filter by certification
+        if (!CollectionUtils.isEmpty(employeeFiltersRequest.getCertifications())) {
+            where = where.and(
+                qEmployeeCertificationEntity.status.eq(Boolean.TRUE)
+                .and(qEmployeeCertificationEntity.certificationId.in(employeeFiltersRequest.getCertifications()))
+            );
+        }
+
+        return where;
     }
 
 }
