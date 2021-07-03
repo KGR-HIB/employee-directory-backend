@@ -13,7 +13,7 @@ import com.hiberus.employee.directory.vo.Employe;
 public interface IEmployeeService {
 
     /**
-     * Crea o actualiza empleado.
+     * Create or update employee.
      * 
      * @author acachiguango on 01/07/2021
      * @param employeeEntity EmployeeEntity

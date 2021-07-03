@@ -6,15 +6,14 @@ import com.hiberus.employee.directory.repository.common.IQueryDslBaseRepository;
 import com.hiberus.employee.directory.vo.Employe;
 
 /**
- * IEmployeRepository.java
+ * IEmployeRepository.
  * 
- * @author Kruger on 01/07/2021
+ * @author acachiguango on 01/07/2021
  * @version 1.0
- * @since 1.0.0
  */
 public interface IEmployeeRepository extends IQueryDslBaseRepository<EmployeeEntity> {
     /**
-     * Crea empleado.
+     * Create employee.
      * 
      * @author acachiguango on 01/07/2021
      * @param employeeEntity EmployeeEntity
@@ -22,7 +21,7 @@ public interface IEmployeeRepository extends IQueryDslBaseRepository<EmployeeEnt
     void create(EmployeeEntity employeeEntity);
 
     /**
-     * Actualiza empleado.
+     * Udate employee.
      * 
      * @author acachiguango on 01/07/2021
      * @param employeeEntity EmployeeEntity

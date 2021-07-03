@@ -30,4 +30,8 @@ public class Project {
      * Project's name
      */
     private String name;
+    /**
+     * Project's status
+     */
+    private Boolean status;
 }

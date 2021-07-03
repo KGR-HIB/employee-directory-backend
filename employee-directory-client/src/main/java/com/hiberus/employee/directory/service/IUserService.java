@@ -5,7 +5,7 @@ import com.hiberus.employee.directory.service.common.IBaseService;
 import com.hiberus.employee.directory.vo.User;
 
 /**
- * User service interface
+ * User service interface.
  *
  * @author bcueva
  * @version 1.0
@@ -13,7 +13,7 @@ import com.hiberus.employee.directory.vo.User;
 public interface IUserService extends IBaseService<UserEntity> {
 
     /**
-     * Login usuario.
+     * User login.
      * 
      * @author acachiguango on 30/06/2021
      * @param request Login
@@ -22,10 +22,10 @@ public interface IUserService extends IBaseService<UserEntity> {
     User login(User request);
 
     /**
-     * Verifica si ya existe un usuario por correo.
+     * Check if there is already a user by mail.
      * 
      * @author acachiguango on 02/07/2021
-     * @param email correo
+     * @param email email
      * @return Boolean
      */
     Boolean existsByMail(String email);

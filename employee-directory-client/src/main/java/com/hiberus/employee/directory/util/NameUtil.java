@@ -18,11 +18,11 @@ public final class NameUtil {
     }
 
     /**
-     * Elimina acentos.
+     * Remove accents.
      * 
      * @author acachiguango on 01/07/2021
-     * @param name valor
-     * @return string sin acentos
+     * @param name value
+     * @return string without accents.
      */
     public static String clearAccents(String name) {
         String[] names = Arrays.stream(name.split(" ")).map(String::trim).toArray(String[]::new);

@@ -2,7 +2,6 @@ package com.hiberus.employee.directory.repository;
 
 import static com.hiberus.employee.directory.entity.QDepartmentEntity.departmentEntity;
 import static com.querydsl.core.types.Projections.bean;
-
 import java.util.List;
 import com.hiberus.employee.directory.entity.DepartmentEntity;
 import com.hiberus.employee.directory.repository.common.JPAQueryDslBaseRepository;
@@ -33,10 +32,8 @@ public class DepartmentRepository extends JPAQueryDslBaseRepository<DepartmentEn
      */
     @Override
     public List<Department> findAll() {
-        return from(departmentEntity)
-            .select(bean(Department.class, departmentEntity.id, departmentEntity.name))
-            .where(departmentEntity.status.eq(Boolean.TRUE))
-            .fetch();
+        return from(departmentEntity).select(bean(Department.class, departmentEntity.id, departmentEntity.name))
+            .where(departmentEntity.status.eq(Boolean.TRUE)).fetch();
     }
 
     /**
@@ -68,10 +65,10 @@ public class DepartmentRepository extends JPAQueryDslBaseRepository<DepartmentEn
     }
 
     /**
-     * Obtiene departamento por nombre.
+     * Get department by name.
      * 
      * @author acachiguango on 01/07/2021
-     * @param name nombre
+     * @param name department name
      * @return DepartmentEntity
      */
     private DepartmentEntity findByName(String name) {

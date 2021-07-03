@@ -13,7 +13,7 @@ import com.hiberus.employee.directory.vo.User;
 public interface IUserRepository extends IQueryDslBaseRepository<UserEntity> {
 
     /**
-     * Login usuario.
+     * User login.
      * 
      * @author acachiguango on 30/06/2021
      * @param request User
@@ -22,20 +22,20 @@ public interface IUserRepository extends IQueryDslBaseRepository<UserEntity> {
     User login(User request);
 
     /**
-     * Crear o actualiza usuario.
+     * Create or update user.
      * 
      * @author acahciguango on 01/07/2021
      * @param userEntity UserEntity
-     * @param createdByUser id
-     * @return id usuario
+     * @param createdByUser id user
+     * @return id user
      */
     Integer createOrUpdate(UserEntity userEntity, Integer createdByUser);
 
     /**
-     * Verifica si ya existe un usuario por correo.
+     * Check if there is already a user by mail.
      * 
      * @author acachiguango on 02/07/2021
-     * @param email correo
+     * @param email email
      * @return Boolean
      */
     Boolean existsByMail(String email);

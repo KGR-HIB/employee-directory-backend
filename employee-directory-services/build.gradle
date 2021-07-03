@@ -35,6 +35,8 @@ dependencies {
     implementation 'org.springdoc:springdoc-openapi-ui'
     
     implementation 'com.fasterxml.jackson.core:jackson-core'
+    implementation 'commons-beanutils:commons-beanutils'
+    
 }
 
 bootRun {

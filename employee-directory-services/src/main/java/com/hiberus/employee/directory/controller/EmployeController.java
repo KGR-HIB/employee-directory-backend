@@ -1,6 +1,7 @@
 package com.hiberus.employee.directory.controller;
 
 import java.util.List;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -13,11 +14,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.hiberus.employee.directory.entity.EmployeeEntity;
+import com.hiberus.employee.directory.entity.ProjectEntity;
 import com.hiberus.employee.directory.security.AuthSecurityUtil;
+import com.hiberus.employee.directory.service.IEmployeeProjectService;
 import com.hiberus.employee.directory.service.IEmployeeService;
 import com.hiberus.employee.directory.service.IUserService;
+import com.hiberus.employee.directory.util.ProjectUtil;
 import com.hiberus.employee.directory.vo.Employe;
 import com.hiberus.employee.directory.vo.EmployeProjectRequest;
+import com.hiberus.employee.directory.vo.Project;
 import com.hiberus.employee.directory.vo.common.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -51,8 +56,13 @@ public class EmployeController {
     @Getter
     private IUserService userService;
 
+    @Lazy
+    @Autowired
+    @Getter
+    private IEmployeeProjectService employeeProjectService;
+
     /**
-     * Crea empleado.
+     * Create employee.
      * 
      * @author acachiguango on 01/07/2021
      * @param request EmployeeEntity
@@ -93,14 +103,24 @@ public class EmployeController {
             HttpStatus.OK);
     }
 
+    /**
+     * Add project to employee.
+     * 
+     * @author acachiguango on 02/07/2021
+     * @param request EmployeProjectRequest
+     * @return List of projects
+     */
     @PostMapping("/projects/add")
-    @Operation(summary = "Add project.")
+    @Operation(summary = "Add project")
     @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Add project to employee",
         content = { @Content(mediaType = "application/json",
             array = @ArraySchema(schema = @Schema(implementation = Employe.class))) }) })
-    public ResponseEntity<Response<Employe>> addProject(@RequestBody EmployeProjectRequest request) {
-
-        return null;
+    public ResponseEntity<Response<List<Project>>> addProject(@Valid @RequestBody EmployeProjectRequest request) {
+        Integer createdByUser = AuthSecurityUtil.getUserLogin().getId();
+        List<ProjectEntity> projects = ProjectUtil.getEntities(request.getProjects());
+        return new ResponseEntity<>(Response.<List<Project>>builder()
+            .data(this.employeeProjectService.createByName(projects, request.getEmployeeId(), createdByUser)).build(),
+            HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

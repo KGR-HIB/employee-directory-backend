@@ -27,7 +27,6 @@ import org.springframework.stereotype.Repository;
  * 
  * @author acachiguango on 01/07/2021
  * @version 1.0
- * @since 1.0.0
  */
 @Lazy
 @Repository

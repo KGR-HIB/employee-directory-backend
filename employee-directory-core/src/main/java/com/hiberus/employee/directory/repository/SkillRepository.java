@@ -2,7 +2,6 @@ package com.hiberus.employee.directory.repository;
 
 import static com.hiberus.employee.directory.entity.QSkillEntity.skillEntity;
 import static com.querydsl.core.types.Projections.bean;
-
 import java.util.List;
 import com.hiberus.employee.directory.entity.SkillEntity;
 import com.hiberus.employee.directory.repository.common.JPAQueryDslBaseRepository;
@@ -24,11 +23,12 @@ public class SkillRepository extends JPAQueryDslBaseRepository<SkillEntity> impl
         super(SkillEntity.class);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Skill> findAll() {
-        return from(skillEntity)
-            .select(bean(Skill.class, skillEntity.id, skillEntity.name))
-            .where(skillEntity.status.eq(Boolean.TRUE))
-            .fetch();
+        return from(skillEntity).select(bean(Skill.class, skillEntity.id, skillEntity.name))
+            .where(skillEntity.status.eq(Boolean.TRUE)).fetch();
     }
 }

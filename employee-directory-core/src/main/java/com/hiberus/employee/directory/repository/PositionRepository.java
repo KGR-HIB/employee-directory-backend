@@ -2,8 +2,9 @@ package com.hiberus.employee.directory.repository;
 
 import static com.hiberus.employee.directory.entity.QPositionEntity.positionEntity;
 import static com.querydsl.core.types.Projections.bean;
-
 import java.util.List;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Repository;
 import com.hiberus.employee.directory.entity.PositionEntity;
 import com.hiberus.employee.directory.repository.common.JPAQueryDslBaseRepository;
 import com.hiberus.employee.directory.util.DateUtil;
@@ -11,8 +12,6 @@ import com.hiberus.employee.directory.util.NameUtil;
 import com.hiberus.employee.directory.vo.Position;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Repository;
 
 /**
  * Position repository implements
@@ -33,10 +32,8 @@ public class PositionRepository extends JPAQueryDslBaseRepository<PositionEntity
      */
     @Override
     public List<Position> findAll() {
-        return from(positionEntity)
-            .select(bean(Position.class, positionEntity.id, positionEntity.name))
-            .where(positionEntity.status.eq(Boolean.TRUE))
-            .fetch();
+        return from(positionEntity).select(bean(Position.class, positionEntity.id, positionEntity.name))
+            .where(positionEntity.status.eq(Boolean.TRUE)).fetch();
     }
 
     /**
@@ -68,10 +65,10 @@ public class PositionRepository extends JPAQueryDslBaseRepository<PositionEntity
     }
 
     /**
-     * Obtiene cargo por nombre.
+     * Get position by name.
      * 
      * @author acachiguango on 01/07/2021
-     * @param name nombre
+     * @param name name position
      * @return PositionEntity
      */
     private PositionEntity findByName(String name) {

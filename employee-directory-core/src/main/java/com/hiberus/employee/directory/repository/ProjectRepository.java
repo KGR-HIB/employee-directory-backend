@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
 import com.hiberus.employee.directory.entity.ProjectEntity;
 import com.hiberus.employee.directory.repository.common.JPAQueryDslBaseRepository;
 import com.hiberus.employee.directory.util.DateUtil;
@@ -43,6 +44,9 @@ public class ProjectRepository extends JPAQueryDslBaseRepository<ProjectEntity> 
     @Override
     public List<Integer> createByName(List<ProjectEntity> projects, Integer createdByUser) {
         List<Integer> projectIds = new ArrayList<>();
+        if (CollectionUtils.isEmpty(projects)) {
+            return projectIds;
+        }
         for (ProjectEntity projectEntity : projects) {
             if (null == projectEntity.getId()) {
                 projectIds.add(this.validateByName(projectEntity, createdByUser));

@@ -2,7 +2,6 @@ package com.hiberus.employee.directory.repository;
 
 import static com.hiberus.employee.directory.entity.QCityEntity.cityEntity;
 import static com.querydsl.core.types.Projections.bean;
-
 import java.util.List;
 import com.hiberus.employee.directory.entity.CityEntity;
 import com.hiberus.employee.directory.repository.common.JPAQueryDslBaseRepository;
@@ -28,12 +27,13 @@ public class CityRepository extends JPAQueryDslBaseRepository<CityEntity> implem
         super(CityEntity.class);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<City> findAll() {
-        return from(cityEntity)
-            .select(bean(City.class, cityEntity.id, cityEntity.name))
-            .where(cityEntity.status.eq(Boolean.TRUE))
-            .fetch();
+        return from(cityEntity).select(bean(City.class, cityEntity.id, cityEntity.name))
+            .where(cityEntity.status.eq(Boolean.TRUE)).fetch();
     }
 
     /**
@@ -64,10 +64,10 @@ public class CityRepository extends JPAQueryDslBaseRepository<CityEntity> implem
     }
 
     /**
-     * Obtiene ciudad por nombre.
+     * Get city by name.
      * 
      * @author acachiguango on 01/07/2021
-     * @param name nombre
+     * @param name name city
      * @return CityEntity
      */
     private CityEntity findByName(String name) {

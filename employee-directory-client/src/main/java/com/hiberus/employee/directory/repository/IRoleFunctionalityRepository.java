@@ -14,10 +14,10 @@ import com.hiberus.employee.directory.vo.RoleFunctionality;
 public interface IRoleFunctionalityRepository extends IQueryDslBaseRepository<RoleFunctionalityEntity> {
 
     /**
-     * Obtiene funcionalidades por roleId.
+     * Get functionalities by roleId.
      * 
      * @author acachiguango on 02/07/2021
-     * @param roleId id rol
+     * @param roleId id role
      * @return List RoleFunctionality
      */
     List<RoleFunctionality> findByRoleId(Integer roleId);

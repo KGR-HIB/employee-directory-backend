@@ -3,6 +3,7 @@ package com.hiberus.employee.directory.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import com.hiberus.employee.directory.entity.UserEntity;
 import com.hiberus.employee.directory.repository.IRoleFunctionalityRepository;
@@ -37,6 +38,7 @@ public class UserService extends BaseService<UserEntity, IUserRepository> implem
     /**
      * {@inheritDoc}
      */
+    @Transactional(readOnly = true)
     @Override
     public User login(User request) {
         User user = this.repository.login(request);
@@ -49,6 +51,7 @@ public class UserService extends BaseService<UserEntity, IUserRepository> implem
     /**
      * {@inheritDoc}
      */
+    @Transactional(readOnly = true)
     @Override
     public Boolean existsByMail(String email) {
         return this.repository.existsByMail(email);

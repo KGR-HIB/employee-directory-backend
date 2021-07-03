@@ -2,6 +2,7 @@ package com.hiberus.employee.directory.service;
 
 import java.util.List;
 import com.hiberus.employee.directory.entity.ProjectEntity;
+import com.hiberus.employee.directory.vo.Project;
 
 /**
  * IEmployeeProjectService.
@@ -15,8 +16,9 @@ public interface IEmployeeProjectService {
      * 
      * @author acachiguango on 02/07/2021
      * @param projects List ProjectEntity
-     * @param employeeId employe Id
+     * @param employeeId employee Id
      * @param createdByUser user Id
+     * @return List Project
      */
-    void createByName(List<ProjectEntity> projects, Integer employeId, Integer createdByUser);
+    List<Project> createByName(List<ProjectEntity> projects, Integer employeeId, Integer createdByUser);
 }

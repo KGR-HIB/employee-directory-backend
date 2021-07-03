@@ -19,7 +19,7 @@ public final class DateUtil {
     }
 
     /**
-     * Obtiene la fecha actual.
+     * Get current date.
      * 
      * @author acachiguango on 01/07/2021
      * @return Date

@@ -21,7 +21,7 @@ public interface IDepartmentRepository extends IQueryDslBaseRepository<Departmen
     List<Department> findAll();
 
     /**
-     * Crea departamento ssi no existe.
+     * Create department if it does not exist.
      * 
      * @author acachiguango on 01/07/2021
      * @param departmentEntity DepartmentEntity
@@ -31,7 +31,7 @@ public interface IDepartmentRepository extends IQueryDslBaseRepository<Departmen
     Integer createByName(DepartmentEntity departmentEntity, Integer createdByUser);
 
     /**
-     * Crea ciudad.
+     * Create department.
      * 
      * @author acachiguango on 01/07/2021
      * @param departmentEntity DepartmentEntity

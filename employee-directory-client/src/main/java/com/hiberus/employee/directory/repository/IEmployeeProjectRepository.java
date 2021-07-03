@@ -24,14 +24,16 @@ public interface IEmployeeProjectRepository extends IQueryDslBaseRepository<Empl
     void create(List<Integer> projectIds, Integer employeeId, Integer createdByUser);
 
     /**
-     * Disable project employee.
+     * Updates the status of the employee project.
      * 
      * @author acachiguango on 02/07/2021
      * @param projectIds project Ids
      * @param employeeId employe Id
      * @param createdByUser user Id
+     * @param status state
      */
-    void disableEmployeeProject(List<Integer> projectIds, Integer employeeId, Integer createdByUser);
+    void updateStatusEmployeeProject(List<Integer> projectIds, Integer employeeId, Integer createdByUser,
+        Boolean status);
 
     /**
      * Get all projects of an employee
@@ -40,5 +42,5 @@ public interface IEmployeeProjectRepository extends IQueryDslBaseRepository<Empl
      * @param employeeId
      * @return List<Project>
      */
-    List<Project> findByEmployeeId(Integer employeeId);
+    List<Project> findByEmployeeId(Integer employeeId, Boolean status);
 }

@@ -22,7 +22,7 @@ public final class AuthSecurityUtil {
         new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     /**
-     * Obtiene el usuario logueado.
+     * Get logged in user.
      * 
      * @author acachiguango on 30/06/2021
      * @return User

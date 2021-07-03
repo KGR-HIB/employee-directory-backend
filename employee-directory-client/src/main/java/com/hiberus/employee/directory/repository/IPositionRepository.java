@@ -21,7 +21,7 @@ public interface IPositionRepository extends IQueryDslBaseRepository<PositionEnt
     List<Position> findAll();
 
     /**
-     * Crea cargo ssi no existe.
+     * Create position if it doesn't exist.
      * 
      * @author acachiguango on 01/07/2021
      * @param positionEntity PositionEntity
@@ -31,7 +31,7 @@ public interface IPositionRepository extends IQueryDslBaseRepository<PositionEnt
     Integer createByName(PositionEntity positionEntity, Integer createdByUser);
 
     /**
-     * Crea ciudad.
+     * Create position.
      * 
      * @author acachiguango on 01/07/2021
      * @param positionEntity PositionEntity

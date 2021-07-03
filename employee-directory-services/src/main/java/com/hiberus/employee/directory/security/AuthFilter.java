@@ -51,7 +51,7 @@ public class AuthFilter extends OncePerRequestFilter {
     }
 
     /**
-     * Valida token.
+     * Validate token.
      * 
      * @author acachiguango on 29/06/2021
      * @param request HttpServletRequest
@@ -77,7 +77,7 @@ public class AuthFilter extends OncePerRequestFilter {
     }
 
     /**
-     * checkJWTToken.
+     * Check JWT token.
      * 
      * @author acachiguango on 29/06/2021
      * @param request HttpServletRequest

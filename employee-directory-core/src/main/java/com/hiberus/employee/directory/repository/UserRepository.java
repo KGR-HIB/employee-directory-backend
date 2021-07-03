@@ -74,11 +74,11 @@ public class UserRepository extends JPAQueryDslBaseRepository<UserEntity> implem
     }
 
     /**
-     * Actualiza datos del usuario.
+     * Updates user data.
      * 
      * @author acahciguango on 01/07/2021
      * @param entity UserEntity
-     * @param createdByUser id usuario
+     * @param createdByUser user id
      */
     private void updateValues(UserEntity entity, Integer createdByUser) {
         BooleanBuilder where = new BooleanBuilder();

@@ -32,10 +32,10 @@ public class AuthToken {
     private ObjectMapper objectMapper;
 
     /**
-     * Obtiene token.
+     * Get token.
      * 
      * @author acachiguango on 30/06/2021
-     * @param username
+     * @param User user
      * @return JWT
      */
     public String getAccessToken(User user) {

@@ -7,6 +7,7 @@ import com.hiberus.employee.directory.service.common.BaseService;
 import com.hiberus.employee.directory.vo.Skill;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 /**
@@ -24,6 +25,10 @@ public class SkillService extends BaseService<SkillEntity, ISkillRepository> imp
         super(repository);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Transactional(readOnly = true)
     @Override
     public List<Skill> findAll() {
         return repository.findAll();
