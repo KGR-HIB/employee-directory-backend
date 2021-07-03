@@ -29,16 +29,27 @@ import lombok.Setter;
 @Entity(name = "HHTEDTEMPCER")
 public class EmployeeCertificationEntity extends AbstractBaseAuditable {
 
+    /**
+     * serialVersionUID.
+     */
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "EMPCER_ID")
     private Integer id;
 
     /**
-     * Id of employee
+     * Id of employee.
      */
     @Column(name = "EMPLOYEE_ID")
     private Integer employeeId;
+
+    /**
+     * Id of certification.
+     */
+    @Column(name = "CERTIFICATION_ID")
+    private Integer certificationId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CERTIFICATION_ID", referencedColumnName = "CERTIFICATION_ID", insertable = false,

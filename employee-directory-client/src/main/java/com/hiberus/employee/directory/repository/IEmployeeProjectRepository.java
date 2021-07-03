@@ -39,7 +39,8 @@ public interface IEmployeeProjectRepository extends IQueryDslBaseRepository<Empl
      * Get all projects of an employee
      * 
      * @author bcueva on 02/07/2021
-     * @param employeeId
+     * @param employeeId id employee
+     * @param status state
      * @return List<Project>
      */
     List<Project> findByEmployeeId(Integer employeeId, Boolean status);

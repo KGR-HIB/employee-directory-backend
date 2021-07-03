@@ -19,4 +19,22 @@ public interface ICertificationRepository extends IQueryDslBaseRepository<Certif
      * @return List of CertificationEntity
      */
     List<Certification> findAll();
+
+    /**
+     * Create tag if it does not exist.
+     * 
+     * @author acachiguango on 03/07/2021
+     * @param certifications List CertificationEntity
+     * @param createdByUser user Id
+     * @return List projectIds
+     */
+    List<Integer> createByName(List<CertificationEntity> certifications, Integer createdByUser);
+
+    /**
+     * Create certification.
+     * 
+     * @author acachiguango on 03/07/2021
+     * @param certificationEntity CertificationEntity
+     */
+    void create(CertificationEntity certificationEntity);
 }
