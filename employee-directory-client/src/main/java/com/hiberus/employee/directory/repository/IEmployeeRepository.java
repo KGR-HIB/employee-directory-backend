@@ -52,6 +52,7 @@ public interface IEmployeeRepository extends IQueryDslBaseRepository<EmployeeEnt
     /**
      * Page the employees that match the filters
      *
+     * @author bcueva
      * @param pageable Page to find
      * @param query Query by name, lastName or email
      * @param employeeFiltersRequest Filter

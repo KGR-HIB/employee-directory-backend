@@ -178,6 +178,7 @@ public class EmployeController {
     /**
      * Get page of employee
      *
+     * @author bcueva
      * @param page Page number
      * @param size Number of elements per page
      * @param query Query by name, lastName or email

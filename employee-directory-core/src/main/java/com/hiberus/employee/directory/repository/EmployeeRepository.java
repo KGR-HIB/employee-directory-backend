@@ -174,6 +174,7 @@ public class EmployeeRepository extends JPAQueryDslBaseRepository<EmployeeEntity
     /**
      * Add joins to jpa query to paging
      *
+     * @author bcueva
      * @param jpqlQuery Query
      * @param employeeFiltersRequest Advanced filters
      */
@@ -201,6 +202,7 @@ public class EmployeeRepository extends JPAQueryDslBaseRepository<EmployeeEntity
     /**
      * Create restrictions by filter
      *
+     * @author bcueva
      * @param query Query by name, lastName and email
      * @param employeeFiltersRequest Advanced filter
      * @return Employee page

@@ -34,6 +34,7 @@ public interface IEmployeeService {
     /**
      * Get Sheet of employee
      *
+     * @author bcueva
      * @param id Id of employee
      * @return Employee
      */
@@ -42,6 +43,7 @@ public interface IEmployeeService {
     /**
      * Page the employees that match the filters
      *
+     * @author bcueva
      * @param page Page number
      * @param size Number of elements per page
      * @param query Query by name, lastName or email
