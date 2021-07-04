@@ -52,13 +52,9 @@ heroku deploy:jar employee-directory-services/build/libs/employee-directory-serv
 | Employee      | Page employee list                         | POST   | /api/v1/employees/page?query={query}&page={page} | EmployeFilter         | Response<PageEmployees>         |         |
 | Employee      | Get info employee                          | GET    | /api/v1/employees/{id}                           |                       | Response<[Employee]>            |         |
 | Employee      | Create employee                            | POST   | /api/v1/employees/createOrUpdate                 | EmployeeManage        | Response<null>                  | ✅      |
-| Employee      | Update primary information for an employee | POST   | /api/v1/employees/createOrUpdate                 | EmployeeManage        | Response<null>                  | ✅      |
-| Employee      | Add a project to an employee               | POST   | /api/v1/employees/projects/add                   | EmployeeProject       | Response<EmployeeProject>       | ✅      |
-| Employee      | Remove a project to an employee            | POST	  | /api/v1/employees/projects/add                   |                       | Response<null>                  | ✅      |
-| Employee      | Add a certification to an employee         | POST   | /api/v1/employees/certifications/add             | EmployeeCertification | Response<EmployeeCertification> | ✅      |
-| Employee      | Remove a certification to an employee      | DELETE | /api/v1/employees/certifications/add             |                       | Response<null>                  | ✅      |
-| Employee      | Add a skill to an employee                 | POST   | /api/v1/employees/skills                         | EmployeeSkill         | Response<EmployeeSkill>         |         |
-| Employee      | Remove a skill to an employee              | DELETE | /api/v1/employees/skills/{id}                    |                       | Response<null>                  |         |
+| Employee      | CRUD a project to an employee              | POST   | /api/v1/employees/projects/add                   | EmployeeProject       | Response<EmployeeProject>       | ✅      |
+| Employee      | CRUD a certification to an employee        | POST   | /api/v1/employees/certifications/add             | EmployeeCertification | Response<EmployeeCertification> | ✅      |
+| Employee      | CRUD a skill to an employee                | POST   | /api/v1/employees/skills                         | EmployeeSkill         | Response<EmployeeSkill>         | ✅      |
 | Authorization | Login                                      | POST   | /api/auth/login                                  | {mail, password}      | Response<User>                  | ✅      |
 | Authorization | Logout                                     | GET    | /api/auth/logout                                 |                       |                                 | ✅      |
 
@@ -169,8 +165,16 @@ heroku deploy:jar employee-directory-services/build/libs/employee-directory-serv
 
 ```json
 {
-	"id": 1,
-	"name": "Angular"
+    "employeeId": 6,
+    "skills": [
+        {
+			"id": 1,
+            "name": "WINDOWS"
+        },
+        {
+            "name": "LINUX"
+        }
+    ]
 }
 ```
 
