@@ -3,9 +3,7 @@ package com.hiberus.employee.directory.vo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * VO response for Skill
@@ -28,4 +26,9 @@ public class Skill {
      * Skill's name
      */
     private String name;
+
+    /**
+     * Skill's status
+     */
+    private Boolean status;
 }

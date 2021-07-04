@@ -29,6 +29,11 @@ import lombok.Setter;
 @Entity(name = "HHTEDTEMPSKI")
 public class EmployeeSkillEntity extends AbstractBaseAuditable {
 
+    /**
+     * serialVersionUID.
+     */
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "EMPSKI_ID")

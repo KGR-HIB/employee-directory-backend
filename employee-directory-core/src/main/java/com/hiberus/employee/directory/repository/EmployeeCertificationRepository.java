@@ -2,7 +2,6 @@ package com.hiberus.employee.directory.repository;
 
 import static com.hiberus.employee.directory.entity.QCertificationEntity.certificationEntity;
 import static com.hiberus.employee.directory.entity.QEmployeeCertificationEntity.employeeCertificationEntity;
-import static com.hiberus.employee.directory.entity.QEmployeeProjectEntity.employeeProjectEntity;
 import static com.querydsl.core.types.Projections.bean;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +37,8 @@ public class EmployeeCertificationRepository extends JPAQueryDslBaseRepository<E
      */
     @Override
     public List<Certification> findByEmployeeId(Integer employeeId, Boolean status) {
-        JPQLQuery<Certification> query = from(employeeCertificationEntity).select(
-            bean(Certification.class, certificationEntity.id, certificationEntity.name, employeeCertificationEntity.status));
+        JPQLQuery<Certification> query = from(employeeCertificationEntity).select(bean(Certification.class,
+            certificationEntity.id, certificationEntity.name, employeeCertificationEntity.status));
         query.join(employeeCertificationEntity.certification, certificationEntity);
         BooleanBuilder where = new BooleanBuilder();
         where.and(employeeCertificationEntity.employeeId.eq(employeeId));
@@ -57,7 +56,7 @@ public class EmployeeCertificationRepository extends JPAQueryDslBaseRepository<E
     @Override
     public void create(List<Integer> certificationIds, Integer employeeId, Integer createdByUser) {
         if (CollectionUtils.isEmpty(certificationIds)) {
-            this.updateStatusEmployeeProject(certificationIds, employeeId, createdByUser, Boolean.FALSE);
+            this.updateStatusEmployeeCertification(certificationIds, employeeId, createdByUser, Boolean.FALSE);
             return;
         }
         List<Certification> certifications = this.findByEmployeeId(employeeId, null);
@@ -86,13 +85,13 @@ public class EmployeeCertificationRepository extends JPAQueryDslBaseRepository<E
         }
         // Update active tag status
         if (!CollectionUtils.isEmpty(updateActive)) {
-            this.updateStatusEmployeeProject(updateActive, employeeId, createdByUser, Boolean.TRUE);
+            this.updateStatusEmployeeCertification(updateActive, employeeId, createdByUser, Boolean.TRUE);
         }
         // Update inactive tag status
         List<Integer> updateInactive = certifications.stream().filter(pro -> !certificationIds.contains(pro.getId()))
             .map(Certification::getId).collect(Collectors.toList());
         if (!CollectionUtils.isEmpty(updateInactive)) {
-            this.updateStatusEmployeeProject(updateInactive, employeeId, createdByUser, Boolean.FALSE);
+            this.updateStatusEmployeeCertification(updateInactive, employeeId, createdByUser, Boolean.FALSE);
         }
     }
 
@@ -100,8 +99,8 @@ public class EmployeeCertificationRepository extends JPAQueryDslBaseRepository<E
      * {@inheritDoc}
      */
     @Override
-    public void updateStatusEmployeeProject(List<Integer> certificationIds, Integer employeeId, Integer createdByUser,
-        Boolean status) {
+    public void updateStatusEmployeeCertification(List<Integer> certificationIds, Integer employeeId,
+        Integer createdByUser, Boolean status) {
         QEmployeeCertificationEntity qEmployeeCertificationEntity =
             QEmployeeCertificationEntity.employeeCertificationEntity;
         BooleanBuilder where = new BooleanBuilder();

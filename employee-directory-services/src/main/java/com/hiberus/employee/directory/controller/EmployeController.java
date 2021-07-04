@@ -3,31 +3,6 @@ package com.hiberus.employee.directory.controller;
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import com.hiberus.employee.directory.entity.CertificationEntity;
-import com.hiberus.employee.directory.entity.EmployeeEntity;
-import com.hiberus.employee.directory.entity.ProjectEntity;
-import com.hiberus.employee.directory.security.AuthSecurityUtil;
-import com.hiberus.employee.directory.service.IEmployeeCertificationService;
-import com.hiberus.employee.directory.service.IEmployeeProjectService;
-import com.hiberus.employee.directory.service.IEmployeeService;
-import com.hiberus.employee.directory.service.IUserService;
-import com.hiberus.employee.directory.util.ProjectUtil;
-import com.hiberus.employee.directory.vo.Certification;
-import com.hiberus.employee.directory.vo.Employe;
-import com.hiberus.employee.directory.vo.EmployeProjectRequest;
-import com.hiberus.employee.directory.vo.EmployeeCertificationRequest;
-import com.hiberus.employee.directory.vo.EmployeeFiltersRequest;
-import com.hiberus.employee.directory.vo.Project;
-import com.hiberus.employee.directory.vo.common.PageResponse;
-import com.hiberus.employee.directory.vo.common.Response;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
@@ -40,6 +15,36 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import com.hiberus.employee.directory.entity.CertificationEntity;
+import com.hiberus.employee.directory.entity.EmployeeEntity;
+import com.hiberus.employee.directory.entity.ProjectEntity;
+import com.hiberus.employee.directory.entity.SkillEntity;
+import com.hiberus.employee.directory.security.AuthConstants;
+import com.hiberus.employee.directory.security.AuthSecurityUtil;
+import com.hiberus.employee.directory.service.IEmployeeCertificationService;
+import com.hiberus.employee.directory.service.IEmployeeProjectService;
+import com.hiberus.employee.directory.service.IEmployeeService;
+import com.hiberus.employee.directory.service.IEmployeeSkillService;
+import com.hiberus.employee.directory.service.IUserService;
+import com.hiberus.employee.directory.util.ProjectUtil;
+import com.hiberus.employee.directory.vo.Certification;
+import com.hiberus.employee.directory.vo.Employe;
+import com.hiberus.employee.directory.vo.EmployeProjectRequest;
+import com.hiberus.employee.directory.vo.EmployeeCertificationRequest;
+import com.hiberus.employee.directory.vo.EmployeeFiltersRequest;
+import com.hiberus.employee.directory.vo.EmployeeSkillRequest;
+import com.hiberus.employee.directory.vo.Project;
+import com.hiberus.employee.directory.vo.Skill;
+import com.hiberus.employee.directory.vo.common.PageResponse;
+import com.hiberus.employee.directory.vo.common.Response;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.Getter;
 
 /**
  * EmployeController.
@@ -74,6 +79,11 @@ public class EmployeController {
     @Getter
     private IEmployeeCertificationService employeeCertificationService;
 
+    @Lazy
+    @Autowired
+    @Getter
+    private IEmployeeSkillService employeeSkillService;
+
     /**
      * Create employee.
      * 
@@ -94,7 +104,7 @@ public class EmployeController {
         request.setCreatedByUser(AuthSecurityUtil.getUserLogin().getId());
         this.employeService.createOrUpdate(request);
         return ResponseEntity.ok().body(Response.<Employe>builder().data(Employe.builder().id(request.getId()).build())
-            .code(200).message("success").build());
+            .code(200).message(AuthConstants.SUCCESS).build());
     }
 
     /**
@@ -133,7 +143,7 @@ public class EmployeController {
         List<ProjectEntity> projects = ProjectUtil.getProjectEntities(request.getProjects());
         return new ResponseEntity<>(Response.<List<Project>>builder()
             .data(this.employeeProjectService.createByName(projects, request.getEmployeeId(), createdByUser)).code(200)
-            .message("success").build(), HttpStatus.OK);
+            .message(AuthConstants.SUCCESS).build(), HttpStatus.OK);
     }
 
     /**
@@ -162,9 +172,9 @@ public class EmployeController {
      */
     @PostMapping("/certifications/add")
     @Operation(summary = "Add certificate to employee")
-    @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "add certificate to employee",
+    @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Add certificate to employee",
         content = { @Content(mediaType = "application/json",
-            array = @ArraySchema(schema = @Schema(implementation = Employe.class))) }) })
+            array = @ArraySchema(schema = @Schema(implementation = Certification.class))) }) })
     public ResponseEntity<Response<List<Certification>>>
         addCertifications(@Valid @RequestBody EmployeeCertificationRequest request) {
         Integer createdByUser = AuthSecurityUtil.getUserLogin().getId();
@@ -172,7 +182,7 @@ public class EmployeController {
         return new ResponseEntity<>(Response.<List<Certification>>builder()
             .data(
                 this.employeeCertificationService.createByName(certifications, request.getEmployeeId(), createdByUser))
-            .message("success").build(), HttpStatus.OK);
+            .code(200).message(AuthConstants.SUCCESS).build(), HttpStatus.OK);
     }
 
     /**
@@ -189,18 +199,34 @@ public class EmployeController {
     @Operation(summary = "Employees page that match the filters entered")
     @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Employee page",
         content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Employe.class)) }) })
-    public ResponseEntity<Response<PageResponse<Employe>>> page(@RequestParam Integer page, @RequestParam Integer size, @RequestParam String query, @RequestBody
-        EmployeeFiltersRequest employeeFiltersRequest) {
+    public ResponseEntity<Response<PageResponse<Employe>>> page(@RequestParam Integer page, @RequestParam Integer size,
+        @RequestParam String query, @RequestBody EmployeeFiltersRequest employeeFiltersRequest) {
         Page<Employe> pageEmployee = this.employeService.pageByFilters(page, size, query, employeeFiltersRequest);
-        PageResponse<Employe> pageResponse = PageResponse.<Employe>builder()
-            .data(pageEmployee.getContent())
-            .total(pageEmployee.getTotalElements())
-            .totalPages(pageEmployee.getTotalPages())
-            .currentPage(pageEmployee.getNumber())
-            .build();
-        return new ResponseEntity<>(Response.<PageResponse<Employe>>builder()
-            .data(pageResponse)
-            .build(), HttpStatus.OK);
+        PageResponse<Employe> pageResponse =
+            PageResponse.<Employe>builder().data(pageEmployee.getContent()).total(pageEmployee.getTotalElements())
+                .totalPages(pageEmployee.getTotalPages()).currentPage(pageEmployee.getNumber()).build();
+        return new ResponseEntity<>(Response.<PageResponse<Employe>>builder().data(pageResponse).build(),
+            HttpStatus.OK);
+    }
+
+    /**
+     * Add skill to employee.
+     * 
+     * @author acachiguango on 02/07/2021
+     * @param request EmployeProjectRequest
+     * @return certification List
+     */
+    @PostMapping("/skills/add")
+    @Operation(summary = "Add skill to employee")
+    @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Add skill to employee",
+        content = { @Content(mediaType = "application/json",
+            array = @ArraySchema(schema = @Schema(implementation = Skill.class))) }) })
+    public ResponseEntity<Response<List<Skill>>> addSkills(@Valid @RequestBody EmployeeSkillRequest request) {
+        Integer createdByUser = AuthSecurityUtil.getUserLogin().getId();
+        List<SkillEntity> skills = ProjectUtil.getSkillEntities(request.getSkills());
+        return new ResponseEntity<>(Response.<List<Skill>>builder()
+            .data(this.employeeSkillService.createByName(skills, request.getEmployeeId(), createdByUser)).code(200)
+            .message(AuthConstants.SUCCESS).build(), HttpStatus.OK);
     }
 
 }
