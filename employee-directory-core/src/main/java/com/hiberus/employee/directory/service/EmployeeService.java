@@ -1,7 +1,6 @@
 package com.hiberus.employee.directory.service;
 
 import java.util.List;
-import com.hiberus.employee.directory.exception.EmployeeDirectoryException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
@@ -9,8 +8,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 import com.hiberus.employee.directory.entity.EmployeeEntity;
+import com.hiberus.employee.directory.exception.EmployeeDirectoryException;
 import com.hiberus.employee.directory.repository.ICityRepository;
 import com.hiberus.employee.directory.repository.IDepartmentRepository;
 import com.hiberus.employee.directory.repository.IEmployeeCertificationRepository;
@@ -101,11 +100,7 @@ public class EmployeeService extends BaseService<EmployeeEntity, IEmployeeReposi
     @Override
     public List<Employe> findByNamesAndEmail(String query) {
         List<Employe> employees = this.repository.findByNamesAndEmail(query);
-        if (!CollectionUtils.isEmpty(employees)) {
-            for (Employe employee : employees) {
-                employee.setPhoto(FileUtil.getBase64(employee.getId()));
-            }
-        }
+        FileUtil.addBase64Photos(employees);
         return employees;
     }
 
@@ -121,7 +116,6 @@ public class EmployeeService extends BaseService<EmployeeEntity, IEmployeeReposi
         if (employee == null) {
             throw new EmployeeDirectoryException("No existe el empleado");
         }
-
         // Get projects assigned to the employee
         List<Project> projectList = this.employeeProjectRepository.findByEmployeeId(id, Boolean.TRUE);
         employee.setProjects(projectList);
@@ -131,6 +125,7 @@ public class EmployeeService extends BaseService<EmployeeEntity, IEmployeeReposi
         // Get Skills has employee
         List<Skill> skillList = this.employeeSkillRepository.findByEmployeeId(id, Boolean.TRUE);
         employee.setSkills(skillList);
+        FileUtil.addBase64Photo(employee);
         return employee;
     }
 
@@ -142,7 +137,9 @@ public class EmployeeService extends BaseService<EmployeeEntity, IEmployeeReposi
     public Page<Employe> pageByFilters(Integer page, Integer size, String query,
         EmployeeFiltersRequest employeeFiltersRequest) {
         Pageable pageable = PageRequest.of(page, size);
-        return this.repository.pageByFilters(pageable, query, employeeFiltersRequest);
+        Page<Employe> response = this.repository.pageByFilters(pageable, query, employeeFiltersRequest);
+        FileUtil.addBase64Photos(response.getContent());
+        return response;
     }
 
 }

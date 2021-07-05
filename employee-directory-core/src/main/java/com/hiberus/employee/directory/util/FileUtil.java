@@ -6,14 +6,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Base64;
+import java.util.List;
 import org.apache.commons.io.FileUtils;
+import org.springframework.util.CollectionUtils;
+import com.hiberus.employee.directory.vo.Employe;
 
 /**
  * FileUtil.
  * 
  * @author acachiguango on 05/07/2021
  * @version 1.0
- * @since 1.0.0
  */
 public final class FileUtil {
     /**
@@ -31,8 +33,8 @@ public final class FileUtil {
      */
     public static String getBase64(Integer employeeId) {
         try {
-            byte[] fileContent =
-                FileUtils.readFileToByteArray(new File("src/main/resources/files/".concat(employeeId.toString().concat(".png"))));
+            byte[] fileContent = FileUtils.readFileToByteArray(
+                new File("src/main/resources/files/".concat(employeeId.toString().concat(".png"))));
             if (null != fileContent) {
                 return Base64.getEncoder().encodeToString(fileContent);
             }
@@ -53,6 +55,32 @@ public final class FileUtil {
             Path path = Paths.get("src/main/resources/files/".concat(employeeId.toString()).concat(".png"));
             Files.write(path, bytes);
         } catch (IOException e) {
+        }
+    }
+
+    /**
+     * Add base64 photos.
+     * 
+     * @author acachiguango on 05/07/2021
+     * @param employees list employees
+     */
+    public static void addBase64Photos(List<Employe> employees) {
+        if (!CollectionUtils.isEmpty(employees)) {
+            for (Employe employee : employees) {
+                employee.setPhoto(getBase64(employee.getId()));
+            }
+        }
+    }
+
+    /**
+     * Add base64 photo.
+     * 
+     * @author acachiguango on 05/07/2021
+     * @param Employe employee
+     */
+    public static void addBase64Photo(Employe employee) {
+        if (null != employee) {
+            employee.setPhoto(getBase64(employee.getId()));
         }
     }
 
