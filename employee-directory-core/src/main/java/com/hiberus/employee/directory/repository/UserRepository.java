@@ -2,7 +2,9 @@ package com.hiberus.employee.directory.repository;
 
 import static com.hiberus.employee.directory.entity.QUserEntity.userEntity;
 import static com.querydsl.core.types.Projections.bean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import com.hiberus.employee.directory.entity.QEmployeeEntity;
 import com.hiberus.employee.directory.entity.QRoleEntity;
@@ -25,6 +27,9 @@ import com.querydsl.jpa.JPQLQuery;
 @Lazy
 @Repository
 public class UserRepository extends JPAQueryDslBaseRepository<UserEntity> implements IUserRepository {
+    @Lazy
+    @Autowired
+    private Argon2PasswordEncoder argon2PasswordEncoder;
 
     /**
      * Constructor.
@@ -40,15 +45,14 @@ public class UserRepository extends JPAQueryDslBaseRepository<UserEntity> implem
     public User login(User request) {
         QEmployeeEntity qEmployeeEntity = QEmployeeEntity.employeeEntity;
         QRoleEntity qRoleEntity = QRoleEntity.roleEntity;
-        JPQLQuery<User> query = from(userEntity)
-            .select(bean(User.class, userEntity.id, userEntity.email, userEntity.loginFirstTime, userEntity.roleId,
-                Projections.bean(Employe.class, qEmployeeEntity.name, qEmployeeEntity.lastName).as("employe"),
-                Projections.bean(Role.class, qRoleEntity.id, qRoleEntity.name, qRoleEntity.code).as("role")));
+        JPQLQuery<User> query = from(userEntity).select(bean(User.class, userEntity.id, userEntity.email,
+            userEntity.loginFirstTime, userEntity.roleId, userEntity.password,
+            Projections.bean(Employe.class, qEmployeeEntity.name, qEmployeeEntity.lastName).as("employe"),
+            Projections.bean(Role.class, qRoleEntity.id, qRoleEntity.name, qRoleEntity.code).as("role")));
         query.innerJoin(userEntity.employee, qEmployeeEntity);
         query.innerJoin(userEntity.role, qRoleEntity);
         BooleanBuilder where = new BooleanBuilder();
         where.and(userEntity.email.eq(request.getEmail()));
-        where.and(userEntity.password.eq(request.getPassword()));
         where.and(userEntity.status.eq(Boolean.TRUE));
         query.where(where);
         return query.fetchFirst();
@@ -59,8 +63,9 @@ public class UserRepository extends JPAQueryDslBaseRepository<UserEntity> implem
      */
     @Override
     public Integer createOrUpdate(UserEntity userEntity, Integer createdByUser) {
+        String password = this.argon2PasswordEncoder.encode(userEntity.getPassword());
+        userEntity.setPassword(password);
         if (null == userEntity.getId()) {
-            // Encriptar la contraseña
             userEntity.setEmail(userEntity.getEmail().trim());
             userEntity.setCreateDate(DateUtil.currentDate());
             userEntity.setLoginFirstTime(Boolean.FALSE);

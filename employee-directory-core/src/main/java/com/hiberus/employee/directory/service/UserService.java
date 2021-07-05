@@ -2,6 +2,7 @@ package com.hiberus.employee.directory.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -26,6 +27,10 @@ public class UserService extends BaseService<UserEntity, IUserRepository> implem
     @Autowired
     private IRoleFunctionalityRepository roleFunRepository;
 
+    @Lazy
+    @Autowired
+    private Argon2PasswordEncoder argon2PasswordEncoder;
+
     /**
      * Constructor.
      * 
@@ -42,10 +47,12 @@ public class UserService extends BaseService<UserEntity, IUserRepository> implem
     @Override
     public User login(User request) {
         User user = this.repository.login(request);
-        if (null != user) {
+        if (null != user && this.argon2PasswordEncoder.matches(request.getPassword(), user.getPassword())) {
             user.getRole().setFunctionalities(this.roleFunRepository.findByRoleId(user.getRoleId()));
+            user.setPassword(null);
+            return user;
         }
-        return user;
+        return null;
     }
 
     /**
