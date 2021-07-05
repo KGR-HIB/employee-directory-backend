@@ -2,6 +2,7 @@ package com.hiberus.employee.directory.service;
 
 import java.util.List;
 import com.hiberus.employee.directory.entity.EmployeeEntity;
+import com.hiberus.employee.directory.exception.EmployeeDirectoryException;
 import com.hiberus.employee.directory.vo.Employe;
 import com.hiberus.employee.directory.vo.EmployeeFiltersRequest;
 import org.springframework.data.domain.Page;
@@ -38,7 +39,7 @@ public interface IEmployeeService {
      * @param id Id of employee
      * @return Employee
      */
-    Employe getSheetEmployee(Integer id);
+    Employe getSheetEmployee(Integer id) throws EmployeeDirectoryException;
 
     /**
      * Page the employees that match the filters

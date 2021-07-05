@@ -1,6 +1,7 @@
 package com.hiberus.employee.directory.service;
 
 import java.util.List;
+import com.hiberus.employee.directory.exception.EmployeeDirectoryException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
@@ -105,9 +106,14 @@ public class EmployeeService extends BaseService<EmployeeEntity, IEmployeeReposi
      */
     @Transactional(readOnly = true)
     @Override
-    public Employe getSheetEmployee(Integer id) {
+    public Employe getSheetEmployee(Integer id) throws EmployeeDirectoryException {
         // Get employee's principal information
         Employe employee = this.repository.findEmployeeMainInformationById(id);
+
+        if (employee == null) {
+            throw new EmployeeDirectoryException("No existe el empleado");
+        }
+
         // Get projects assigned to the employee
         List<Project> projectList = this.employeeProjectRepository.findByEmployeeId(id, Boolean.TRUE);
         employee.setProjects(projectList);

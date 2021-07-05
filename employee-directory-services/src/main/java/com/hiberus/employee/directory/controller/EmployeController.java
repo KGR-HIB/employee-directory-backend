@@ -3,22 +3,11 @@ package com.hiberus.employee.directory.controller;
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import com.hiberus.employee.directory.entity.CertificationEntity;
 import com.hiberus.employee.directory.entity.EmployeeEntity;
 import com.hiberus.employee.directory.entity.ProjectEntity;
 import com.hiberus.employee.directory.entity.SkillEntity;
+import com.hiberus.employee.directory.exception.EmployeeDirectoryException;
 import com.hiberus.employee.directory.security.AuthConstants;
 import com.hiberus.employee.directory.security.AuthSecurityUtil;
 import com.hiberus.employee.directory.service.IEmployeeCertificationService;
@@ -45,6 +34,18 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * EmployeController.
@@ -158,9 +159,16 @@ public class EmployeController {
     @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Employee's sheet",
         content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Employe.class)) }) })
     public ResponseEntity<Response<Employe>> getSheetEmployee(@NotBlank @PathVariable Integer id) {
-        return new ResponseEntity<>(
-            Response.<Employe>builder().data(this.employeService.getSheetEmployee(id)).code(200).build(),
-            HttpStatus.OK);
+        try {
+            Employe employee = this.employeService.getSheetEmployee(id);
+            return new ResponseEntity<>(
+                Response.<Employe>builder().data(employee).code(HttpStatus.OK.value()).build(),
+                HttpStatus.OK);
+        } catch (EmployeeDirectoryException e) {
+            return new ResponseEntity<>(
+                Response.<Employe>builder().message(e.getMessage()).code(HttpStatus.NOT_FOUND.value()).build(),
+                HttpStatus.NOT_FOUND);
+        }
     }
 
     /**
