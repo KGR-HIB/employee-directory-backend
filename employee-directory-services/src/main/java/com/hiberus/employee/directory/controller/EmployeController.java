@@ -261,6 +261,13 @@ public class EmployeController {
             .message(AuthConstants.SUCCESS).build(), HttpStatus.OK);
     }
 
+    /**
+     * Get employee photo.
+     * 
+     * @author acachiguango on 05/07/2021
+     * @param employeeId employee Id
+     * @return photo base64
+     */
     @GetMapping("/photo/{employeeId}")
     @Operation(summary = "Get employee photo")
     @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Get employee photo",
