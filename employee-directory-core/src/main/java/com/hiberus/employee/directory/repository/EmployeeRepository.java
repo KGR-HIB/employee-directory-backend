@@ -2,13 +2,8 @@ package com.hiberus.employee.directory.repository;
 
 import static com.hiberus.employee.directory.entity.QEmployeeEntity.employeeEntity;
 import static com.querydsl.core.types.Projections.bean;
+
 import java.util.List;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Repository;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.ObjectUtils;
 import com.hiberus.employee.directory.entity.EmployeeEntity;
 import com.hiberus.employee.directory.entity.QCityEntity;
 import com.hiberus.employee.directory.entity.QDepartmentEntity;
@@ -29,6 +24,12 @@ import com.hiberus.employee.directory.vo.User;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPQLQuery;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 /**
  * EmployeRepository.
@@ -87,13 +88,27 @@ public class EmployeeRepository extends JPAQueryDslBaseRepository<EmployeeEntity
      */
     @Override
     public List<Employe> findByNamesAndEmail(String query) {
+        boolean isNumeric = query.matches("[+-]?\\d*(\\.\\d+)?");
         QUserEntity qUserEntity = QUserEntity.userEntity;
         JPQLQuery<Employe> jpaQuery = from(employeeEntity)
-            .select(bean(Employe.class, employeeEntity.id, employeeEntity.name, employeeEntity.lastName))
-            .join(employeeEntity.user, qUserEntity);
+            .select(bean(Employe.class,employeeEntity.id, employeeEntity.name, employeeEntity.lastName));
 
-        jpaQuery.where(employeeEntity.status.eq(Boolean.TRUE).and(employeeEntity.name.containsIgnoreCase(query)
-            .or(employeeEntity.lastName.containsIgnoreCase(query)).or(qUserEntity.email.containsIgnoreCase(query))));
+        // If query is Id employee
+        if (isNumeric) {
+            jpaQuery.where(employeeEntity.id.eq(Integer.valueOf(query)));
+            return jpaQuery.fetch();
+        }
+
+        // Otherwise search in name, lastName and email
+        jpaQuery.join(employeeEntity.user, qUserEntity);
+        jpaQuery.where(
+            employeeEntity.status.eq(Boolean.TRUE)
+                .and(
+                    employeeEntity.name.containsIgnoreCase(query)
+                        .or(employeeEntity.lastName.containsIgnoreCase(query))
+                        .or(qUserEntity.email.containsIgnoreCase(query))
+                )
+            );
 
         jpaQuery.orderBy(employeeEntity.name.asc(), employeeEntity.lastName.asc());
 
@@ -111,19 +126,25 @@ public class EmployeeRepository extends JPAQueryDslBaseRepository<EmployeeEntity
         QUserEntity qUserEntity = QUserEntity.userEntity;
         QEmployeeEntity qEmployeeChief = new QEmployeeEntity("chief");
 
-        JPQLQuery<Employe> jpqlQuery = from(employeeEntity).select(bean(Employe.class, employeeEntity.id,
-            employeeEntity.name, employeeEntity.lastName, employeeEntity.phone,
-            bean(City.class, qCityEntity.id, qCityEntity.name).as("city"),
-            bean(Department.class, qDepartmentEntity.id, qDepartmentEntity.name).as("department"),
-            bean(Position.class, qPositionEntity.id, qPositionEntity.name).as("position"),
-            bean(User.class, qUserEntity.id, qUserEntity.email).as("user"),
-            bean(Employe.class, qEmployeeChief.id, qEmployeeChief.name, qEmployeeChief.lastName).as("immediateChief")));
+        JPQLQuery<Employe> jpqlQuery = from(employeeEntity)
+            .select(bean(Employe.class, employeeEntity.id, employeeEntity.name, employeeEntity.lastName, employeeEntity.phone,
+                bean(City.class, qCityEntity.id, qCityEntity.name).as("city"),
+                bean(Department.class, qDepartmentEntity.id, qDepartmentEntity.name).as("department"),
+                bean(Position.class, qPositionEntity.id, qPositionEntity.name).as("position"),
+                bean(User.class, qUserEntity.id, qUserEntity.email).as("user"),
+                bean(Employe.class, qEmployeeChief.id, qEmployeeChief.name, qEmployeeChief.lastName).as("immediateChief")
+            ));
 
-        jpqlQuery.leftJoin(employeeEntity.city, qCityEntity).leftJoin(employeeEntity.department, qDepartmentEntity)
-            .leftJoin(employeeEntity.position, qPositionEntity).leftJoin(employeeEntity.user, qUserEntity)
+        jpqlQuery.leftJoin(employeeEntity.city, qCityEntity)
+            .leftJoin(employeeEntity.department, qDepartmentEntity)
+            .leftJoin(employeeEntity.position, qPositionEntity)
+            .leftJoin(employeeEntity.user, qUserEntity)
             .leftJoin(qEmployeeChief).on(employeeEntity.immediateChiefId.eq(qEmployeeChief.id));
 
-        jpqlQuery.where(employeeEntity.id.eq(id).and(employeeEntity.status.eq(Boolean.TRUE)));
+        jpqlQuery.where(
+            employeeEntity.id.eq(id)
+                .and(employeeEntity.status.eq(Boolean.TRUE))
+        );
 
         return jpqlQuery.fetchFirst();
     }
@@ -132,7 +153,8 @@ public class EmployeeRepository extends JPAQueryDslBaseRepository<EmployeeEntity
      * {@inheritDoc}
      */
     @Override
-    public Page<Employe> pageByFilters(Pageable pageable, String query, EmployeeFiltersRequest employeeFiltersRequest) {
+    public Page<Employe> pageByFilters(Pageable pageable, String query,
+        EmployeeFiltersRequest employeeFiltersRequest) {
 
         final BooleanExpression booleanExpression = this.getRestrictionByFilter(query, employeeFiltersRequest);
 
@@ -141,15 +163,18 @@ public class EmployeeRepository extends JPAQueryDslBaseRepository<EmployeeEntity
         QDepartmentEntity qDepartmentEntity = QDepartmentEntity.departmentEntity;
 
         JPQLQuery<Employe> jpqlQuery = from(employeeEntity)
-            .select(bean(Employe.class, employeeEntity.id, employeeEntity.name, employeeEntity.lastName,
-                employeeEntity.phone, bean(User.class, qUserEntity.email).as("user"),
+            .select(bean(Employe.class, employeeEntity.id, employeeEntity.name, employeeEntity.lastName, employeeEntity.phone,
+                bean(User.class, qUserEntity.email).as("user"),
                 bean(Position.class, qPositionEntity.name).as("position"),
-                bean(Department.class, qDepartmentEntity.name).as("department")))
-            .leftJoin(employeeEntity.position, qPositionEntity).leftJoin(employeeEntity.department, qDepartmentEntity);
+                bean(Department.class, qDepartmentEntity.name).as("department")
+            ))
+            .leftJoin(employeeEntity.position, qPositionEntity)
+            .leftJoin(employeeEntity.department, qDepartmentEntity);
 
         this.addJoinsByFilters(jpqlQuery, employeeFiltersRequest);
 
-        jpqlQuery.where(booleanExpression).groupBy(employeeEntity.id);
+        jpqlQuery.where(booleanExpression)
+            .groupBy(employeeEntity.id);
 
         jpqlQuery.orderBy(employeeEntity.name.asc(), employeeEntity.lastName.asc());
 
@@ -167,8 +192,7 @@ public class EmployeeRepository extends JPAQueryDslBaseRepository<EmployeeEntity
         QUserEntity qUserEntity = QUserEntity.userEntity;
         QEmployeeProjectEntity qEmployeeProjectEntity = QEmployeeProjectEntity.employeeProjectEntity;
         QEmployeeSkillEntity qEmployeeSkillEntity = QEmployeeSkillEntity.employeeSkillEntity;
-        QEmployeeCertificationEntity qEmployeeCertificationEntity =
-            QEmployeeCertificationEntity.employeeCertificationEntity;
+        QEmployeeCertificationEntity qEmployeeCertificationEntity = QEmployeeCertificationEntity.employeeCertificationEntity;
 
         jpqlQuery.leftJoin(employeeEntity.user, qUserEntity);
 
@@ -198,61 +222,63 @@ public class EmployeeRepository extends JPAQueryDslBaseRepository<EmployeeEntity
         QUserEntity qUserEntity = QUserEntity.userEntity;
         QEmployeeProjectEntity qEmployeeProjectEntity = QEmployeeProjectEntity.employeeProjectEntity;
         QEmployeeSkillEntity qEmployeeSkillEntity = QEmployeeSkillEntity.employeeSkillEntity;
-        QEmployeeCertificationEntity qEmployeeCertificationEntity =
-            QEmployeeCertificationEntity.employeeCertificationEntity;
+        QEmployeeCertificationEntity qEmployeeCertificationEntity = QEmployeeCertificationEntity.employeeCertificationEntity;
 
         // Filter by name, lastName and email
         if (!ObjectUtils.isEmpty(query)) {
-            where = where.and(employeeEntity.name.containsIgnoreCase(query)
-                .or(employeeEntity.lastName.containsIgnoreCase(query)).or(qUserEntity.email.containsIgnoreCase(query)));
+            where = where.and(
+                employeeEntity.name.containsIgnoreCase(query)
+                    .or(employeeEntity.lastName.containsIgnoreCase(query))
+                    .or(qUserEntity.email.containsIgnoreCase(query))
+            );
         }
 
         // Filter by position
         if (!CollectionUtils.isEmpty(employeeFiltersRequest.getPositions())) {
-            where = where.and(employeeEntity.positionId.in(employeeFiltersRequest.getPositions()));
+            where = where.and(
+                employeeEntity.positionId.in(employeeFiltersRequest.getPositions())
+            );
         }
 
         // Filter by department
         if (!CollectionUtils.isEmpty(employeeFiltersRequest.getDepartments())) {
-            where = where.and(employeeEntity.departmentId.in(employeeFiltersRequest.getDepartments()));
+            where = where.and(
+                employeeEntity.departmentId.in(employeeFiltersRequest.getDepartments())
+            );
         }
 
         // Filter by city
         if (!CollectionUtils.isEmpty(employeeFiltersRequest.getCities())) {
-            where = where.and(employeeEntity.cityId.in(employeeFiltersRequest.getCities()));
+            where = where.and(
+                employeeEntity.cityId.in(employeeFiltersRequest.getCities())
+            );
         }
 
         // Filter by project
         if (!CollectionUtils.isEmpty(employeeFiltersRequest.getProjects())) {
-            where = where.and(qEmployeeProjectEntity.status.eq(Boolean.TRUE)
-                .and(qEmployeeProjectEntity.projectId.in(employeeFiltersRequest.getProjects())));
+            where = where.and(
+                qEmployeeProjectEntity.status.eq(Boolean.TRUE)
+                .and(qEmployeeProjectEntity.projectId.in(employeeFiltersRequest.getProjects()))
+            );
         }
 
         // Filter by skill
         if (!CollectionUtils.isEmpty(employeeFiltersRequest.getSkills())) {
-            where = where.and(qEmployeeSkillEntity.status.eq(Boolean.TRUE)
-                .and(qEmployeeSkillEntity.skillId.in(employeeFiltersRequest.getSkills())));
+            where = where.and(
+                qEmployeeSkillEntity.status.eq(Boolean.TRUE)
+                .and(qEmployeeSkillEntity.skillId.in(employeeFiltersRequest.getSkills()))
+            );
         }
 
         // Filter by certification
         if (!CollectionUtils.isEmpty(employeeFiltersRequest.getCertifications())) {
-            where = where.and(qEmployeeCertificationEntity.status.eq(Boolean.TRUE)
-                .and(qEmployeeCertificationEntity.certificationId.in(employeeFiltersRequest.getCertifications())));
+            where = where.and(
+                qEmployeeCertificationEntity.status.eq(Boolean.TRUE)
+                .and(qEmployeeCertificationEntity.certificationId.in(employeeFiltersRequest.getCertifications()))
+            );
         }
 
         return where;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Integer findUserId(Integer id) {
-        JPQLQuery<Integer> query = from(employeeEntity).select(employeeEntity.userId);
-        BooleanBuilder where = new BooleanBuilder();
-        where.and(employeeEntity.id.eq(id));
-        query.where(where);
-        return query.fetchFirst();
     }
 
 }
