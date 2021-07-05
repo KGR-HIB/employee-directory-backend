@@ -2,6 +2,7 @@ package com.hiberus.employee.directory.repository;
 
 import static com.hiberus.employee.directory.entity.QUserEntity.userEntity;
 import static com.querydsl.core.types.Projections.bean;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
@@ -75,6 +76,7 @@ public class UserRepository extends JPAQueryDslBaseRepository<UserEntity> implem
             return userEntity.getId();
         }
         this.updateValues(userEntity, createdByUser);
+        this.updatePassword(userEntity);
         return userEntity.getId();
     }
 
@@ -92,6 +94,23 @@ public class UserRepository extends JPAQueryDslBaseRepository<UserEntity> implem
         update(userEntity).where(where).set(userEntity.password, entity.getPassword())
             .set(userEntity.roleId, entity.getRoleId()).set(userEntity.lastModifiedByUser, createdByUser)
             .set(userEntity.lastModifiedDate, DateUtil.currentDate()).execute();
+    }
+
+    /**
+     * Update password.
+     * 
+     * @author acachiguango on 05/07/2021
+     * @param entity UserEntity
+     * @param createdByUser user id
+     */
+    private void updatePassword(UserEntity entity) {
+        if (StringUtils.isNotBlank(entity.getPassword())) {
+            String password = this.argon2PasswordEncoder.encode(entity.getPassword());
+            BooleanBuilder where = new BooleanBuilder();
+            where.and(userEntity.id.eq(entity.getId()));
+            where.and(userEntity.status.eq(Boolean.TRUE));
+            update(userEntity).where(where).set(userEntity.password, password).execute();
+        }
     }
 
     /**
