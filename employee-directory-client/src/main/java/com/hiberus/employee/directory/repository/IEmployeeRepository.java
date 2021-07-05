@@ -1,12 +1,12 @@
 package com.hiberus.employee.directory.repository;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import com.hiberus.employee.directory.entity.EmployeeEntity;
 import com.hiberus.employee.directory.repository.common.IQueryDslBaseRepository;
 import com.hiberus.employee.directory.vo.Employe;
 import com.hiberus.employee.directory.vo.EmployeeFiltersRequest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 /**
  * IEmployeRepository.
@@ -59,4 +59,13 @@ public interface IEmployeeRepository extends IQueryDslBaseRepository<EmployeeEnt
      * @return Employee page
      */
     Page<Employe> pageByFilters(Pageable pageable, String query, EmployeeFiltersRequest employeeFiltersRequest);
+
+    /**
+     * Find userId by id
+     * 
+     * @author acachiguango on 05/07/2021
+     * @param id employeeId
+     * @return userId
+     */
+    Integer findUserId(Integer id);
 }

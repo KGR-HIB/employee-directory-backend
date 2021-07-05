@@ -14,9 +14,8 @@ dependencies {
     
     // crypto
     implementation 'org.springframework.security:spring-security-crypto'
-    implementation 'org.bouncycastle.security:bcpkix-jdk15on'
     implementation 'org.bouncycastle:bcprov-debug-jdk15to18'
-    
+    implementation 'org.apache.commons:commons-lang3'
     
  
     // Test
