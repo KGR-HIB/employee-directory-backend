@@ -24,6 +24,7 @@ import com.hiberus.employee.directory.entity.CertificationEntity;
 import com.hiberus.employee.directory.entity.EmployeeEntity;
 import com.hiberus.employee.directory.entity.ProjectEntity;
 import com.hiberus.employee.directory.entity.SkillEntity;
+import com.hiberus.employee.directory.exception.EmployeeDirectoryException;
 import com.hiberus.employee.directory.security.AuthConstants;
 import com.hiberus.employee.directory.security.AuthSecurityUtil;
 import com.hiberus.employee.directory.service.IEmployeeCertificationService;
@@ -183,9 +184,15 @@ public class EmployeController {
     @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Employee's sheet",
         content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Employe.class)) }) })
     public ResponseEntity<Response<Employe>> getSheetEmployee(@NotBlank @PathVariable Integer id) {
-        return new ResponseEntity<>(
-            Response.<Employe>builder().data(this.employeService.getSheetEmployee(id)).code(200).build(),
-            HttpStatus.OK);
+        try {
+            Employe employee = this.employeService.getSheetEmployee(id);
+            return new ResponseEntity<>(Response.<Employe>builder().data(employee).code(HttpStatus.OK.value()).build(),
+                HttpStatus.OK);
+        } catch (EmployeeDirectoryException e) {
+            return new ResponseEntity<>(
+                Response.<Employe>builder().message(e.getMessage()).code(HttpStatus.NOT_FOUND.value()).build(),
+                HttpStatus.NOT_FOUND);
+        }
     }
 
     /**
