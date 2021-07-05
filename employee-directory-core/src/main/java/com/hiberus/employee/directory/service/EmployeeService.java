@@ -82,11 +82,10 @@ public class EmployeeService extends BaseService<EmployeeEntity, IEmployeeReposi
         employeeEntity.setCityId(this.cityRepository.createByName(employeeEntity.getCity(), createdByUser));
         employeeEntity.setPositionId(this.positionRepository.createByName(employeeEntity.getPosition(), createdByUser));
         employeeEntity.setDepartmentId(this.deptRepository.createByName(employeeEntity.getDepartment(), createdByUser));
+        employeeEntity.setUserId(this.userRepository.createOrUpdate(employeeEntity.getUser(), createdByUser));
         if (null == employeeEntity.getId()) {
-            employeeEntity.setUserId(this.userRepository.createOrUpdate(employeeEntity.getUser(), createdByUser));
             this.repository.create(employeeEntity);
         } else {
-            employeeEntity.setUserId(this.repository.findUserId(employeeEntity.getId()));
             employeeEntity.setLastModifiedByUser(createdByUser);
             this.repository.updateValues(employeeEntity);
         }

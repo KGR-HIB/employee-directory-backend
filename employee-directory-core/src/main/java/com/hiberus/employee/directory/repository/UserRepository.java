@@ -75,7 +75,7 @@ public class UserRepository extends JPAQueryDslBaseRepository<UserEntity> implem
             this.save(userEntity);
             return userEntity.getId();
         }
-        this.updateValues(userEntity, createdByUser);
+        this.updateRole(userEntity, createdByUser);
         this.updatePassword(userEntity);
         return userEntity.getId();
     }
@@ -87,12 +87,13 @@ public class UserRepository extends JPAQueryDslBaseRepository<UserEntity> implem
      * @param entity UserEntity
      * @param createdByUser user id
      */
-    private void updateValues(UserEntity entity, Integer createdByUser) {
+    private void updateRole(UserEntity entity, Integer createdByUser) {
         BooleanBuilder where = new BooleanBuilder();
         where.and(userEntity.id.eq(entity.getId()));
         where.and(userEntity.status.eq(Boolean.TRUE));
-        update(userEntity).where(where).set(userEntity.password, entity.getPassword())
-            .set(userEntity.roleId, entity.getRoleId()).set(userEntity.lastModifiedByUser, createdByUser)
+        update(userEntity).where(where)
+            .set(userEntity.roleId, entity.getRoleId())
+            .set(userEntity.lastModifiedByUser, createdByUser)
             .set(userEntity.lastModifiedDate, DateUtil.currentDate()).execute();
     }
 
