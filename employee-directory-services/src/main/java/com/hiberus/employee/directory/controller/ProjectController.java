@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.hiberus.employee.directory.common.Constants;
 import com.hiberus.employee.directory.service.IProjectService;
 import com.hiberus.employee.directory.vo.Project;
 import com.hiberus.employee.directory.vo.common.Response;
@@ -44,8 +45,8 @@ public class ProjectController {
         content = { @Content(mediaType = "application/json",
             array = @ArraySchema(schema = @Schema(implementation = Project.class))) }) })
     public ResponseEntity<Response<List<Project>>> findAll() {
-        return new ResponseEntity<>(Response.<List<Project>>builder().data(projectService.findAll()).build(),
-            HttpStatus.OK);
+        return new ResponseEntity<>(Response.<List<Project>>builder().data(projectService.findAll()).code(Constants.OK)
+            .message(Constants.SUCCESS).build(), HttpStatus.OK);
     }
 
 }

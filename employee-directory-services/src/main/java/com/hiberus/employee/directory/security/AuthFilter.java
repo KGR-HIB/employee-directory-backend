@@ -12,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
+import com.hiberus.employee.directory.common.Constants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -35,7 +36,7 @@ public class AuthFilter extends OncePerRequestFilter {
         try {
             if (checkJWTToken(request)) {
                 Claims claims = validateToken(request);
-                if (null != claims.get(AuthConstants.AUTHORITIES)) {
+                if (null != claims.get(Constants.AUTHORITIES)) {
                     setUpSpringAuthentication(claims);
                 } else {
                     SecurityContextHolder.clearContext();
@@ -58,8 +59,8 @@ public class AuthFilter extends OncePerRequestFilter {
      * @return Claims
      */
     private Claims validateToken(HttpServletRequest request) {
-        String jwtToken = request.getHeader(AuthConstants.AUTHORIZATION).replace(AuthConstants.BEARER, "");
-        return Jwts.parser().setSigningKey(AuthConstants.SIGNIN_KEY.getBytes()).parseClaimsJws(jwtToken).getBody();
+        String jwtToken = request.getHeader(Constants.AUTHORIZATION).replace(Constants.BEARER, "");
+        return Jwts.parser().setSigningKey(Constants.SIGNIN_KEY.getBytes()).parseClaimsJws(jwtToken).getBody();
     }
 
     /**
@@ -70,7 +71,7 @@ public class AuthFilter extends OncePerRequestFilter {
      */
     private void setUpSpringAuthentication(Claims claims) {
         @SuppressWarnings("unchecked")
-        List<String> authorities = (List<String>) claims.get(AuthConstants.AUTHORITIES);
+        List<String> authorities = (List<String>) claims.get(Constants.AUTHORITIES);
         UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(claims.getSubject(), null,
             authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
         SecurityContextHolder.getContext().setAuthentication(auth);
@@ -84,8 +85,8 @@ public class AuthFilter extends OncePerRequestFilter {
      * @return boolean
      */
     private boolean checkJWTToken(HttpServletRequest request) {
-        String authenticationHeader = request.getHeader(AuthConstants.AUTHORIZATION);
-        if (StringUtils.isBlank(authenticationHeader) || !authenticationHeader.startsWith(AuthConstants.BEARER)) {
+        String authenticationHeader = request.getHeader(Constants.AUTHORIZATION);
+        if (StringUtils.isBlank(authenticationHeader) || !authenticationHeader.startsWith(Constants.BEARER)) {
             return false;
         }
         return true;

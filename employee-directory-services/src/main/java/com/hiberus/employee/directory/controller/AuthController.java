@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.hiberus.employee.directory.security.AuthConstants;
+import com.hiberus.employee.directory.common.Constants;
 import com.hiberus.employee.directory.security.AuthToken;
 import com.hiberus.employee.directory.service.IUserService;
 import com.hiberus.employee.directory.vo.User;
@@ -57,12 +57,12 @@ public class AuthController {
         User user = this.userService.login(request);
         if (null == user) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(Response.<User>builder().code(401).message(AuthConstants.UNAUTHORIZED).build());
+                .body(Response.<User>builder().code(401).message(Constants.UNAUTHORIZED).build());
         }
         user.setAccessToken(this.authToken.getAccessToken(user));
-        user.setTokenType(AuthConstants.BEARER.trim());
+        user.setTokenType(Constants.BEARER.trim());
         return ResponseEntity.ok()
-            .body(Response.<User>builder().data(user).code(200).message(AuthConstants.SUCCESS).build());
+            .body(Response.<User>builder().data(user).code(200).message(Constants.SUCCESS).build());
     }
 
     /**
@@ -78,6 +78,6 @@ public class AuthController {
         }
         SecurityContextHolder.getContext().setAuthentication(null);
         SecurityContextHolder.clearContext();
-        return ResponseEntity.ok().body(Response.<String>builder().code(200).message(AuthConstants.SUCCESS).build());
+        return ResponseEntity.ok().body(Response.<String>builder().code(200).message(Constants.SUCCESS).build());
     }
 }

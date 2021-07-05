@@ -11,6 +11,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hiberus.employee.directory.common.Constants;
 import com.hiberus.employee.directory.vo.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -50,10 +51,10 @@ public class AuthToken {
         }
         List<GrantedAuthority> grantedAuthorities = AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER");
         return Jwts.builder().setId(UUID.randomUUID().toString()).setSubject(subject)
-            .claim(AuthConstants.AUTHORITIES,
+            .claim(Constants.AUTHORITIES,
                 grantedAuthorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
             .setIssuedAt(new Date(System.currentTimeMillis()))
             .setExpiration(new Date(System.currentTimeMillis() + 9000000))
-            .signWith(SignatureAlgorithm.HS256, AuthConstants.SIGNIN_KEY.getBytes()).compact();
+            .signWith(SignatureAlgorithm.HS256, Constants.SIGNIN_KEY.getBytes()).compact();
     }
 }

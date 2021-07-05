@@ -20,12 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hiberus.employee.directory.common.Constants;
 import com.hiberus.employee.directory.entity.CertificationEntity;
 import com.hiberus.employee.directory.entity.EmployeeEntity;
 import com.hiberus.employee.directory.entity.ProjectEntity;
 import com.hiberus.employee.directory.entity.SkillEntity;
 import com.hiberus.employee.directory.exception.EmployeeDirectoryException;
-import com.hiberus.employee.directory.security.AuthConstants;
 import com.hiberus.employee.directory.security.AuthSecurityUtil;
 import com.hiberus.employee.directory.service.IEmployeeCertificationService;
 import com.hiberus.employee.directory.service.IEmployeeProjectService;
@@ -120,7 +120,7 @@ public class EmployeController {
         }
         if (null == request.getId() && this.userService.existsByMail(request.getUser().getEmail())) {
             return ResponseEntity.internalServerError()
-                .body(Response.<Employe>builder().code(500).message("User already exists.").build());
+                .body(Response.<Employe>builder().code(Constants.ERROR).message("User already exists.").build());
         }
         request.setCreatedByUser(AuthSecurityUtil.getUserLogin().getId());
         this.employeService.createOrUpdate(request);
@@ -130,7 +130,7 @@ public class EmployeController {
             log.error(e.getMessage());
         }
         return ResponseEntity.ok().body(Response.<Employe>builder().data(Employe.builder().id(request.getId()).build())
-            .code(200).message(AuthConstants.SUCCESS).build());
+            .code(Constants.OK).message(Constants.SUCCESS).build());
     }
 
     /**
@@ -147,8 +147,8 @@ public class EmployeController {
         content = { @Content(mediaType = "application/json",
             array = @ArraySchema(schema = @Schema(implementation = Employe.class))) }) })
     public ResponseEntity<Response<List<Employe>>> findByNamesAndEmail(@NotBlank @RequestParam String query) {
-        return new ResponseEntity<>(
-            Response.<List<Employe>>builder().data(this.employeService.findByNamesAndEmail(query)).build(),
+        return new ResponseEntity<>(Response.<List<Employe>>builder()
+            .data(this.employeService.findByNamesAndEmail(query)).code(Constants.OK).message(Constants.SUCCESS).build(),
             HttpStatus.OK);
     }
 
@@ -168,8 +168,8 @@ public class EmployeController {
         Integer createdByUser = AuthSecurityUtil.getUserLogin().getId();
         List<ProjectEntity> projects = ProjectUtil.getProjectEntities(request.getProjects());
         return new ResponseEntity<>(Response.<List<Project>>builder()
-            .data(this.employeeProjectService.createByName(projects, request.getEmployeeId(), createdByUser)).code(200)
-            .message(AuthConstants.SUCCESS).build(), HttpStatus.OK);
+            .data(this.employeeProjectService.createByName(projects, request.getEmployeeId(), createdByUser))
+            .code(Constants.OK).message(Constants.SUCCESS).build(), HttpStatus.OK);
     }
 
     /**
@@ -186,7 +186,8 @@ public class EmployeController {
     public ResponseEntity<Response<Employe>> getSheetEmployee(@NotBlank @PathVariable Integer id) {
         try {
             Employe employee = this.employeService.getSheetEmployee(id);
-            return new ResponseEntity<>(Response.<Employe>builder().data(employee).code(HttpStatus.OK.value()).build(),
+            return new ResponseEntity<>(
+                Response.<Employe>builder().data(employee).code(Constants.OK).message(Constants.SUCCESS).build(),
                 HttpStatus.OK);
         } catch (EmployeeDirectoryException e) {
             return new ResponseEntity<>(
@@ -214,7 +215,7 @@ public class EmployeController {
         return new ResponseEntity<>(Response.<List<Certification>>builder()
             .data(
                 this.employeeCertificationService.createByName(certifications, request.getEmployeeId(), createdByUser))
-            .code(200).message(AuthConstants.SUCCESS).build(), HttpStatus.OK);
+            .code(Constants.OK).message(Constants.SUCCESS).build(), HttpStatus.OK);
     }
 
     /**
@@ -237,8 +238,8 @@ public class EmployeController {
         PageResponse<Employe> pageResponse =
             PageResponse.<Employe>builder().data(pageEmployee.getContent()).total(pageEmployee.getTotalElements())
                 .totalPages(pageEmployee.getTotalPages()).currentPage(pageEmployee.getNumber()).build();
-        return new ResponseEntity<>(Response.<PageResponse<Employe>>builder().data(pageResponse).build(),
-            HttpStatus.OK);
+        return new ResponseEntity<>(Response.<PageResponse<Employe>>builder().data(pageResponse).code(Constants.OK)
+            .message(Constants.SUCCESS).build(), HttpStatus.OK);
     }
 
     /**
@@ -257,8 +258,8 @@ public class EmployeController {
         Integer createdByUser = AuthSecurityUtil.getUserLogin().getId();
         List<SkillEntity> skills = ProjectUtil.getSkillEntities(request.getSkills());
         return new ResponseEntity<>(Response.<List<Skill>>builder()
-            .data(this.employeeSkillService.createByName(skills, request.getEmployeeId(), createdByUser)).code(200)
-            .message(AuthConstants.SUCCESS).build(), HttpStatus.OK);
+            .data(this.employeeSkillService.createByName(skills, request.getEmployeeId(), createdByUser))
+            .code(Constants.OK).message(Constants.SUCCESS).build(), HttpStatus.OK);
     }
 
     /**
@@ -274,7 +275,9 @@ public class EmployeController {
         content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Employe.class)) }) })
     public ResponseEntity<Response<String>> getPhoto(@NotNull @PathVariable Integer employeeId) {
         String photo64 = FileUtil.getBase64(employeeId);
-        return new ResponseEntity<>(Response.<String>builder().data(photo64).code(200).build(), HttpStatus.OK);
+        return new ResponseEntity<>(
+            Response.<String>builder().data(photo64).code(Constants.OK).message(Constants.SUCCESS).build(),
+            HttpStatus.OK);
     }
 
 }
