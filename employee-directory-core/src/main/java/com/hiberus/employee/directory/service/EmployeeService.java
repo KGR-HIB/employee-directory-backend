@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import com.hiberus.employee.directory.entity.EmployeeEntity;
 import com.hiberus.employee.directory.repository.ICityRepository;
 import com.hiberus.employee.directory.repository.IDepartmentRepository;
@@ -18,6 +19,7 @@ import com.hiberus.employee.directory.repository.IEmployeeSkillRepository;
 import com.hiberus.employee.directory.repository.IPositionRepository;
 import com.hiberus.employee.directory.repository.IUserRepository;
 import com.hiberus.employee.directory.service.common.BaseService;
+import com.hiberus.employee.directory.util.FileUtil;
 import com.hiberus.employee.directory.vo.Certification;
 import com.hiberus.employee.directory.vo.Employe;
 import com.hiberus.employee.directory.vo.EmployeeFiltersRequest;
@@ -97,7 +99,13 @@ public class EmployeeService extends BaseService<EmployeeEntity, IEmployeeReposi
     @Transactional(readOnly = true)
     @Override
     public List<Employe> findByNamesAndEmail(String query) {
-        return this.repository.findByNamesAndEmail(query);
+        List<Employe> employees = this.repository.findByNamesAndEmail(query);
+        if (!CollectionUtils.isEmpty(employees)) {
+            for (Employe employee : employees) {
+                employee.setPhoto(FileUtil.getBase64(employee.getId()));
+            }
+        }
+        return employees;
     }
 
     /**

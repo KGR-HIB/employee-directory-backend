@@ -1,8 +1,10 @@
 package com.hiberus.employee.directory.controller;
 
+import java.io.IOException;
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
@@ -15,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hiberus.employee.directory.entity.CertificationEntity;
 import com.hiberus.employee.directory.entity.EmployeeEntity;
 import com.hiberus.employee.directory.entity.ProjectEntity;
@@ -26,6 +31,7 @@ import com.hiberus.employee.directory.service.IEmployeeProjectService;
 import com.hiberus.employee.directory.service.IEmployeeService;
 import com.hiberus.employee.directory.service.IEmployeeSkillService;
 import com.hiberus.employee.directory.service.IUserService;
+import com.hiberus.employee.directory.util.FileUtil;
 import com.hiberus.employee.directory.util.ProjectUtil;
 import com.hiberus.employee.directory.vo.Certification;
 import com.hiberus.employee.directory.vo.Employe;
@@ -45,6 +51,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * EmployeController.
@@ -53,6 +60,7 @@ import lombok.Getter;
  * @version 1.0
  * @since 1.0.0
  */
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/employees")
 @Lazy
@@ -84,6 +92,10 @@ public class EmployeController {
     @Getter
     private IEmployeeSkillService employeeSkillService;
 
+    @Lazy
+    @Autowired
+    private ObjectMapper objectMapper;
+
     /**
      * Create employee.
      * 
@@ -96,13 +108,26 @@ public class EmployeController {
     @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Create or update employees",
         content = { @Content(mediaType = "application/json",
             array = @ArraySchema(schema = @Schema(implementation = Employe.class))) }) })
-    public ResponseEntity<Response<Employe>> createOrUpdate(@RequestBody EmployeeEntity request) {
+    public ResponseEntity<Response<Employe>> createOrUpdate(
+        @RequestParam(value = "file", required = true) MultipartFile file,
+        @RequestParam(value = "data", required = true) String data) {
+        EmployeeEntity request = null;
+        try {
+            request = this.objectMapper.readValue(data, EmployeeEntity.class);
+        } catch (JsonProcessingException e) {
+            log.error(e.getMessage());
+        }
         if (null == request.getId() && this.userService.existsByMail(request.getUser().getEmail())) {
             return ResponseEntity.internalServerError()
                 .body(Response.<Employe>builder().code(500).message("User already exists.").build());
         }
         request.setCreatedByUser(AuthSecurityUtil.getUserLogin().getId());
         this.employeService.createOrUpdate(request);
+        try {
+            FileUtil.saveFile(file.getBytes(), request.getId());
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
         return ResponseEntity.ok().body(Response.<Employe>builder().data(Employe.builder().id(request.getId()).build())
             .code(200).message(AuthConstants.SUCCESS).build());
     }
@@ -227,6 +252,15 @@ public class EmployeController {
         return new ResponseEntity<>(Response.<List<Skill>>builder()
             .data(this.employeeSkillService.createByName(skills, request.getEmployeeId(), createdByUser)).code(200)
             .message(AuthConstants.SUCCESS).build(), HttpStatus.OK);
+    }
+
+    @GetMapping("/photo/{employeeId}")
+    @Operation(summary = "Get employee photo")
+    @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Get employee photo",
+        content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Employe.class)) }) })
+    public ResponseEntity<Response<String>> getPhoto(@NotNull @PathVariable Integer employeeId) {
+        String photo64 = FileUtil.getBase64(employeeId);
+        return new ResponseEntity<>(Response.<String>builder().data(photo64).code(200).build(), HttpStatus.OK);
     }
 
 }
