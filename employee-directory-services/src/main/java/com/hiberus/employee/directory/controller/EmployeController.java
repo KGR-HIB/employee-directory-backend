@@ -98,7 +98,7 @@ public class EmployeController {
             array = @ArraySchema(schema = @Schema(implementation = Employe.class))) }) })
     public ResponseEntity<Response<Employe>> createOrUpdate(@RequestBody EmployeeEntity request) {
         if (null == request.getId() && this.userService.existsByMail(request.getUser().getEmail())) {
-            return ResponseEntity.ok()
+            return ResponseEntity.internalServerError()
                 .body(Response.<Employe>builder().code(1).message("User already exists.").build());
         }
         request.setCreatedByUser(AuthSecurityUtil.getUserLogin().getId());
