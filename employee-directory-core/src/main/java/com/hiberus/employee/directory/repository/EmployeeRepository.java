@@ -88,11 +88,19 @@ public class EmployeeRepository extends JPAQueryDslBaseRepository<EmployeeEntity
      */
     @Override
     public List<Employe> findByNamesAndEmail(String query) {
+        boolean isNumeric = query.matches("[+-]?\\d*(\\.\\d+)?");
         QUserEntity qUserEntity = QUserEntity.userEntity;
         JPQLQuery<Employe> jpaQuery = from(employeeEntity)
-            .select(bean(Employe.class,employeeEntity.id, employeeEntity.name, employeeEntity.lastName))
-            .join(employeeEntity.user, qUserEntity);
+            .select(bean(Employe.class,employeeEntity.id, employeeEntity.name, employeeEntity.lastName));
 
+        // If query is Id employee
+        if (isNumeric) {
+            jpaQuery.where(employeeEntity.id.eq(Integer.valueOf(query)));
+            return jpaQuery.fetch();
+        }
+
+        // Otherwise search in name, lastName and email
+        jpaQuery.join(employeeEntity.user, qUserEntity);
         jpaQuery.where(
             employeeEntity.status.eq(Boolean.TRUE)
                 .and(
