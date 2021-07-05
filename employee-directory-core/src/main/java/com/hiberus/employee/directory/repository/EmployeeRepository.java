@@ -168,6 +168,8 @@ public class EmployeeRepository extends JPAQueryDslBaseRepository<EmployeeEntity
         jpqlQuery.where(booleanExpression)
             .groupBy(employeeEntity.id);
 
+        jpqlQuery.orderBy(employeeEntity.name.asc(), employeeEntity.lastName.asc());
+
         return this.findPagedData(jpqlQuery, pageable);
     }
 
