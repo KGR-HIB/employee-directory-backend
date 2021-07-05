@@ -30,6 +30,12 @@ public class EmployeeDirectoryConfiguration {
         return () -> Optional.of(1);
     }
 
+    /**
+     * Argon2PasswordEncoder.
+     * 
+     * @author acachiguango on 05/07/2021
+     * @return Argon2PasswordEncoder
+     */
     @Bean
     public Argon2PasswordEncoder argon2PasswordEncoder() {
         int saltLength = 16; // salt length in bytes
@@ -37,9 +43,7 @@ public class EmployeeDirectoryConfiguration {
         int parallelism = 1; // currently not supported by Spring Security
         int memory = 4096; // memory costs
         int iterations = 3;
-        Argon2PasswordEncoder argon2PasswordEncoder =
-            new Argon2PasswordEncoder(saltLength, hashLength, parallelism, memory, iterations);
-        return argon2PasswordEncoder;
+        return new Argon2PasswordEncoder(saltLength, hashLength, parallelism, memory, iterations);
     }
 
 }
