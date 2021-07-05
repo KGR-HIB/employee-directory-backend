@@ -19,4 +19,22 @@ public interface ISkillRepository extends IQueryDslBaseRepository<SkillEntity> {
      * @return List of skills
      */
     List<Skill> findAll();
+
+    /**
+     * Create tag if it does not exist.
+     * 
+     * @author acachiguango on 02/07/2021
+     * @param skills List SkillEntity
+     * @param createdByUser user Id
+     * @return List skillIds
+     */
+    List<Integer> createByName(List<SkillEntity> skills, Integer createdByUser);
+
+    /**
+     * Create skill.
+     * 
+     * @author acachiguango on 02/07/2021
+     * @param skillEntity SkillEntity
+     */
+    void create(SkillEntity skillEntity);
 }

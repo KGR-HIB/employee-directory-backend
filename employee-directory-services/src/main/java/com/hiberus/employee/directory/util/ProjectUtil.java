@@ -7,8 +7,10 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
 import com.hiberus.employee.directory.entity.CertificationEntity;
 import com.hiberus.employee.directory.entity.ProjectEntity;
+import com.hiberus.employee.directory.entity.SkillEntity;
 import com.hiberus.employee.directory.vo.Certification;
 import com.hiberus.employee.directory.vo.Project;
+import com.hiberus.employee.directory.vo.Skill;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -48,7 +50,7 @@ public final class ProjectUtil {
      * Transform to entities.
      * 
      * @author acachiguango on 02/07/2021
-     * @param projects List Project
+     * @param values List Project
      * @return List ProjectEntity
      */
     public static List<ProjectEntity> getProjectEntities(List<Project> values) {
@@ -66,8 +68,8 @@ public final class ProjectUtil {
      * Transform to entities.
      * 
      * @author acachiguango on 02/07/2021
-     * @param projects List Project
-     * @return List ProjectEntity
+     * @param values List certification
+     * @return List CertificationEntity
      */
     public static List<CertificationEntity> getCertificationEntities(List<Certification> values) {
         List<CertificationEntity> entities = new ArrayList<>();
@@ -76,6 +78,24 @@ public final class ProjectUtil {
         }
         for (Object value : values) {
             entities.add(convert(value, CertificationEntity.class));
+        }
+        return entities;
+    }
+
+    /**
+     * Transform to entities.
+     * 
+     * @author acachiguango on 02/07/2021
+     * @param values List Skill
+     * @return List SkillEntity
+     */
+    public static List<SkillEntity> getSkillEntities(List<Skill> values) {
+        List<SkillEntity> entities = new ArrayList<>();
+        if (CollectionUtils.isEmpty(values)) {
+            return entities;
+        }
+        for (Object value : values) {
+            entities.add(convert(value, SkillEntity.class));
         }
         return entities;
     }

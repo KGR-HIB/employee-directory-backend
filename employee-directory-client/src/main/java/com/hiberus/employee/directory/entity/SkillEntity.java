@@ -27,6 +27,11 @@ import lombok.Setter;
 public class SkillEntity extends AbstractBaseAuditable {
 
     /**
+     * serialVersionUID.
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
      * Skill id
      */
     @Id

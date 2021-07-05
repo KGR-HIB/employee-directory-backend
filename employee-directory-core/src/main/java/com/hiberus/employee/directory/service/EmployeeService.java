@@ -1,6 +1,13 @@
 package com.hiberus.employee.directory.service;
 
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import com.hiberus.employee.directory.entity.EmployeeEntity;
 import com.hiberus.employee.directory.repository.ICityRepository;
 import com.hiberus.employee.directory.repository.IDepartmentRepository;
@@ -16,13 +23,6 @@ import com.hiberus.employee.directory.vo.Employe;
 import com.hiberus.employee.directory.vo.EmployeeFiltersRequest;
 import com.hiberus.employee.directory.vo.Project;
 import com.hiberus.employee.directory.vo.Skill;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * EmployeService.
@@ -115,7 +115,7 @@ public class EmployeeService extends BaseService<EmployeeEntity, IEmployeeReposi
         List<Certification> certificationList = this.employeeCertificationRepository.findByEmployeeId(id, Boolean.TRUE);
         employee.setCertifications(certificationList);
         // Get Skills has employee
-        List<Skill> skillList = this.employeeSkillRepository.findByEmployeeId(id);
+        List<Skill> skillList = this.employeeSkillRepository.findByEmployeeId(id, Boolean.TRUE);
         employee.setSkills(skillList);
         return employee;
     }
@@ -123,6 +123,7 @@ public class EmployeeService extends BaseService<EmployeeEntity, IEmployeeReposi
     /**
      * {@inheritDoc}
      */
+    @Transactional(readOnly = true)
     @Override
     public Page<Employe> pageByFilters(Integer page, Integer size, String query,
         EmployeeFiltersRequest employeeFiltersRequest) {

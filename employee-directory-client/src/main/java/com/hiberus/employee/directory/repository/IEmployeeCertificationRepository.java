@@ -27,21 +27,21 @@ public interface IEmployeeCertificationRepository extends IQueryDslBaseRepositor
      * Create employee tag.
      * 
      * @author acachiguango on 02/07/2021
-     * @param projectIds project Ids
+     * @param certificationIds project Ids
      * @param employeId employee Id
      * @param createdByUser user Id
      */
-    void create(List<Integer> projectIds, Integer employeeId, Integer createdByUser);
+    void create(List<Integer> certificationIds, Integer employeeId, Integer createdByUser);
 
     /**
-     * Updates the status of the employee project.
+     * Updates the status of the employee certification.
      * 
      * @author acachiguango on 02/07/2021
-     * @param projectIds project Ids
+     * @param certificationIds project Ids
      * @param employeeId employe Id
      * @param createdByUser user Id
      * @param status state
      */
-    void updateStatusEmployeeProject(List<Integer> projectIds, Integer employeeId, Integer createdByUser,
+    void updateStatusEmployeeCertification(List<Integer> certificationIds, Integer employeeId, Integer createdByUser,
         Boolean status);
 }

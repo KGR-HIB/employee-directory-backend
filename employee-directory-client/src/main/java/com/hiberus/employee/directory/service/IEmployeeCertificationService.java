@@ -11,7 +11,6 @@ import com.hiberus.employee.directory.vo.Certification;
  * 
  * @author acachiguango on 03/07/2021
  * @version 1.0
- * @since 1.0.0
  */
 public interface IEmployeeCertificationService extends IBaseService<EmployeeCertificationEntity> {
     /**
