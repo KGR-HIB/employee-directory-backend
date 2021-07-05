@@ -54,7 +54,8 @@ heroku deploy:jar employee-directory-services/build/libs/employee-directory-serv
 | Employee      | Create employee                            | POST   | /api/v1/employees/createOrUpdate                 | EmployeeManage        | Response<null>                  | ✅      |
 | Employee      | CRUD a project to an employee              | POST   | /api/v1/employees/projects/add                   | EmployeeProject       | Response<EmployeeProject>       | ✅      |
 | Employee      | CRUD a certification to an employee        | POST   | /api/v1/employees/certifications/add             | EmployeeCertification | Response<EmployeeCertification> | ✅      |
-| Employee      | CRUD a skill to an employee                | POST   | /api/v1/employees/skills                         | EmployeeSkill         | Response<EmployeeSkill>         | ✅      |
+| Employee      | Get employee photo                		 | GET    | /api/v1/employees/photo/{employeeId}             | 				         | Response<Response>        	   | ✅      |
+| Employee 		| Logout                                     | GET    | /api/auth/logout                                 |                       |                                 | ✅      |
 | Authorization | Login                                      | POST   | /api/auth/login                                  | {mail, password}      | Response<User>                  | ✅      |
 | Authorization | Logout                                     | GET    | /api/auth/logout                                 |                       |                                 | ✅      |
 
@@ -290,6 +291,12 @@ heroku deploy:jar employee-directory-services/build/libs/employee-directory-serv
 ```
 
 ### EmployeeManage
+formData
+key: file
+value: file
+
+key: data
+value: json
 
 ```json
 {
@@ -314,6 +321,13 @@ heroku deploy:jar employee-directory-services/build/libs/employee-directory-serv
 }
 ```
 
+### Get employee photo
+
+```json
+{
+    "data": "iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAABQElEQVR4Ae3WgYYCURSA4QXzBgGBQdS8RQgQvUpPMAARA/MWERAg2wNEaGKBiCxImq1AnP1xl4s7tupOMzg/HwBzuHPv+dA8p2mapkVIsMGPsUGCCLUtQIobpMANKYI6fvwccqd53YZIIQ7fhjikqEWR49jMEOKvEDPHcYpQeYnj4505hkhQeRnEEqKoEGLJUHk5xNjjv/YQI9cB9Ah5+In1Gq3qIdNVQpc5b+u0pjUwwAhTrLGDGDusMcUIAzRQaW3EyCBPyhCjjbfVwwLi2QI9lFbzgbv+ii2+jC2uD7wRTXitiwOkwApj9O9Y5voYYwUpcEAXXmrhXLAmxAjxbCHignXjjBZebgKxnDBEAF8FGOIEsUzwckeIcUEHZdXBBWIc8XJiWaLslhCLnQ6Q47Nkuf8BKqED1H8ATdM0TfsFlXmTrv+AptEAAAAASUVORK5CYII=",
+    "code": 200
+}
 
 
 ### Response
@@ -325,3 +339,9 @@ heroku deploy:jar employee-directory-services/build/libs/employee-directory-serv
   "message": "Algun mensaje"
 }
 ```
+
+
+```
+
+
+
