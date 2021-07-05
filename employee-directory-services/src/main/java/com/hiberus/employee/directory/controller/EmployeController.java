@@ -97,7 +97,7 @@ public class EmployeController {
         content = { @Content(mediaType = "application/json",
             array = @ArraySchema(schema = @Schema(implementation = Employe.class))) }) })
     public ResponseEntity<Response<Employe>> createOrUpdate(@RequestBody EmployeeEntity request) {
-        if (null == request.getUser().getId() && this.userService.existsByMail(request.getUser().getEmail())) {
+        if (null == request.getId() && this.userService.existsByMail(request.getUser().getEmail())) {
             return ResponseEntity.ok()
                 .body(Response.<Employe>builder().code(1).message("User already exists.").build());
         }
