@@ -43,7 +43,7 @@ public class RoleController {
      * @author acachiguango on 06/07/2021
      * @return List Role
      */
-    @GetMapping
+    @GetMapping("/findAll")
     @Operation(summary = "Get all roles")
     @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "List of roles",
         content = { @Content(mediaType = "application/json",
