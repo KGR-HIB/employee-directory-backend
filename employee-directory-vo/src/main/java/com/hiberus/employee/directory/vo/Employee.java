@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Employe.
+ * Employee.
  * 
  * @author acachiguango on 01/07/2021
  * @version 1.0
@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Employe {
+public class Employee {
     private Integer id;
     private String name;
     private String lastName;
@@ -27,7 +27,7 @@ public class Employe {
     private City city;
     private Department department;
     private Position position;
-    private Employe immediateChief;
+    private Employee immediateChief;
     private User user;
     private List<Project> projects;
     private List<Certification> certifications;

@@ -35,7 +35,7 @@ import com.hiberus.employee.directory.service.IUserService;
 import com.hiberus.employee.directory.util.FileUtil;
 import com.hiberus.employee.directory.util.ProjectUtil;
 import com.hiberus.employee.directory.vo.Certification;
-import com.hiberus.employee.directory.vo.Employe;
+import com.hiberus.employee.directory.vo.Employee;
 import com.hiberus.employee.directory.vo.EmployeProjectRequest;
 import com.hiberus.employee.directory.vo.EmployeeCertificationRequest;
 import com.hiberus.employee.directory.vo.EmployeeFiltersRequest;
@@ -108,8 +108,8 @@ public class EmployeController {
     @Operation(summary = "Create or update employees.")
     @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Create or update employees",
         content = { @Content(mediaType = "application/json",
-            array = @ArraySchema(schema = @Schema(implementation = Employe.class))) }) })
-    public ResponseEntity<Response<Employe>> createOrUpdate(
+            array = @ArraySchema(schema = @Schema(implementation = Employee.class))) }) })
+    public ResponseEntity<Response<Employee>> createOrUpdate(
         @RequestParam(value = "file", required = true) MultipartFile file,
         @RequestParam(value = "data", required = true) String data) {
         EmployeeEntity request = null;
@@ -120,7 +120,7 @@ public class EmployeController {
         }
         if (null == request.getId() && this.userService.existsByMail(request.getUser().getEmail())) {
             return ResponseEntity.internalServerError()
-                .body(Response.<Employe>builder().code(Constants.ERROR).message("User already exists.").build());
+                .body(Response.<Employee>builder().code(Constants.ERROR).message("User already exists.").build());
         }
         request.setCreatedByUser(AuthSecurityUtil.getUserLogin().getId());
         this.employeService.createOrUpdate(request);
@@ -129,7 +129,7 @@ public class EmployeController {
         } catch (IOException e) {
             log.error(e.getMessage());
         }
-        return ResponseEntity.ok().body(Response.<Employe>builder().data(Employe.builder().id(request.getId()).build())
+        return ResponseEntity.ok().body(Response.<Employee>builder().data(Employee.builder().id(request.getId()).build())
             .code(Constants.OK).message(Constants.SUCCESS).build());
     }
 
@@ -145,9 +145,9 @@ public class EmployeController {
     @Operation(summary = "Find the employees that contain as names, surnames or email, the query parameter")
     @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "List of employees",
         content = { @Content(mediaType = "application/json",
-            array = @ArraySchema(schema = @Schema(implementation = Employe.class))) }) })
-    public ResponseEntity<Response<List<Employe>>> findByNamesAndEmail(@NotBlank @RequestParam String query) {
-        return new ResponseEntity<>(Response.<List<Employe>>builder()
+            array = @ArraySchema(schema = @Schema(implementation = Employee.class))) }) })
+    public ResponseEntity<Response<List<Employee>>> findByNamesAndEmail(@NotBlank @RequestParam String query) {
+        return new ResponseEntity<>(Response.<List<Employee>>builder()
             .data(this.employeService.findByNamesAndEmail(query)).code(Constants.OK).message(Constants.SUCCESS).build(),
             HttpStatus.OK);
     }
@@ -182,16 +182,16 @@ public class EmployeController {
     @GetMapping("/{id}")
     @Operation(summary = "Get information of Employee's sheet")
     @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Employee's sheet",
-        content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Employe.class)) }) })
-    public ResponseEntity<Response<Employe>> getSheetEmployee(@NotBlank @PathVariable Integer id) {
+        content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Employee.class)) }) })
+    public ResponseEntity<Response<Employee>> getSheetEmployee(@NotBlank @PathVariable Integer id) {
         try {
-            Employe employee = this.employeService.getSheetEmployee(id);
+            Employee employee = this.employeService.getSheetEmployee(id);
             return new ResponseEntity<>(
-                Response.<Employe>builder().data(employee).code(Constants.OK).message(Constants.SUCCESS).build(),
+                Response.<Employee>builder().data(employee).code(Constants.OK).message(Constants.SUCCESS).build(),
                 HttpStatus.OK);
         } catch (EmployeeDirectoryException e) {
             return new ResponseEntity<>(
-                Response.<Employe>builder().message(e.getMessage()).code(HttpStatus.NOT_FOUND.value()).build(),
+                Response.<Employee>builder().message(e.getMessage()).code(HttpStatus.NOT_FOUND.value()).build(),
                 HttpStatus.NOT_FOUND);
         }
     }
@@ -231,14 +231,14 @@ public class EmployeController {
     @PostMapping("/page")
     @Operation(summary = "Employees page that match the filters entered")
     @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Employee page",
-        content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Employe.class)) }) })
-    public ResponseEntity<Response<PageResponse<Employe>>> page(@RequestParam Integer page, @RequestParam Integer size,
+        content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Employee.class)) }) })
+    public ResponseEntity<Response<PageResponse<Employee>>> page(@RequestParam Integer page, @RequestParam Integer size,
         @RequestParam String query, @RequestBody EmployeeFiltersRequest employeeFiltersRequest) {
-        Page<Employe> pageEmployee = this.employeService.pageByFilters(page, size, query, employeeFiltersRequest);
-        PageResponse<Employe> pageResponse =
-            PageResponse.<Employe>builder().data(pageEmployee.getContent()).total(pageEmployee.getTotalElements())
+        Page<Employee> pageEmployee = this.employeService.pageByFilters(page, size, query, employeeFiltersRequest);
+        PageResponse<Employee> pageResponse =
+            PageResponse.<Employee>builder().data(pageEmployee.getContent()).total(pageEmployee.getTotalElements())
                 .totalPages(pageEmployee.getTotalPages()).currentPage(pageEmployee.getNumber()).build();
-        return new ResponseEntity<>(Response.<PageResponse<Employe>>builder().data(pageResponse).code(Constants.OK)
+        return new ResponseEntity<>(Response.<PageResponse<Employee>>builder().data(pageResponse).code(Constants.OK)
             .message(Constants.SUCCESS).build(), HttpStatus.OK);
     }
 
@@ -272,7 +272,7 @@ public class EmployeController {
     @GetMapping("/photo/{employeeId}")
     @Operation(summary = "Get employee photo")
     @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Get employee photo",
-        content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Employe.class)) }) })
+        content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Employee.class)) }) })
     public ResponseEntity<Response<String>> getPhoto(@NotNull @PathVariable Integer employeeId) {
         String photo64 = FileUtil.getBase64(employeeId);
         return new ResponseEntity<>(

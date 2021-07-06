@@ -22,7 +22,7 @@ import com.hiberus.employee.directory.repository.common.JPAQueryDslBaseRepositor
 import com.hiberus.employee.directory.util.DateUtil;
 import com.hiberus.employee.directory.vo.City;
 import com.hiberus.employee.directory.vo.Department;
-import com.hiberus.employee.directory.vo.Employe;
+import com.hiberus.employee.directory.vo.Employee;
 import com.hiberus.employee.directory.vo.EmployeeFiltersRequest;
 import com.hiberus.employee.directory.vo.Position;
 import com.hiberus.employee.directory.vo.User;
@@ -86,11 +86,11 @@ public class EmployeeRepository extends JPAQueryDslBaseRepository<EmployeeEntity
      * {@inheritDoc}
      */
     @Override
-    public List<Employe> findByNamesAndEmail(String query) {
+    public List<Employee> findByNamesAndEmail(String query) {
         boolean isNumeric = query.matches("[+-]?\\d*(\\.\\d+)?");
         QUserEntity qUserEntity = QUserEntity.userEntity;
-        JPQLQuery<Employe> jpaQuery = from(employeeEntity)
-            .select(bean(Employe.class, employeeEntity.id, employeeEntity.name, employeeEntity.lastName));
+        JPQLQuery<Employee> jpaQuery = from(employeeEntity)
+            .select(bean(Employee.class, employeeEntity.id, employeeEntity.name, employeeEntity.lastName));
 
         // If query is Id employee
         if (isNumeric) {
@@ -112,20 +112,20 @@ public class EmployeeRepository extends JPAQueryDslBaseRepository<EmployeeEntity
      * {@inheritDoc}
      */
     @Override
-    public Employe findEmployeeMainInformationById(Integer id) {
+    public Employee findEmployeeMainInformationById(Integer id) {
         QCityEntity qCityEntity = QCityEntity.cityEntity;
         QDepartmentEntity qDepartmentEntity = QDepartmentEntity.departmentEntity;
         QPositionEntity qPositionEntity = QPositionEntity.positionEntity;
         QUserEntity qUserEntity = QUserEntity.userEntity;
         QEmployeeEntity qEmployeeChief = new QEmployeeEntity("chief");
 
-        JPQLQuery<Employe> jpqlQuery = from(employeeEntity).select(bean(Employe.class, employeeEntity.id,
+        JPQLQuery<Employee> jpqlQuery = from(employeeEntity).select(bean(Employee.class, employeeEntity.id,
             employeeEntity.name, employeeEntity.lastName, employeeEntity.phone,
             bean(City.class, qCityEntity.id, qCityEntity.name).as("city"),
             bean(Department.class, qDepartmentEntity.id, qDepartmentEntity.name).as("department"),
             bean(Position.class, qPositionEntity.id, qPositionEntity.name).as("position"),
             bean(User.class, qUserEntity.id, qUserEntity.email).as("user"),
-            bean(Employe.class, qEmployeeChief.id, qEmployeeChief.name, qEmployeeChief.lastName).as("immediateChief")));
+            bean(Employee.class, qEmployeeChief.id, qEmployeeChief.name, qEmployeeChief.lastName).as("immediateChief")));
 
         jpqlQuery.leftJoin(employeeEntity.city, qCityEntity).leftJoin(employeeEntity.department, qDepartmentEntity)
             .leftJoin(employeeEntity.position, qPositionEntity).leftJoin(employeeEntity.user, qUserEntity)
@@ -140,7 +140,7 @@ public class EmployeeRepository extends JPAQueryDslBaseRepository<EmployeeEntity
      * {@inheritDoc}
      */
     @Override
-    public Page<Employe> pageByFilters(Pageable pageable, String query, EmployeeFiltersRequest employeeFiltersRequest) {
+    public Page<Employee> pageByFilters(Pageable pageable, String query, EmployeeFiltersRequest employeeFiltersRequest) {
 
         final BooleanExpression booleanExpression = this.getRestrictionByFilter(query, employeeFiltersRequest);
 
@@ -148,8 +148,8 @@ public class EmployeeRepository extends JPAQueryDslBaseRepository<EmployeeEntity
         QPositionEntity qPositionEntity = QPositionEntity.positionEntity;
         QDepartmentEntity qDepartmentEntity = QDepartmentEntity.departmentEntity;
 
-        JPQLQuery<Employe> jpqlQuery = from(employeeEntity)
-            .select(bean(Employe.class, employeeEntity.id, employeeEntity.name, employeeEntity.lastName,
+        JPQLQuery<Employee> jpqlQuery = from(employeeEntity)
+            .select(bean(Employee.class, employeeEntity.id, employeeEntity.name, employeeEntity.lastName,
                 employeeEntity.phone, bean(User.class, qUserEntity.email).as("user"),
                 bean(Position.class, qPositionEntity.name).as("position"),
                 bean(Department.class, qDepartmentEntity.name).as("department")))
@@ -171,7 +171,7 @@ public class EmployeeRepository extends JPAQueryDslBaseRepository<EmployeeEntity
      * @param jpqlQuery Query
      * @param employeeFiltersRequest Advanced filters
      */
-    private void addJoinsByFilters(JPQLQuery<Employe> jpqlQuery, EmployeeFiltersRequest employeeFiltersRequest) {
+    private void addJoinsByFilters(JPQLQuery<Employee> jpqlQuery, EmployeeFiltersRequest employeeFiltersRequest) {
         QUserEntity qUserEntity = QUserEntity.userEntity;
         QEmployeeProjectEntity qEmployeeProjectEntity = QEmployeeProjectEntity.employeeProjectEntity;
         QEmployeeSkillEntity qEmployeeSkillEntity = QEmployeeSkillEntity.employeeSkillEntity;

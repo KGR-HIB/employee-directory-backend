@@ -9,7 +9,7 @@ import java.util.Base64;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.springframework.util.CollectionUtils;
-import com.hiberus.employee.directory.vo.Employe;
+import com.hiberus.employee.directory.vo.Employee;
 
 /**
  * FileUtil.
@@ -66,9 +66,9 @@ public final class FileUtil {
      * @author acachiguango on 05/07/2021
      * @param employees list employees
      */
-    public static void addBase64Photos(List<Employe> employees) {
+    public static void addBase64Photos(List<Employee> employees) {
         if (!CollectionUtils.isEmpty(employees)) {
-            for (Employe employee : employees) {
+            for (Employee employee : employees) {
                 employee.setPhoto(getBase64(employee.getId()));
             }
         }
@@ -78,9 +78,9 @@ public final class FileUtil {
      * Add base64 photo.
      * 
      * @author acachiguango on 05/07/2021
-     * @param Employe employee
+     * @param Employee employee
      */
-    public static void addBase64Photo(Employe employee) {
+    public static void addBase64Photo(Employee employee) {
         if (null != employee) {
             employee.setPhoto(getBase64(employee.getId()));
         }

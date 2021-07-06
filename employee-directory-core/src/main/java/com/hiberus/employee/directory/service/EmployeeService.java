@@ -21,7 +21,7 @@ import com.hiberus.employee.directory.repository.IUserRepository;
 import com.hiberus.employee.directory.service.common.BaseService;
 import com.hiberus.employee.directory.util.FileUtil;
 import com.hiberus.employee.directory.vo.Certification;
-import com.hiberus.employee.directory.vo.Employe;
+import com.hiberus.employee.directory.vo.Employee;
 import com.hiberus.employee.directory.vo.EmployeeFiltersRequest;
 import com.hiberus.employee.directory.vo.Project;
 import com.hiberus.employee.directory.vo.Skill;
@@ -98,8 +98,8 @@ public class EmployeeService extends BaseService<EmployeeEntity, IEmployeeReposi
      */
     @Transactional(readOnly = true)
     @Override
-    public List<Employe> findByNamesAndEmail(String query) {
-        List<Employe> employees = this.repository.findByNamesAndEmail(query);
+    public List<Employee> findByNamesAndEmail(String query) {
+        List<Employee> employees = this.repository.findByNamesAndEmail(query);
         FileUtil.addBase64Photos(employees);
         return employees;
     }
@@ -109,9 +109,9 @@ public class EmployeeService extends BaseService<EmployeeEntity, IEmployeeReposi
      */
     @Transactional(readOnly = true)
     @Override
-    public Employe getSheetEmployee(Integer id) throws EmployeeDirectoryException {
+    public Employee getSheetEmployee(Integer id) throws EmployeeDirectoryException {
         // Get employee's principal information
-        Employe employee = this.repository.findEmployeeMainInformationById(id);
+        Employee employee = this.repository.findEmployeeMainInformationById(id);
 
         if (employee == null) {
             throw new EmployeeDirectoryException("No existe el empleado");
@@ -134,10 +134,10 @@ public class EmployeeService extends BaseService<EmployeeEntity, IEmployeeReposi
      */
     @Transactional(readOnly = true)
     @Override
-    public Page<Employe> pageByFilters(Integer page, Integer size, String query,
+    public Page<Employee> pageByFilters(Integer page, Integer size, String query,
         EmployeeFiltersRequest employeeFiltersRequest) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<Employe> response = this.repository.pageByFilters(pageable, query, employeeFiltersRequest);
+        Page<Employee> response = this.repository.pageByFilters(pageable, query, employeeFiltersRequest);
         FileUtil.addBase64Photos(response.getContent());
         return response;
     }
