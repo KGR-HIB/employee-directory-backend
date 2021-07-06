@@ -62,7 +62,7 @@ public class AuthController {
         user.setAccessToken(this.authToken.getAccessToken(user));
         user.setTokenType(Constants.BEARER.trim());
         return ResponseEntity.ok()
-            .body(Response.<User>builder().data(user).code(200).message(Constants.SUCCESS).build());
+            .body(Response.<User>builder().data(user).code(Constants.OK).message(Constants.SUCCESS).build());
     }
 
     /**
@@ -78,6 +78,7 @@ public class AuthController {
         }
         SecurityContextHolder.getContext().setAuthentication(null);
         SecurityContextHolder.clearContext();
-        return ResponseEntity.ok().body(Response.<String>builder().code(200).message(Constants.SUCCESS).build());
+        return ResponseEntity.ok()
+            .body(Response.<String>builder().code(Constants.OK).message(Constants.SUCCESS).build());
     }
 }

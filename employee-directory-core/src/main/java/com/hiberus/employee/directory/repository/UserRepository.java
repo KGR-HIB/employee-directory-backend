@@ -48,7 +48,8 @@ public class UserRepository extends JPAQueryDslBaseRepository<UserEntity> implem
         QRoleEntity qRoleEntity = QRoleEntity.roleEntity;
         JPQLQuery<User> query = from(userEntity).select(bean(User.class, userEntity.id, userEntity.email,
             userEntity.loginFirstTime, userEntity.roleId, userEntity.password,
-            Projections.bean(Employe.class, qEmployeeEntity.name, qEmployeeEntity.lastName).as("employe"),
+            Projections.bean(Employe.class, qEmployeeEntity.id, qEmployeeEntity.name, qEmployeeEntity.lastName)
+                .as("employe"),
             Projections.bean(Role.class, qRoleEntity.id, qRoleEntity.name, qRoleEntity.code).as("role")));
         query.innerJoin(userEntity.employee, qEmployeeEntity);
         query.innerJoin(userEntity.role, qRoleEntity);

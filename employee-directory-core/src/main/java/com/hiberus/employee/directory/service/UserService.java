@@ -10,6 +10,7 @@ import com.hiberus.employee.directory.entity.UserEntity;
 import com.hiberus.employee.directory.repository.IRoleFunctionalityRepository;
 import com.hiberus.employee.directory.repository.IUserRepository;
 import com.hiberus.employee.directory.service.common.BaseService;
+import com.hiberus.employee.directory.util.FileUtil;
 import com.hiberus.employee.directory.vo.User;
 
 /**
@@ -50,6 +51,7 @@ public class UserService extends BaseService<UserEntity, IUserRepository> implem
         if (null != user && this.argon2PasswordEncoder.matches(request.getPassword(), user.getPassword())) {
             user.getRole().setFunctionalities(this.roleFunRepository.findByRoleId(user.getRoleId()));
             user.setPassword(null);
+            FileUtil.addBase64Photo(user.getEmploye());
             return user;
         }
         return null;
