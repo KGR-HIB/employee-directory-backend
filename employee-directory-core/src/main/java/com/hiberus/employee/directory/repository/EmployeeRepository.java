@@ -17,6 +17,7 @@ import com.hiberus.employee.directory.entity.QEmployeeEntity;
 import com.hiberus.employee.directory.entity.QEmployeeProjectEntity;
 import com.hiberus.employee.directory.entity.QEmployeeSkillEntity;
 import com.hiberus.employee.directory.entity.QPositionEntity;
+import com.hiberus.employee.directory.entity.QRoleEntity;
 import com.hiberus.employee.directory.entity.QUserEntity;
 import com.hiberus.employee.directory.repository.common.JPAQueryDslBaseRepository;
 import com.hiberus.employee.directory.util.DateUtil;
@@ -25,6 +26,7 @@ import com.hiberus.employee.directory.vo.Department;
 import com.hiberus.employee.directory.vo.Employee;
 import com.hiberus.employee.directory.vo.EmployeeFiltersRequest;
 import com.hiberus.employee.directory.vo.Position;
+import com.hiberus.employee.directory.vo.Role;
 import com.hiberus.employee.directory.vo.User;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
@@ -118,6 +120,7 @@ public class EmployeeRepository extends JPAQueryDslBaseRepository<EmployeeEntity
         QDepartmentEntity qDepartmentEntity = QDepartmentEntity.departmentEntity;
         QPositionEntity qPositionEntity = QPositionEntity.positionEntity;
         QUserEntity qUserEntity = QUserEntity.userEntity;
+        QRoleEntity qRoleEntity = QRoleEntity.roleEntity;
         QEmployeeEntity qEmployeeChief = new QEmployeeEntity("chief");
 
         JPQLQuery<Employee> jpqlQuery = from(employeeEntity)
@@ -125,13 +128,14 @@ public class EmployeeRepository extends JPAQueryDslBaseRepository<EmployeeEntity
                 employeeEntity.phone, bean(City.class, qCityEntity.id, qCityEntity.name).as("city"),
                 bean(Department.class, qDepartmentEntity.id, qDepartmentEntity.name).as("department"),
                 bean(Position.class, qPositionEntity.id, qPositionEntity.name).as("position"),
-                bean(User.class, qUserEntity.id, qUserEntity.email, qUserEntity.roleId).as("user"),
+                bean(User.class, qUserEntity.id, qUserEntity.email, qUserEntity.roleId,
+                    bean(Role.class, qRoleEntity.id, qRoleEntity.code, qRoleEntity.name).as("role")).as("user"),
                 bean(Employee.class, qEmployeeChief.id, qEmployeeChief.name, qEmployeeChief.lastName)
                     .as("immediateChief")));
-
         jpqlQuery.leftJoin(employeeEntity.city, qCityEntity).leftJoin(employeeEntity.department, qDepartmentEntity)
             .leftJoin(employeeEntity.position, qPositionEntity).leftJoin(employeeEntity.user, qUserEntity)
-            .leftJoin(qEmployeeChief).on(employeeEntity.immediateChiefId.eq(qEmployeeChief.id));
+            .innerJoin(qUserEntity.role, qRoleEntity).leftJoin(qEmployeeChief)
+            .on(employeeEntity.immediateChiefId.eq(qEmployeeChief.id));
 
         jpqlQuery.where(employeeEntity.id.eq(id).and(employeeEntity.status.eq(Boolean.TRUE)));
 
