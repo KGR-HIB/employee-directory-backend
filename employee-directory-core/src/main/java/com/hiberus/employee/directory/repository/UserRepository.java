@@ -7,12 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.stereotype.Repository;
-import com.hiberus.employee.directory.entity.QEmployeeEntity;
 import com.hiberus.employee.directory.entity.QRoleEntity;
 import com.hiberus.employee.directory.entity.UserEntity;
 import com.hiberus.employee.directory.repository.common.JPAQueryDslBaseRepository;
 import com.hiberus.employee.directory.util.DateUtil;
-import com.hiberus.employee.directory.vo.Employee;
 import com.hiberus.employee.directory.vo.Role;
 import com.hiberus.employee.directory.vo.User;
 import com.querydsl.core.BooleanBuilder;
@@ -44,14 +42,10 @@ public class UserRepository extends JPAQueryDslBaseRepository<UserEntity> implem
      */
     @Override
     public User login(User request) {
-        QEmployeeEntity qEmployeeEntity = QEmployeeEntity.employeeEntity;
         QRoleEntity qRoleEntity = QRoleEntity.roleEntity;
         JPQLQuery<User> query = from(userEntity).select(bean(User.class, userEntity.id, userEntity.email,
             userEntity.loginFirstTime, userEntity.roleId, userEntity.password,
-            Projections.bean(Employee.class, qEmployeeEntity.id, qEmployeeEntity.name, qEmployeeEntity.lastName)
-                .as("employe"),
             Projections.bean(Role.class, qRoleEntity.id, qRoleEntity.name, qRoleEntity.code).as("role")));
-        query.innerJoin(userEntity.employee, qEmployeeEntity);
         query.innerJoin(userEntity.role, qRoleEntity);
         BooleanBuilder where = new BooleanBuilder();
         where.and(userEntity.email.eq(request.getEmail()));

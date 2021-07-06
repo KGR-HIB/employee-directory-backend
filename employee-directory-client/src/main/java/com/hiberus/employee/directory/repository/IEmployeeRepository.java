@@ -61,11 +61,11 @@ public interface IEmployeeRepository extends IQueryDslBaseRepository<EmployeeEnt
     Page<Employee> pageByFilters(Pageable pageable, String query, EmployeeFiltersRequest employeeFiltersRequest);
 
     /**
-     * Find userId by id
+     * Find by userId
      * 
      * @author acachiguango on 05/07/2021
-     * @param id employeeId
-     * @return userId
+     * @param userId user Id
+     * @return Employee
      */
-    Integer findUserId(Integer id);
+    Employee findByUserId(Integer userId);
 }

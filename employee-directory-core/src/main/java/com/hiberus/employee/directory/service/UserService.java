@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import com.hiberus.employee.directory.entity.UserEntity;
+import com.hiberus.employee.directory.repository.IEmployeeRepository;
 import com.hiberus.employee.directory.repository.IRoleFunctionalityRepository;
 import com.hiberus.employee.directory.repository.IUserRepository;
 import com.hiberus.employee.directory.service.common.BaseService;
-import com.hiberus.employee.directory.util.FileUtil;
 import com.hiberus.employee.directory.vo.User;
 
 /**
@@ -27,6 +27,10 @@ public class UserService extends BaseService<UserEntity, IUserRepository> implem
     @Lazy
     @Autowired
     private IRoleFunctionalityRepository roleFunRepository;
+
+    @Lazy
+    @Autowired
+    private IEmployeeRepository employeeRepository;
 
     @Lazy
     @Autowired
@@ -49,9 +53,9 @@ public class UserService extends BaseService<UserEntity, IUserRepository> implem
     public User login(User request) {
         User user = this.repository.login(request);
         if (null != user && this.argon2PasswordEncoder.matches(request.getPassword(), user.getPassword())) {
+            user.setEmploye(this.employeeRepository.findByUserId(user.getId()));
             user.getRole().setFunctionalities(this.roleFunRepository.findByRoleId(user.getRoleId()));
             user.setPassword(null);
-            FileUtil.addBase64Photo(user.getEmploye());
             return user;
         }
         return null;
