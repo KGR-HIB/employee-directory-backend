@@ -64,9 +64,9 @@ public class UserRepository extends JPAQueryDslBaseRepository<UserEntity> implem
      */
     @Override
     public Integer createOrUpdate(UserEntity userEntity, Integer createdByUser) {
-        String password = this.argon2PasswordEncoder.encode(userEntity.getPassword());
-        userEntity.setPassword(password);
         if (null == userEntity.getId()) {
+            String password = this.argon2PasswordEncoder.encode(userEntity.getPassword());
+            userEntity.setPassword(password);
             userEntity.setEmail(userEntity.getEmail().trim());
             userEntity.setCreateDate(DateUtil.currentDate());
             userEntity.setLoginFirstTime(Boolean.FALSE);
@@ -91,10 +91,9 @@ public class UserRepository extends JPAQueryDslBaseRepository<UserEntity> implem
         BooleanBuilder where = new BooleanBuilder();
         where.and(userEntity.id.eq(entity.getId()));
         where.and(userEntity.status.eq(Boolean.TRUE));
-        update(userEntity).where(where)
-            .set(userEntity.roleId, entity.getRoleId())
-            .set(userEntity.lastModifiedByUser, createdByUser)
-            .set(userEntity.lastModifiedDate, DateUtil.currentDate()).execute();
+        update(userEntity).where(where).set(userEntity.roleId, entity.getRoleId())
+            .set(userEntity.lastModifiedByUser, createdByUser).set(userEntity.lastModifiedDate, DateUtil.currentDate())
+            .execute();
     }
 
     /**

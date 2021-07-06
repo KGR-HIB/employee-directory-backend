@@ -52,8 +52,10 @@ public final class FileUtil {
      */
     public static void saveFile(byte[] bytes, Integer employeeId) {
         try {
-            Path path = Paths.get("src/main/resources/files/".concat(employeeId.toString()).concat(".png"));
-            Files.write(path, bytes);
+            if (null != bytes) {
+                Path path = Paths.get("src/main/resources/files/".concat(employeeId.toString()).concat(".png"));
+                Files.write(path, bytes);
+            }
         } catch (IOException e) {
         }
     }
