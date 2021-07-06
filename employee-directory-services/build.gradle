@@ -8,7 +8,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
 
     // Validator
-    implementation 'org.hibernate.validator:hibernate-validator'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     implementation 'org.springframework.boot:spring-boot-autoconfigure'
 
@@ -23,10 +23,8 @@ dependencies {
 
     // Security
     implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'io.jsonwebtoken:jjwt'
     
-
     // Documentation API
     implementation 'org.springdoc:springdoc-openapi-ui'
     

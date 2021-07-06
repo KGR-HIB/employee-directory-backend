@@ -9,8 +9,6 @@ dependencyManagement {
             entry 'spring-data-jpa'
         }
 
-        dependency("org.hibernate:hibernate-entitymanager:${hibernateEntitymanagerVersion}")
-
         dependencySet(group: 'com.querydsl', version: "${querydslVersion}") {
             entry 'querydsl-jpa'
             entry 'querydsl-core'
@@ -22,7 +20,6 @@ dependencyManagement {
 
         // Validators
         dependency("javax.validation:validation-api:${validationApiVersion}")
-        dependency("org.hibernate.validator:hibernate-validator:${hibernateValidatorVersion}")
 
         // Pojo
         dependency("org.projectlombok:lombok:${lombokVersion}")

@@ -1,7 +1,7 @@
 package com.hiberus.employee.directory.service.common;
 
 import java.io.Serializable;
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import com.hiberus.employee.directory.repository.common.IQueryDslBaseRepository;
 
 public class BaseService<T, R extends IQueryDslBaseRepository<T>> implements IBaseService<T> {

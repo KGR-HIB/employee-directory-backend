@@ -1,7 +1,6 @@
 package com.hiberus.employee.directory.vo;
 
 import java.util.List;
-import com.hiberus.employee.directory.vo.validate.NotBlankConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +18,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EmployeeCertificationRequest {
-    @NotBlankConstraint
     private Integer employeeId;
     private List<Certification> certifications;
 }
