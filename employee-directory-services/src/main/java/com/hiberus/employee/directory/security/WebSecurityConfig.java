@@ -31,7 +31,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().addFilterAfter(new AuthFilter(), UsernamePasswordAuthenticationFilter.class)
-            .authorizeRequests().antMatchers("/api/v1/auth/login").permitAll().anyRequest().authenticated();
+            .authorizeRequests().antMatchers("/api/v1/auth/login", "/swagger-ui/**", "/openapi/**").permitAll()
+            .anyRequest().authenticated();
         http.exceptionHandling().accessDeniedHandler(this.authAccessDeniedHandler)
             .authenticationEntryPoint(this.authEntryPoint);
         http.cors();
