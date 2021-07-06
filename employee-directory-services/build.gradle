@@ -10,10 +10,6 @@ dependencies {
     // Validator
     implementation 'org.hibernate.validator:hibernate-validator'
 
-    // Mapstruct
-    implementation 'org.mapstruct:mapstruct'
-    annotationProcessor 'org.mapstruct:mapstruct-processor'
-
     implementation 'org.springframework.boot:spring-boot-autoconfigure'
 
     // Loggin

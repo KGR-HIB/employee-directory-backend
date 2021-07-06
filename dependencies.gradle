@@ -27,12 +27,6 @@ dependencyManagement {
         // Pojo
         dependency("org.projectlombok:lombok:${lombokVersion}")
 
-        // Mapper
-        dependencySet(group: 'org.mapstruct', version: "${mapStructVersion}") {
-            entry 'mapstruct'
-            entry 'mapstruct-processor'
-        }
-
         // Framework
         dependencySet(group: 'org.springframework.boot', version: "${springBootVersion}") {
             entry 'spring-boot-autoconfigure'
