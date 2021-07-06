@@ -124,7 +124,7 @@ public class EmployeeRepository extends JPAQueryDslBaseRepository<EmployeeEntity
             bean(City.class, qCityEntity.id, qCityEntity.name).as("city"),
             bean(Department.class, qDepartmentEntity.id, qDepartmentEntity.name).as("department"),
             bean(Position.class, qPositionEntity.id, qPositionEntity.name).as("position"),
-            bean(User.class, qUserEntity.id, qUserEntity.email).as("user"),
+            bean(User.class, qUserEntity.id, qUserEntity.email, qUserEntity.roleId).as("user"),
             bean(Employee.class, qEmployeeChief.id, qEmployeeChief.name, qEmployeeChief.lastName).as("immediateChief")));
 
         jpqlQuery.leftJoin(employeeEntity.city, qCityEntity).leftJoin(employeeEntity.department, qDepartmentEntity)
