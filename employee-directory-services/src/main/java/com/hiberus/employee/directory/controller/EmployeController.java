@@ -238,6 +238,7 @@ public class EmployeController {
         PageResponse<Employe> pageResponse =
             PageResponse.<Employe>builder().data(pageEmployee.getContent()).total(pageEmployee.getTotalElements())
                 .totalPages(pageEmployee.getTotalPages()).currentPage(pageEmployee.getNumber()).build();
+        FileUtil.addBase64Photos(pageEmployee.getContent());
         return new ResponseEntity<>(Response.<PageResponse<Employe>>builder().data(pageResponse).code(Constants.OK)
             .message(Constants.SUCCESS).build(), HttpStatus.OK);
     }
