@@ -27,6 +27,7 @@ import com.hiberus.employee.directory.vo.EmployeeFiltersRequest;
 import com.hiberus.employee.directory.vo.Position;
 import com.hiberus.employee.directory.vo.User;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPQLQuery;
 
@@ -119,13 +120,14 @@ public class EmployeeRepository extends JPAQueryDslBaseRepository<EmployeeEntity
         QUserEntity qUserEntity = QUserEntity.userEntity;
         QEmployeeEntity qEmployeeChief = new QEmployeeEntity("chief");
 
-        JPQLQuery<Employee> jpqlQuery = from(employeeEntity).select(bean(Employee.class, employeeEntity.id,
-            employeeEntity.name, employeeEntity.lastName, employeeEntity.phone,
-            bean(City.class, qCityEntity.id, qCityEntity.name).as("city"),
-            bean(Department.class, qDepartmentEntity.id, qDepartmentEntity.name).as("department"),
-            bean(Position.class, qPositionEntity.id, qPositionEntity.name).as("position"),
-            bean(User.class, qUserEntity.id, qUserEntity.email).as("user"),
-            bean(Employee.class, qEmployeeChief.id, qEmployeeChief.name, qEmployeeChief.lastName).as("immediateChief")));
+        JPQLQuery<Employee> jpqlQuery = from(employeeEntity)
+            .select(bean(Employee.class, employeeEntity.id, employeeEntity.name, employeeEntity.lastName,
+                employeeEntity.phone, bean(City.class, qCityEntity.id, qCityEntity.name).as("city"),
+                bean(Department.class, qDepartmentEntity.id, qDepartmentEntity.name).as("department"),
+                bean(Position.class, qPositionEntity.id, qPositionEntity.name).as("position"),
+                bean(User.class, qUserEntity.id, qUserEntity.email).as("user"),
+                bean(Employee.class, qEmployeeChief.id, qEmployeeChief.name, qEmployeeChief.lastName)
+                    .as("immediateChief")));
 
         jpqlQuery.leftJoin(employeeEntity.city, qCityEntity).leftJoin(employeeEntity.department, qDepartmentEntity)
             .leftJoin(employeeEntity.position, qPositionEntity).leftJoin(employeeEntity.user, qUserEntity)
@@ -140,7 +142,8 @@ public class EmployeeRepository extends JPAQueryDslBaseRepository<EmployeeEntity
      * {@inheritDoc}
      */
     @Override
-    public Page<Employee> pageByFilters(Pageable pageable, String query, EmployeeFiltersRequest employeeFiltersRequest) {
+    public Page<Employee> pageByFilters(Pageable pageable, String query,
+        EmployeeFiltersRequest employeeFiltersRequest) {
 
         final BooleanExpression booleanExpression = this.getRestrictionByFilter(query, employeeFiltersRequest);
 
@@ -255,10 +258,12 @@ public class EmployeeRepository extends JPAQueryDslBaseRepository<EmployeeEntity
      * {@inheritDoc}
      */
     @Override
-    public Integer findUserId(Integer id) {
-        JPQLQuery<Integer> query = from(employeeEntity).select(employeeEntity.userId);
+    public Employee findByUserId(Integer userId) {
+        JPQLQuery<Employee> query = from(employeeEntity).select(Projections.bean(Employee.class, employeeEntity.id,
+            employeeEntity.userId, employeeEntity.name, employeeEntity.lastName));
         BooleanBuilder where = new BooleanBuilder();
-        where.and(employeeEntity.id.eq(id));
+        where.and(employeeEntity.userId.eq(userId));
+        where.and(employeeEntity.status.eq(Boolean.TRUE));
         query.where(where);
         return query.fetchFirst();
     }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hiberus.employee.directory.common.Constants;
 import com.hiberus.employee.directory.security.AuthToken;
 import com.hiberus.employee.directory.service.IUserService;
+import com.hiberus.employee.directory.util.FileUtil;
 import com.hiberus.employee.directory.vo.User;
 import com.hiberus.employee.directory.vo.common.Response;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -61,6 +62,7 @@ public class AuthController {
         }
         user.setAccessToken(this.authToken.getAccessToken(user));
         user.setTokenType(Constants.BEARER.trim());
+        FileUtil.addBase64Photo(user.getEmploye());
         return ResponseEntity.ok()
             .body(Response.<User>builder().data(user).code(Constants.OK).message(Constants.SUCCESS).build());
     }
