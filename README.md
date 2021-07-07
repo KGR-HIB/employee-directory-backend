@@ -10,11 +10,18 @@
 ### Linux
 ```
 ./run.sh
+
+Connection to local database
+./run_local.sh
 ```
 
 ### Windows - PowerShell
 ```
 ./run.ps1
+
+Connection to local database
+./run_local.ps1
+
 ```
 
 ## Develop to Heroku
