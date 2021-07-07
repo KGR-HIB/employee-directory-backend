@@ -203,3 +203,39 @@ querydsl
 
 ### Photos ***
 employee-directory-services/src/main/resources/files/*.png
+### Add fotos for test data
+!employee-directory-services/src/main/resources/files/1.png
+!employee-directory-services/src/main/resources/files/2.png
+!employee-directory-services/src/main/resources/files/3.png
+!employee-directory-services/src/main/resources/files/4.png
+!employee-directory-services/src/main/resources/files/5.png
+!employee-directory-services/src/main/resources/files/6.png
+!employee-directory-services/src/main/resources/files/7.png
+!employee-directory-services/src/main/resources/files/8.png
+!employee-directory-services/src/main/resources/files/9.png
+!employee-directory-services/src/main/resources/files/10.png
+!employee-directory-services/src/main/resources/files/11.png
+!employee-directory-services/src/main/resources/files/12.png
+!employee-directory-services/src/main/resources/files/13.png
+!employee-directory-services/src/main/resources/files/14.png
+!employee-directory-services/src/main/resources/files/15.png
+!employee-directory-services/src/main/resources/files/16.png
+!employee-directory-services/src/main/resources/files/17.png
+!employee-directory-services/src/main/resources/files/18.png
+!employee-directory-services/src/main/resources/files/19.png
+!employee-directory-services/src/main/resources/files/20.png
+!employee-directory-services/src/main/resources/files/21.png
+!employee-directory-services/src/main/resources/files/22.png
+!employee-directory-services/src/main/resources/files/23.png
+!employee-directory-services/src/main/resources/files/24.png
+!employee-directory-services/src/main/resources/files/25.png
+!employee-directory-services/src/main/resources/files/26.png
+!employee-directory-services/src/main/resources/files/27.png
+!employee-directory-services/src/main/resources/files/28.png
+!employee-directory-services/src/main/resources/files/29.png
+!employee-directory-services/src/main/resources/files/30.png
+!employee-directory-services/src/main/resources/files/31.png
+!employee-directory-services/src/main/resources/files/32.png
+!employee-directory-services/src/main/resources/files/33.png
+!employee-directory-services/src/main/resources/files/34.png
+!employee-directory-services/src/main/resources/files/35.png
