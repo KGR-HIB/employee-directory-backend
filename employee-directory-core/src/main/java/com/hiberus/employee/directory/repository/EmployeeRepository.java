@@ -3,12 +3,12 @@ package com.hiberus.employee.directory.repository;
 import static com.hiberus.employee.directory.entity.QEmployeeEntity.employeeEntity;
 import static com.querydsl.core.types.Projections.bean;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.ObjectUtils;
 import com.hiberus.employee.directory.entity.EmployeeEntity;
 import com.hiberus.employee.directory.entity.QCityEntity;
 import com.hiberus.employee.directory.entity.QDepartmentEntity;
@@ -217,9 +217,13 @@ public class EmployeeRepository extends JPAQueryDslBaseRepository<EmployeeEntity
             QEmployeeCertificationEntity.employeeCertificationEntity;
 
         // Filter by name, lastName and email
-        if (!ObjectUtils.isEmpty(query)) {
-            where = where.and(employeeEntity.name.containsIgnoreCase(query)
-                .or(employeeEntity.lastName.containsIgnoreCase(query)).or(qUserEntity.email.containsIgnoreCase(query)));
+        if (StringUtils.isNotBlank(query)) {
+            String[] values = query.split(" ");
+            for (String value : values) {
+                where = where.and(employeeEntity.name.containsIgnoreCase(value.trim())
+                    .or(employeeEntity.lastName.containsIgnoreCase(value.trim()))
+                    .or(qUserEntity.email.containsIgnoreCase(value.trim())));
+            }
         }
 
         // Filter by position
