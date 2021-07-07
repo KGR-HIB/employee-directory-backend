@@ -1,0 +1,1 @@
+For the time of development of the application, in this folder the photos of the employees are temporarily stored, in future implementations a file system server could be integrated.

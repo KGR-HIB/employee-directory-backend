@@ -200,3 +200,6 @@ querydsl
 
 ### Sonar  ###
 .scannerwork/
+
+### Photos ***
+employee-directory-services/src/main/resources/files/*.png
