@@ -1,0 +1,38 @@
+apply plugin: "org.springframework.boot"
+
+dependencies {
+    api project(":employee-directory-core")
+    api project(":employee-directory-vo")
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // Validator
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    implementation 'org.springframework.boot:spring-boot-autoconfigure'
+
+    // Loggin
+    implementation 'org.springframework.boot:spring-boot-starter-logging'
+
+    // Web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Data
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'io.jsonwebtoken:jjwt'
+    
+    // Documentation API
+    implementation 'org.springdoc:springdoc-openapi-ui'
+    
+    implementation 'com.fasterxml.jackson.core:jackson-core'
+    implementation 'commons-beanutils:commons-beanutils'
+    
+}
+
+bootRun {
+    main = 'com.hiberus.employee.directory.EmployeeDirectoryApplication'
+}

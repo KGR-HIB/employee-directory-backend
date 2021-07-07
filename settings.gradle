@@ -1,0 +1,6 @@
+rootProject.name = 'employee-directory-backend'
+include 'employee-directory-client'
+include 'employee-directory-core'
+include 'employee-directory-vo'
+include 'employee-directory-services'
+

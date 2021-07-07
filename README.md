@@ -1,36 +1,94 @@
-# Model
+# Employee Directory Backend
 
-## Entities
+## Build
+```
+./gradlew clean build
+```
 
-* User
-* Role
-* Functionality
-* Employe
-* Position
-* Department
-* Project
-* Certification
-* Skill
-* City
+## Run
 
-### User
+### Linux
+```
+./run.sh
+
+Connection to local database
+./run_local.sh
+```
+
+### Windows - PowerShell
+```
+./run.ps1
+
+Connection to local database
+./run_local.ps1
+
+```
+
+## Develop to Heroku
+
+### Install plugin
+```
+heroku plugins:install java
+```
+
+### Create app
+```
+heroku apps:create hbredapp
+```
+
+### Deploy
+```
+heroku deploy:jar employee-directory-services/build/libs/employee-directory-services-1.0.0-SNAPSHOT.jar --app hbredapp
+```
+
+
+
+## API
+
+**Context:** /directoryServices
+
+| Controller    | Description                                | Method | Endpoint                                         | Request body          | Response body                   | Srtatus |
+| ------------- | ------------------------------------------ | ------ | ------------------------------------------------ | --------------------- | ------------------------------- | ------- |
+| Position      | Positions list                             | GET    | /api/v1/positions                                |                       | Response<[Position]>            | ✅      |
+| Department    | Departments list                           | GET    | /api/v1/departments                              |                       | Response<[Department]>          | ✅      |
+| Project       | Projects list                              | GET    | /api/v1/projects                                 |                       | Response<[Project]>             | ✅      |
+| Certification | Certifications list                        | GET    | /api/v1/certifications                           |                       | Response<[Certification]>       | ✅      |
+| Skill         | Skills list                                | GET    | /api/v1/skills                                   |                       | Response<[Skill]>               | ✅      |
+| City          | Cities list                                | GET    | /api/v1/cities                                   |                       | Response<[City]>                | ✅      |
+| Employee      | Employee list                              | GET    | /api/v1/employees?query={query}                  |                       | Response<[SimpleEmployee]>      | ✅      |
+| Employee      | Page employee list                         | POST   | /api/v1/employees/page?query={query}&page={page} | EmployeFilter         | Response<PageEmployees>         | ✅ 	 |
+| Employee      | Get info employee                          | GET    | /api/v1/employees/{id}                           |                       | Response<[Employee]>            | ✅ 	 |
+| Employee      | Create employee                            | POST   | /api/v1/employees/createOrUpdate                 | EmployeeManage        | Response<null>                  | ✅      |
+| Employee      | CRUD a project to an employee              | POST   | /api/v1/employees/projects/add                   | EmployeeProject       | Response<EmployeeProject>       | ✅      |
+| Employee      | CRUD a certification to an employee        | POST   | /api/v1/employees/certifications/add             | EmployeeCertification | Response<EmployeeCertification> | ✅      |
+| Employee      | Get employee photo                		 | GET    | /api/v1/employees/photo/{employeeId}             | 				         | Response<Response>        	   | ✅      |
+| Employee 		| Logout                                     | GET    | /api/auth/logout                                 |                       |                                 | ✅      |
+| Authorization | Login                                      | POST   | /api/auth/login                                  | {mail, password}      | Response<User>                  | ✅      |
+| Authorization | Logout                                     | GET    | /api/auth/logout                                 |                       |                                 | ✅      |
+| Role 			| Role list                                  | GET    | /api/auth/role/findAll                           |                       | Response<List<Role>>            | ✅      |
+
+
+
+### Schemas
+
+#### User
 
 ```json
 {
-  "userId": 1,
-  "mail": "lrodriguez@hiberus.com",
+  "id": 1,
+  "email": "lrodriguez@hiberus.com",
   "password": "123",
-  "hasInitSession": true,
-  "role": {}
+  "loginFirstTime": true,
+  "role": Role
 }
 ```
 
-### Funcitonality
+#### Functionality
 
 ```json
 {
-  "functionalityId": 1,
-  "code": "employe-create",
+  "id": 1,
+  "code": "employee-create",
   "description": "Crear un nuevo empleado"
 }
 ```
@@ -39,17 +97,17 @@
 
 ```json
 {
-  "roleId": 1,
+  "id": 1,
   "code": "admin",
   "name": "Admin",
-  "funtionalities": [
+  "functionalities": [
     {
-      "functionalityId": 1,
+      "id": 1,
       "code": "employe-create"
       "description": "Crear un nuevo empleado"
     },
     {
-      "functionalityId": 2,
+      "id": 2,
       "code": "list-directory"
       "description": "Listar directorio"
     },
@@ -61,7 +119,7 @@
 
 ```json
 {
-	"positionId": 1,
+	"id": 1,
 	"name": "Frontend Developer"
 }
 ```
@@ -70,7 +128,7 @@
 
 ```json
 {
-  "departmentId": 1,
+  "id": 1,
   "name": "Operaciones"
 }
 ```
@@ -79,8 +137,16 @@
 
 ```json
 {
-  "projectId": 1,
-  "name": "Directorio de empleados"
+    "employeeId": 6,
+    "projects": [
+        {	
+			"id": 1,
+            "name": "Directorio de empleados"
+        },
+        {
+            "name": "iOS SMX"
+        }
+    ]
 }
 ```
 
@@ -88,8 +154,19 @@
 
 ```json
 {
-  "certificationId": 1,
-  "name": "Spring Boot"
+    "employeeId": 6,
+    "certifications": [
+        {
+			"id": 1,
+            "name": "JAVA"
+        },
+        {
+            "name": "SCRUM"
+        },
+         {
+            "name": "IOS DEVELOPER"
+        }
+    ]
 }
 ```
 
@@ -97,8 +174,16 @@
 
 ```json
 {
-	"skillId": 1,
-	"name": "Angular"
+    "employeeId": 6,
+    "skills": [
+        {
+			"id": 1,
+            "name": "WINDOWS"
+        },
+        {
+            "name": "LINUX"
+        }
+    ]
 }
 ```
 
@@ -106,66 +191,66 @@
 
 ```json
 {
-	"cityId": 1,
+	"id": 1,
 	"name": "Quito"
 }
 ```
 
 
 
-### Employe
+### Employee
 
 ```json
 {
-  "employeId": 1,
+  "id": 1,
   "name": "Luis Miguel",
   "lastName": "Rodríguez Paredes",
   "phone": "593996123456",
   "photo": "base64",
   "user": {
-    "userId": 1,
-    "mail": "lrodriguez@hiberus.com",
+    "id": 1,
+    "email": "lrodriguez@hiberus.com",
     "roleCode": "admin"
   },
   "city": {
-    "cityId": 1,
+    "id": 1,
     "name": "Quito"
   },
   "position": {
-    "positionId": 1,
+    "id": 1,
     "name": "Frontend Developer"
   },
   "department": {
-    "departmentId": 1,
+    "id": 1,
     "name": "Operaciones"
   },
   "projects": [
     {
-      "projectId": 1,
+      "id": 1,
       "name": "Directorio de empleados"
     },
     {
-      "projectId": 2,
+      "id": 2,
       "name": "Ecomerce"
     }
   ],
   "certifications": [
     {
-      "certificationId": 1,
+      "id": 1,
       "name": "Spring Boot"
     },
     {
-      "certificationId": 2,
+      "id": 2,
       "name": "Angular"
     }
   ],
   "skills": [
     {
-      "skillId": 1,
+      "id": 1,
 			"name": "Angular"
 		},
     {
-      "skillId": 2,
+      "id": 2,
 			"name": "Java"
 		}
   ]
@@ -174,7 +259,7 @@
 
 
 
-### EmployeFilter
+### EmployeeFilter
 
 ```json
 {
@@ -187,11 +272,11 @@
 }
 ```
 
-### SimpleEmploye
+### SimpleEmployee
 
 ```json
 {
-  "employeId": 1,
+  "id": 1,
   "name": "Luis Miguel",
   "lastName": "Rodríguez Paredes",
   "mail": "lrodriguez@hiberus.com",
@@ -204,7 +289,7 @@
 
 
 
-### PageEmployes
+### PageEmployees
 
 ```json
 {
@@ -213,31 +298,44 @@
 }
 ```
 
-### EmployeManage
+### EmployeeManage
+formData
+key: file
+value: file
+
+key: data
+value: json
 
 ```json
 {
-	"name": "Luis Miguel",
-  "lastName": "Rodríguez Paredes",
-  "mail": "lrodriguez@hiberus.com",
-  "phone": "593996123456",
-  "deparment": {
-    "departmentId": null,
-    "name": "Nombre"
-  },
-  "position": {
-    "positionId": null,
-    "name": "Nombre"
-  },
-  "city": {
-    "cityId": null,
-    "name": "Nombre"
-  },
-  "immediateChiefId": 1,
-  "password": "12341"
+    "name": "LEO",
+    "lastName": "Messi",
+    "phone": "593996123456",
+    "department": {
+        "name": "FIFA"
+    },
+    "position": {
+        "name": "Delantero"
+    },
+    "city": {
+        "name": "Rosario"
+    },
+    "user": {
+        "email": "messi@hiberus.com",
+        "password": "Password01",
+        "roleId": 1
+    },
+    "immediateChiefId": 1
 }
 ```
 
+### Get employee photo
+
+```json
+{
+    "data": "iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAABQElEQVR4Ae3WgYYCURSA4QXzBgGBQdS8RQgQvUpPMAARA/MWERAg2wNEaGKBiCxImq1AnP1xl4s7tupOMzg/HwBzuHPv+dA8p2mapkVIsMGPsUGCCLUtQIobpMANKYI6fvwccqd53YZIIQ7fhjikqEWR49jMEOKvEDPHcYpQeYnj4505hkhQeRnEEqKoEGLJUHk5xNjjv/YQI9cB9Ah5+In1Gq3qIdNVQpc5b+u0pjUwwAhTrLGDGDusMcUIAzRQaW3EyCBPyhCjjbfVwwLi2QI9lFbzgbv+ii2+jC2uD7wRTXitiwOkwApj9O9Y5voYYwUpcEAXXmrhXLAmxAjxbCHignXjjBZebgKxnDBEAF8FGOIEsUzwckeIcUEHZdXBBWIc8XJiWaLslhCLnQ6Q47Nkuf8BKqED1H8ATdM0TfsFlXmTrv+AptEAAAAASUVORK5CYII=",
+    "code": 200
+}
 
 
 ### Response
@@ -251,53 +349,7 @@
 ```
 
 
-
-
-
-## Endpoins
-
-### Administración de acceso
-
-```text
-Login: POST - /ws/api/v1/login - Request: {mail, password}, Response: Response<User>
-Login: GET - /ws/api/v1/logout - Response: Response<null>
 ```
 
-### Directorio de empleados
 
-```
-Búscar empleados: POST - /ws/api/v1/employes?query={query}&page={page} - Request: EmployeFilter, Response: Response<PageEmployes>
-
-Mostrar ficha: GET - /ws/api/v1/employes/{employeId} - Response: Employe
-
-Lista de cargos: GET - /ws/api/v1/positions - Response: [Position]
-
-Lista de responsable: GET - /ws/api/v1/employes?query={query} - Response [SimpleEmploye] - Backend
-
-Lista de áreas: GET - /ws/api/v1/departments - Response: [Department]
-
-Lista de proyectos: GET - /ws/api/v1/projects - Response: [Project]
-
-Lista de certificaciones: GET - /ws/api/v1/certifications - Response: [Certification]
-
-Lista de tecnologías: GET - /ws/api/v1/skills - Response: [Skill]
-
-Dar de alta un empleado: POST - /ws/api/v1/employes/create - Request EmployeManage, Response Response<null>
-
-Actualizar información principal: PUT - /ws/api/v1/employes - Request [EmployeManage], Response Response<null>
-```
-
-### Catálogos
-
-```tex
-Agregar proyecto - POST - /ws/api/v1/employes/projects - Request [Project], Response: Response<Project>
-Eliminar proyecto - DELETE - /ws/api/v1/employes/projects/{projectId} - Response: Response<null>
-
-Agregar certificaciones - POST - /ws/api/v1/employes/certifications - Request [Certification], Response: Response<Certification>
-Eliminar certificafción - DELETE - /ws/api/v1/employes/certifications/{certificationId} - Response: Response<null>
-
-Agregar tecnologías - POST - /ws/api/v1/employes/skills - Request [Skill], Response: Response<Skill>
-Eliminar tecnología - DELETE - /ws/api/v1/employes/skills/{skillId} - Response: Response<null>
-
-```
 

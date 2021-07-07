@@ -1,0 +1,27 @@
+dependencies {
+    api project(":employee-directory-client")
+
+    // Data
+    implementation 'org.springframework.data:spring-data-jpa'
+
+    // Configuration
+    implementation 'org.springframework.boot:spring-boot-autoconfigure'
+
+    // DB
+    // implementation 'org.mariadb.jdbc:mariadb-java-client'
+    implementation 'mysql:mysql-connector-java'
+    
+    // crypto
+    implementation 'org.springframework.security:spring-security-crypto'
+    implementation 'org.bouncycastle:bcprov-debug-jdk15to18'
+    implementation 'org.apache.commons:commons-lang3'
+    implementation 'commons-io:commons-io'
+ 
+    // Test
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+}
