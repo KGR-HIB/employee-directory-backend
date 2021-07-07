@@ -12,12 +12,15 @@ server:
 
 spring:
   datasource:
-#    url: jdbc:mariadb://192.168.1.110:3306/HHTEDDB
 #    driver-class-name: org.mariadb.jdbc.Driver
+#    url: jdbc:mariadb://192.168.1.110:3306/HHTEDDB
+#    username: DHBRED
+#    password: develop
+    driver-class-name: com.mysql.jdbc.Driver
     url: ${DATASOURCE_URL}
     username: ${DATASOURCE_USERNAME}
     password: ${DATASOURCE_PASSWORD}
-#    driver-class-name: com.mysql.jdbc.Driver
+
   jpa:
     show-sql: false
     hibernate:
